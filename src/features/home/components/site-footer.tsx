@@ -8,7 +8,7 @@ import {
   FOOTER_COPYRIGHT_PREFIX,
   FOOTER_COPYRIGHT_SUFFIX,
   FOOTER_TAGLINE,
-  FOOTER_USA_ADDRESS,
+  FOOTER_USA_ADDRESS_LINES,
   NEETRINO_COMPANY_URL,
 } from '@/features/home/constants/content';
 import { EVOLVER_BRAND_LINK_CLASS } from '@/shared/constants/theme';
@@ -19,9 +19,14 @@ import {
   BRAND_LOGO_PATH,
 } from '@/shared/constants/brand';
 import { FooterQuickLinks } from '@/features/home/components/footer-quick-links';
+import { FooterSocialLinks } from '@/features/home/components/footer-social-links';
 import {
   FOOTER_CENTER_CLASS,
   FOOTER_CLASS,
+  FOOTER_CONTACT_NUDGE_LEFT_CLASS,
+  FOOTER_QUICK_LINKS_NUDGE_LEFT_CLASS,
+  FOOTER_BOTTOM_ROW_CLASS,
+  FOOTER_COPYRIGHT_TEXT_CLASS,
   FOOTER_END_COLUMN_CLASS,
   FOOTER_INNER_CLASS,
   FOOTER_ROW_CLASS,
@@ -48,12 +53,12 @@ export function SiteFooter() {
             <p className="text-sm text-white/55">{FOOTER_TAGLINE}</p>
           </div>
 
-          <div className={FOOTER_CENTER_CLASS}>
+          <div className={cn(FOOTER_CENTER_CLASS, FOOTER_QUICK_LINKS_NUDGE_LEFT_CLASS)}>
             <FooterQuickLinks />
           </div>
 
           <div className={FOOTER_END_COLUMN_CLASS}>
-            <div>
+            <div className={FOOTER_CONTACT_NUDGE_LEFT_CLASS}>
               <h3 className="mb-4 text-sm font-semibold text-white">Contact Us</h3>
               <ul className="space-y-3 text-sm text-white/55">
                 <li>
@@ -76,34 +81,34 @@ export function SiteFooter() {
                 </li>
                 <li className="inline-flex items-start gap-2">
                   <MapPin className="mt-0.5 size-4 shrink-0 text-cyan-400/80" aria-hidden />
-                  {FOOTER_CONTACT.address}
+                  <span className="leading-relaxed">
+                    {FOOTER_USA_ADDRESS_LINES.map((line) => (
+                      <span key={line} className="block">
+                        {line}
+                      </span>
+                    ))}
+                  </span>
                 </li>
               </ul>
-            </div>
-
-            <div>
-              <h3 className="mb-4 text-sm font-semibold text-white">{FOOTER_USA_ADDRESS.label}</h3>
-              <address className="space-y-1 text-sm not-italic leading-relaxed text-white/55">
-                {FOOTER_USA_ADDRESS.lines.map((line) => (
-                  <p key={line}>{line}</p>
-                ))}
-              </address>
             </div>
           </div>
         </div>
 
-        <p className="mt-12 w-full border-t border-white/10 pt-8 text-left text-sm text-white/40">
-          {FOOTER_COPYRIGHT_PREFIX}
-          <a
-            href={NEETRINO_COMPANY_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={EVOLVER_BRAND_LINK_CLASS}
-          >
-            {FOOTER_COPYRIGHT_COMPANY_NAME}
-          </a>
-          {FOOTER_COPYRIGHT_SUFFIX}
-        </p>
+        <div className={FOOTER_BOTTOM_ROW_CLASS}>
+          <p className={cn('min-w-0 shrink text-left', FOOTER_COPYRIGHT_TEXT_CLASS)}>
+            {FOOTER_COPYRIGHT_PREFIX}
+            <a
+              href={NEETRINO_COMPANY_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={EVOLVER_BRAND_LINK_CLASS}
+            >
+              {FOOTER_COPYRIGHT_COMPANY_NAME}
+            </a>
+            {FOOTER_COPYRIGHT_SUFFIX}
+          </p>
+          <FooterSocialLinks />
+        </div>
       </div>
     </footer>
   );

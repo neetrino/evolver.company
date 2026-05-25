@@ -1,6 +1,17 @@
 import type { LucideIcon } from 'lucide-react';
 import { Box, Building2, Globe, Layers, Target, Users } from 'lucide-react';
 
+import {
+  FOOTER_SOCIAL_FACEBOOK_ICON_HEIGHT,
+  FOOTER_SOCIAL_FACEBOOK_ICON_PATH,
+  FOOTER_SOCIAL_FACEBOOK_ICON_WIDTH,
+  FOOTER_SOCIAL_INSTAGRAM_ICON_PATH,
+  FOOTER_SOCIAL_INSTAGRAM_ICON_SIZE,
+  FOOTER_SOCIAL_LINKEDIN_ICON_HEIGHT,
+  FOOTER_SOCIAL_LINKEDIN_ICON_PATH,
+  FOOTER_SOCIAL_LINKEDIN_ICON_WIDTH,
+} from '@/shared/constants/brand';
+
 export const HERO_TITLE = 'WE CREATE THE NEXT GENERATION OF MARKETING CONTENT' as const;
 
 export const HERO_DESCRIPTION =
@@ -104,8 +115,8 @@ export type FooterLink = {
   href: string;
 };
 
-/** Quick Links: 2 rows × 3 columns (row-major order). */
-export const FOOTER_QUICK_LINK_ROWS: readonly (readonly FooterLink[])[] = [
+/** Quick Links: column 1 — Home, Services, Projects; column 2 — About, Contact, Privacy. */
+export const FOOTER_QUICK_LINK_COLUMNS: readonly (readonly FooterLink[])[] = [
   [
     { label: 'Home', href: '/' },
     { label: 'Services', href: '/services' },
@@ -121,10 +132,42 @@ export const FOOTER_QUICK_LINK_ROWS: readonly (readonly FooterLink[])[] = [
 export const FOOTER_CONTACT = {
   email: 'hello@evolver.company',
   phone: '+971 4 000 0000',
-  address: 'Dubai, UAE',
 } as const;
 
-export const FOOTER_USA_ADDRESS = {
-  label: 'USA',
-  lines: ['A19709, 651 H Board St. 201 S', 'Middletown, Delaware'],
-} as const;
+/** Shown in Contact Us next to the MapPin icon. */
+export const FOOTER_USA_ADDRESS_LINES = [
+  'A19709, 651 H Board St. 201 S',
+  'Middletown, Delaware',
+] as const;
+
+export type FooterSocialLink = {
+  label: string;
+  href: string;
+  iconSrc: string;
+  iconWidth: number;
+  iconHeight: number;
+};
+
+export const FOOTER_SOCIAL_LINKS: readonly FooterSocialLink[] = [
+  {
+    label: 'Facebook',
+    href: 'https://www.facebook.com/evolverarmenia/',
+    iconSrc: FOOTER_SOCIAL_FACEBOOK_ICON_PATH,
+    iconWidth: FOOTER_SOCIAL_FACEBOOK_ICON_WIDTH,
+    iconHeight: FOOTER_SOCIAL_FACEBOOK_ICON_HEIGHT,
+  },
+  {
+    label: 'Instagram',
+    href: 'https://www.instagram.com/evolver.company/',
+    iconSrc: FOOTER_SOCIAL_INSTAGRAM_ICON_PATH,
+    iconWidth: FOOTER_SOCIAL_INSTAGRAM_ICON_SIZE,
+    iconHeight: FOOTER_SOCIAL_INSTAGRAM_ICON_SIZE,
+  },
+  {
+    label: 'LinkedIn',
+    href: 'https://www.linkedin.com/company/evolvercompany/',
+    iconSrc: FOOTER_SOCIAL_LINKEDIN_ICON_PATH,
+    iconWidth: FOOTER_SOCIAL_LINKEDIN_ICON_WIDTH,
+    iconHeight: FOOTER_SOCIAL_LINKEDIN_ICON_HEIGHT,
+  },
+];

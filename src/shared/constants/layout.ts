@@ -12,17 +12,28 @@ export const FOOTER_CLASS = 'w-full border-t border-white/10 bg-[#0a0b10]';
 
 export const FOOTER_INNER_CLASS = `${SITE_CONTAINER_CLASS} py-14`;
 
-/** Logo (start) | Quick Links (center) | Contact + USA (end). */
+export const FOOTER_BOTTOM_ROW_CLASS =
+  'mt-12 flex w-full flex-row flex-nowrap items-center justify-between gap-4 border-t border-white/10 pt-8';
+
+export const FOOTER_COPYRIGHT_TEXT_CLASS = 'text-base text-white/40';
+
+/** Logo (start) | Quick Links (center) | Contact Us (end). */
 export const FOOTER_ROW_CLASS =
   'grid w-full grid-cols-1 gap-12 lg:grid-cols-[auto_1fr_auto] lg:items-start';
 
 export const FOOTER_START_COLUMN_CLASS = 'lg:justify-self-start';
 
+/** Visual nudge left — keep in sync with `.footer-nudge-*` in `globals.css`. */
+export const FOOTER_QUICK_LINKS_NUDGE_LEFT_PX = 10;
+export const FOOTER_CONTACT_NUDGE_LEFT_PX = 25;
+
+export const FOOTER_QUICK_LINKS_NUDGE_LEFT_CLASS = 'footer-nudge-quick-links';
+export const FOOTER_CONTACT_NUDGE_LEFT_CLASS = 'footer-nudge-contact';
+
 export const FOOTER_CENTER_CLASS = 'lg:justify-self-center';
 
-/** Contact Us + USA — same grid slot (end); content left-aligned. */
-export const FOOTER_END_COLUMN_CLASS =
-  'flex flex-col gap-10 text-left sm:flex-row sm:items-start sm:justify-start sm:gap-x-12 lg:justify-self-end lg:gap-x-16';
+/** Contact Us — end column; content left-aligned. */
+export const FOOTER_END_COLUMN_CLASS = 'text-left lg:justify-self-end';
 
 /** Logo display height — visual size only; row height stays fixed above. */
 export const NAVBAR_LOGO_HEIGHT_CLASS = 'h-15';
@@ -43,9 +54,13 @@ export const HERO_TITLE_TEXT_CLASS =
 export const HERO_DESCRIPTION_TEXT_CLASS =
   'text-base leading-relaxed text-white drop-shadow-[0_1px_12px_rgba(0,0,0,0.85)] md:text-lg';
 
-/**
- * Footer Quick Links — fixed 3×2 grid (row 1: Home, Services, Projects;
- * row 2: About Us, Contact Us, Privacy Policy).
- */
-export const FOOTER_QUICK_LINKS_GRID_CLASS =
-  'm-0 grid w-max max-w-full list-none grid-cols-3 grid-rows-2 gap-x-6 gap-y-3 p-0 sm:gap-x-8';
+/** Footer Quick Links — two vertical columns. */
+export const FOOTER_QUICK_LINKS_COLUMNS_CLASS = 'flex w-max max-w-full gap-x-6 sm:gap-x-8';
+
+export const FOOTER_QUICK_LINK_COLUMN_LIST_CLASS = 'm-0 list-none space-y-3 p-0';
+
+export const FOOTER_SOCIAL_LINKS_LIST_CLASS =
+  'm-0 flex h-6 shrink-0 list-none flex-row flex-nowrap items-center gap-7 p-0';
+
+/** Display size for footer social SVGs (transparent background). */
+export const FOOTER_SOCIAL_ICON_SIZE_CLASS = 'size-6 shrink-0';

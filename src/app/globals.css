@@ -82,3 +82,14 @@
     @apply bg-background text-foreground;
   }
 }
+
+/** Footer horizontal nudges — values match `FOOTER_*_NUDGE_LEFT_PX` in `layout.ts`. */
+@layer utilities {
+  .footer-nudge-quick-links {
+    margin-left: -10px;
+  }
+
+  .footer-nudge-contact {
+    margin-left: -25px;
+  }
+}
