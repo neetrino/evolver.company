@@ -3,13 +3,13 @@ import { CtaSection } from '@/features/home/components/cta-section';
 import { FeaturedProjectsSection } from '@/features/home/components/featured-projects-section';
 import { HeroSection } from '@/features/home/components/hero-section';
 import { SiteFooter } from '@/features/home/components/site-footer';
-import { SolutionsSection } from '@/features/home/components/solutions-section';
+import { WhatWeDoSection } from '@/features/home/components/what-we-do-section';
 
 export function HomePage() {
   return (
     <>
       <HeroSection />
-      <SolutionsSection />
+      <WhatWeDoSection />
       <FeaturedProjectsSection />
       <AboutSection />
       <CtaSection />

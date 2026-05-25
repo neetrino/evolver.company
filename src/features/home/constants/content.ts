@@ -1,5 +1,5 @@
 import type { LucideIcon } from 'lucide-react';
-import { Box, Building2, Globe, Layers, Target, Users } from 'lucide-react';
+import { Box, Globe, Target, Users } from 'lucide-react';
 
 import {
   FOOTER_SOCIAL_FACEBOOK_ICON_HEIGHT,
@@ -10,8 +10,11 @@ import {
   FOOTER_SOCIAL_LINKEDIN_ICON_HEIGHT,
   FOOTER_SOCIAL_LINKEDIN_ICON_PATH,
   FOOTER_SOCIAL_LINKEDIN_ICON_WIDTH,
+  PRODUCT_ESTATE_DATA_LOGO_PATH,
+  PRODUCT_VCITY_LOGO_PATH,
+  PRODUCT_VEXPO_LOGO_PATH,
+  PRODUCT_VREALTY_LOGO_PATH,
 } from '@/shared/constants/brand';
-
 export const HERO_TITLE = 'WE CREATE THE NEXT GENERATION OF MARKETING CONTENT' as const;
 
 export const HERO_DESCRIPTION =
@@ -19,38 +22,49 @@ export const HERO_DESCRIPTION =
 
 export const NEETRINO_COMPANY_URL = 'https://neetrino.com' as const;
 
-export type SolutionCard = {
-  title: string;
-  description: string;
-  icon: LucideIcon;
-  accentClass: string;
+export const WHAT_WE_DO_SUBTITLE = 'What we do' as const;
+
+export const WHAT_WE_DO_HEADLINE_LINES = [
+  'Using',
+  'cutting edge',
+  'technologies',
+  'Evolver virtualizes the world.',
+] as const;
+
+export type ProductShowcaseItem = {
+  name: string;
+  href: string;
+  logoSrc: string;
+  tagline: string;
 };
 
-export const SOLUTION_CARDS: readonly SolutionCard[] = [
+export const PRODUCT_SHOWCASE_COLUMN_LEFT: readonly ProductShowcaseItem[] = [
   {
-    title: 'Estate Data',
-    description:
-      'Comprehensive property data captured with millimeter precision for smarter decisions.',
-    icon: Layers,
-    accentClass: 'from-cyan-500/20 to-cyan-500/5',
+    name: 'Estate Data',
+    href: 'https://estatedata.am/',
+    logoSrc: PRODUCT_ESTATE_DATA_LOGO_PATH,
+    tagline: 'Experience Your Future Home Today with Our Virtual 3D Tours.',
   },
   {
-    title: 'vExpo',
-    description: 'Virtual exhibition spaces that engage visitors before they step on site.',
-    icon: Box,
-    accentClass: 'from-violet-500/20 to-violet-500/5',
+    name: 'vExpo',
+    href: 'https://evolver.company',
+    logoSrc: PRODUCT_VEXPO_LOGO_PATH,
+    tagline: 'Missed an Expo? No worries. Explore with vExpo.',
+  },
+];
+
+export const PRODUCT_SHOWCASE_COLUMN_RIGHT: readonly ProductShowcaseItem[] = [
+  {
+    name: 'vCity',
+    href: 'https://vcity.guide',
+    logoSrc: PRODUCT_VCITY_LOGO_PATH,
+    tagline: 'Walk in your favorite city virtually.',
   },
   {
-    title: 'vCity',
-    description: 'City-scale digital twins for planning, marketing, and stakeholder collaboration.',
-    icon: Building2,
-    accentClass: 'from-fuchsia-500/20 to-fuchsia-500/5',
-  },
-  {
-    title: 'vRealty',
-    description: 'Immersive property tours that convert browsers into qualified leads.',
-    icon: Building2,
-    accentClass: 'from-blue-500/20 to-blue-500/5',
+    name: 'vRealty',
+    href: 'https://vrealty.am',
+    logoSrc: PRODUCT_VREALTY_LOGO_PATH,
+    tagline: 'Your dream homes are just one click away!',
   },
 ];
 

@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 
+import { SITE_CONTAINER_CLASS } from '@/shared/constants/layout';
 import { cn } from '@/shared/lib/index';
 
 type SectionShellProps = {
@@ -10,8 +11,8 @@ type SectionShellProps = {
 
 export function SectionShell({ children, className, id }: SectionShellProps) {
   return (
-    <section id={id} className={cn('px-6 py-16 md:px-8 md:py-24', className)}>
-      <div className="mx-auto w-full max-w-7xl">{children}</div>
+    <section id={id} className={cn('py-16 md:py-24', className)}>
+      <div className={SITE_CONTAINER_CLASS}>{children}</div>
     </section>
   );
 }

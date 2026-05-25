@@ -41,8 +41,11 @@ export const NAVBAR_LOGO_HEIGHT_CLASS = 'h-15';
 /** Navbar is `h-20` (5rem); hero fills the rest of the viewport — one screen until scroll. */
 export const HERO_HEIGHT_CLASS = 'h-[calc(100svh-5rem)]';
 
+/** Wireframe figure focal point — negative X shifts the hero image left. */
+export const HERO_BG_POSITION_CLASS = 'bg-[position:-12%_center]' as const;
+
 /** Full-bleed hero directly below navbar. */
-export const HERO_SECTION_CLASS = `relative w-full overflow-hidden bg-[url('/images/hero-bg.jpg')] bg-cover bg-left bg-no-repeat ${HERO_HEIGHT_CLASS}`;
+export const HERO_SECTION_CLASS = `relative w-full overflow-hidden bg-[url('/images/hero-bg.jpg')] bg-cover bg-no-repeat ${HERO_BG_POSITION_CLASS} ${HERO_HEIGHT_CLASS}`;
 
 export const HERO_CONTENT_WRAPPER_CLASS = `relative z-10 flex h-full w-full items-center justify-end ${SITE_CONTAINER_CLASS}`;
 
@@ -64,3 +67,26 @@ export const FOOTER_SOCIAL_LINKS_LIST_CLASS =
 
 /** Display size for footer social SVGs (transparent background). */
 export const FOOTER_SOCIAL_ICON_SIZE_CLASS = 'size-6 shrink-0';
+
+/** Logo + tagline column — text wraps within this width. */
+export const PRODUCT_SHOWCASE_BLOCK_WIDTH_CLASS = 'w-[160px] max-w-full';
+
+export const PRODUCT_SHOWCASE_TAGLINE_CLASS = 'mt-3 w-full text-xs leading-snug text-white/55';
+
+/** Intro left (navbar logo) | product logos right (navbar language). */
+export const WHAT_WE_DO_GRID_CLASS =
+  'flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between';
+
+export const WHAT_WE_DO_INTRO_COL_CLASS = 'shrink-0';
+
+/** Two icon columns — 30px apart, grouped on the end side. */
+export const WHAT_WE_DO_PRODUCTS_ROW_CLASS =
+  'flex flex-col gap-8 sm:flex-row sm:items-start sm:gap-[30px] lg:shrink-0';
+
+export const WHAT_WE_DO_PRODUCT_COL_CLASS = 'flex shrink-0 flex-col gap-6';
+
+export const WHAT_WE_DO_SUBTITLE_CLASS =
+  'text-xs font-semibold uppercase tracking-widest text-cyan-400';
+
+export const WHAT_WE_DO_HEADLINE_CLASS =
+  'mt-4 max-w-md text-3xl font-bold leading-tight tracking-tight text-white md:text-4xl';
