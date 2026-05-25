@@ -7,7 +7,12 @@
 
 ## Նկարագրություն
 
-[Ինչ նախագիծ է, 2–3 նախադասություն։ Ինչ խնդիր է լուծում։]
+evolver.company — Evolver ընկերության պաշտոնական կայք։ Full-stack Next.js (frontend հիմա, backend — Route Handlers + Prisma)։
+
+## Stack (որոշված)
+
+- **Fullstack Next.js** on Vercel
+- Backend — Route Handlers (`src/app/api/`), ոչ NestJS
 
 ## Թիրախային լսարան
 
@@ -21,7 +26,7 @@
 
 ## Stack (եթե որոշված է)
 
-- **Տարբերակ A** — fullstack Next.js Vercel-ում
+- **Տարբերակ A** — fullstack Next.js Vercel-ում ✅ ընտրված
 - **Տարբերակ B** — Next.js frontend + NestJS backend (Render / Fly.io)
 - Եթե որոշված չէ — AI-ն կառաջարկի ֆունկցիաների հիման վրա
 
@@ -33,7 +38,7 @@
 ## Ինտեգրացիաներ
 
 - [ ] Վճարային համակարգ (Stripe / YooKassa / այլ)
-- [ ] Email  mailing (Resend / SendGrid / այլ)
+- [ ] Email mailing (Resend / SendGrid / այլ)
 - [ ] Աուտենտիֆիկացիա (Auth.js / Clerk / այլ)
 - [ ] Ֆայլերի պահոց (Cloudflare R2 — լռելյայն)
 - [ ] Արտաքին API. [թվարկել]

@@ -1,54 +1,81 @@
-# Զարգացման կանոնների կաղապար (Cursor AI)
+# Evolver Company
 
-Cursor-ում AI-զարգացման կանոններով repo-ի կաղապար։ Next.js / NestJS, ճարտարապետություն, կոդ, անվտանգություն, թեստեր, դեպլոյ։
+Full-stack Next.js application for [evolver.company](https://evolver.company).
 
----
+## Stack
 
-## Ինչպես սկսել
+- **Next.js 16** (App Router, Turbopack)
+- **React 19** + **TypeScript** (strict)
+- **Tailwind CSS 4** + **shadcn/ui**
+- **Prisma** + **PostgreSQL** (backend-ready)
+- **Vitest**, **ESLint**, **Prettier**, **Husky**
 
-1. **Repo** — GitHub → Use this template → clone, բացի՛ր պրոյեկտի թղթապանակը Cursor-ում։
-2. **BRIEF** — լրացրու՛ `docs/BRIEF.md` (նկարագրություն, ֆունկցիաներ, ինտեգրացիաներ)։
-3. **AI** — chat-ում. «Կարդա՛ docs/BRIEF.md, սկսի՛ր ըստ 21-project-onboarding.mdc. Փուլ 1 — չափը, Փուլ 2 — TECH_CARD. Սպասում եմ հաստատում կոդից առաջ»։
-4. **Հաստատում** — TECH_CARD և ճարտարապետությունը հաստատի՛ր, ապա env։
+## Prerequisites
 
----
+- Node.js 20+
+- pnpm 9+
 
-## Մշակողի դերը
+## Getting started
 
-- **Կոդից առաջ:** BRIEF, TECH_CARD, ճարտարապետություն — AI-ն առաջարկում է, դու հաստատում ես։
-- **Տվյալներ (AI-ն կխնդրի ըստ need-ի):** Neon (DATABASE_URL), R2 (bucket + բանալիներ), Vercel (env), Auth (OAuth), Resend/Stripe/Դոմեն — անհրաժեշտության դեպքում։
-- **Env:** Ստեղծել `.env` + `.env.example` (առանց գաղտնիքների), `.gitignore`-ում — `.env`, `.env.local`. 
-Հերթականություն. 
-Neon → `.env`
-R2 →  `.env`
-Resend / Upstash (եթե պետք է) → `.env`. Գաղտնիքները միայն env-ում, `.env` — չի commit-վում։
-- **Ընթացքում:** Պատասխանի՛ր AI-ի հարցերին, ստուգի՛ր PROGRESS.md, թեստավորի՛ր փուլերը։
-- **Ավարտին:** TECH_CARD ✅, PROGRESS 100%, դեպլոյ + .env.example փաստաթղթավորված։
+```bash
+pnpm install
+cp .env.example .env
+pnpm dev
+```
 
----
+Open [http://localhost:3000](http://localhost:3000).
 
-## Նախագծերի չափեր
+Health check: [http://localhost:3000/api/health](http://localhost:3000/api/health)
 
-| Չափ | Նկարագրություն | Կառուցվածք |
-|-----|-----------------|------------|
-| **A** | 1–3 ամիս, 5–15 ֆիչ | `src/app`, `components`, `lib` |
-| **B** | 3–6 ամիս, 15–50 ֆիչ | `src/features/*`, `shared/*` |
-| **C** | 6+ ամիս, 50+ ֆիչ | Monorepo `apps/*`, `packages/*` |
+## Scripts
 
-**Տեղեկատուներ.** `docs/reference/platforms/`, `docs/reference/knowledge-base/`, `docs/reference/templates/` — Vercel, Neon, R2, Render, փաստաթղթերի կաղապարներ։
+| Command            | Description                         |
+| ------------------ | ----------------------------------- |
+| `pnpm dev`         | Dev server (Turbopack)              |
+| `pnpm build`       | Production build                    |
+| `pnpm start`       | Production server                   |
+| `pnpm lint`        | ESLint                              |
+| `pnpm typecheck`   | TypeScript check                    |
+| `pnpm test`        | Vitest                              |
+| `pnpm format`      | Prettier write                      |
+| `pnpm db:generate` | Generate Prisma client              |
+| `pnpm db:migrate`  | Run migrations (needs DATABASE_URL) |
 
----
+## Project structure
 
-## Կանոնների թարմացում
+```
+src/
+├── app/              # Routes, layouts, API (Route Handlers)
+├── features/         # Feature modules (UI + logic per domain)
+├── shared/           # Reusable components, hooks, lib
+└── config/           # App-wide config
+prisma/               # Database schema
+tests/                # Unit tests
+docs/                 # Architecture, TECH_CARD, progress
+```
 
-Template-ի կանոնները թարմացվում են։ Գոյություն ունեցող նախագծում. ավելացրու՛ կաղապարը remote, fetch արա՛, ապա merge/checkout արա՛ անհրաժեշտ `.cursor/rules/*.mdc` ֆայլերը (մանրամասներ — Git-ի remote/fetch/checkout ուղեցույցներ)։
+## Frontend development
 
----
+1. Add pages under `src/app/` or feature routes.
+2. Add UI in `src/features/<name>/components/`.
+3. Reuse primitives from `src/shared/components/ui/` (shadcn):
 
-## Quality Automation
+```bash
+pnpm dlx shadcn@latest add button
+```
 
-Պրոյեկտ ստեղծելուց հետո. AI-ն (onboarding 3.1.1) — prettier, vitest, husky, commitlint, CI workflow. Մշակողը. Branch Protection (`main`), Secret Protection, Dependabot npm։ Մանրամասներ — `docs/QUALITY_AUTOMATION_PLAN.md`։
+## Backend (later)
 
----
+- API: `src/app/api/**/route.ts`
+- Business logic: `src/features/<name>/services/`
+- Database: extend `prisma/schema.prisma`, then `pnpm db:migrate`
 
-[MIT](LICENSE) — ազատ օգտագործում և հարմարեցում։
+## Documentation
+
+- [Architecture](docs/01-ARCHITECTURE.md)
+- [Tech card](docs/TECH_CARD.md)
+- [Progress](docs/PROGRESS.md)
+
+## Environment
+
+Copy `.env.example` to `.env`. `DATABASE_URL` is optional until you connect PostgreSQL (Neon recommended).
