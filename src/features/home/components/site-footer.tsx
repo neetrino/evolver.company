@@ -1,0 +1,110 @@
+import { Mail, MapPin, Phone } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+
+import {
+  FOOTER_CONTACT,
+  FOOTER_COPYRIGHT_COMPANY_NAME,
+  FOOTER_COPYRIGHT_PREFIX,
+  FOOTER_COPYRIGHT_SUFFIX,
+  FOOTER_TAGLINE,
+  FOOTER_USA_ADDRESS,
+  NEETRINO_COMPANY_URL,
+} from '@/features/home/constants/content';
+import { EVOLVER_BRAND_LINK_CLASS } from '@/shared/constants/theme';
+import { siteConfig } from '@/config/site';
+import {
+  BRAND_LOGO_INTRINSIC_HEIGHT,
+  BRAND_LOGO_INTRINSIC_WIDTH,
+  BRAND_LOGO_PATH,
+} from '@/shared/constants/brand';
+import { FooterQuickLinks } from '@/features/home/components/footer-quick-links';
+import {
+  FOOTER_CENTER_CLASS,
+  FOOTER_CLASS,
+  FOOTER_END_COLUMN_CLASS,
+  FOOTER_INNER_CLASS,
+  FOOTER_ROW_CLASS,
+  FOOTER_START_COLUMN_CLASS,
+  NAVBAR_LOGO_HEIGHT_CLASS,
+} from '@/shared/constants/layout';
+import { cn } from '@/shared/lib/index';
+
+export function SiteFooter() {
+  return (
+    <footer className={FOOTER_CLASS}>
+      <div className={FOOTER_INNER_CLASS}>
+        <div className={FOOTER_ROW_CLASS}>
+          <div className={cn('space-y-4', FOOTER_START_COLUMN_CLASS)}>
+            <Link href="/" className="inline-block" aria-label={`${siteConfig.name} — home`}>
+              <Image
+                src={BRAND_LOGO_PATH}
+                alt={siteConfig.name}
+                width={BRAND_LOGO_INTRINSIC_WIDTH}
+                height={BRAND_LOGO_INTRINSIC_HEIGHT}
+                className={cn(NAVBAR_LOGO_HEIGHT_CLASS, 'w-auto')}
+              />
+            </Link>
+            <p className="text-sm text-white/55">{FOOTER_TAGLINE}</p>
+          </div>
+
+          <div className={FOOTER_CENTER_CLASS}>
+            <FooterQuickLinks />
+          </div>
+
+          <div className={FOOTER_END_COLUMN_CLASS}>
+            <div>
+              <h3 className="mb-4 text-sm font-semibold text-white">Contact Us</h3>
+              <ul className="space-y-3 text-sm text-white/55">
+                <li>
+                  <a
+                    href={`mailto:${FOOTER_CONTACT.email}`}
+                    className="inline-flex items-center gap-2 transition-colors hover:text-white"
+                  >
+                    <Mail className="size-4 shrink-0 text-cyan-400/80" aria-hidden />
+                    {FOOTER_CONTACT.email}
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href={`tel:${FOOTER_CONTACT.phone.replace(/\s/g, '')}`}
+                    className="inline-flex items-center gap-2 transition-colors hover:text-white"
+                  >
+                    <Phone className="size-4 shrink-0 text-cyan-400/80" aria-hidden />
+                    {FOOTER_CONTACT.phone}
+                  </a>
+                </li>
+                <li className="inline-flex items-start gap-2">
+                  <MapPin className="mt-0.5 size-4 shrink-0 text-cyan-400/80" aria-hidden />
+                  {FOOTER_CONTACT.address}
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="mb-4 text-sm font-semibold text-white">{FOOTER_USA_ADDRESS.label}</h3>
+              <address className="space-y-1 text-sm not-italic leading-relaxed text-white/55">
+                {FOOTER_USA_ADDRESS.lines.map((line) => (
+                  <p key={line}>{line}</p>
+                ))}
+              </address>
+            </div>
+          </div>
+        </div>
+
+        <p className="mt-12 w-full border-t border-white/10 pt-8 text-left text-sm text-white/40">
+          {FOOTER_COPYRIGHT_PREFIX}
+          <a
+            href={NEETRINO_COMPANY_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={EVOLVER_BRAND_LINK_CLASS}
+          >
+            {FOOTER_COPYRIGHT_COMPANY_NAME}
+          </a>
+          {FOOTER_COPYRIGHT_SUFFIX}
+        </p>
+      </div>
+    </footer>
+  );
+}

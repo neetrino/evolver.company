@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 
 import { siteConfig } from '@/config/site';
+import { Navbar } from '@/shared/components/layout/navbar';
 
 import './globals.css';
 
@@ -21,6 +22,13 @@ export const metadata: Metadata = {
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
+  icons: {
+    icon: [
+      { url: '/images/favicon-16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/images/favicon-32.png', sizes: '32x32', type: 'image/png' },
+    ],
+    apple: '/images/logo-mark.png',
+  },
 };
 
 export default function RootLayout({
@@ -30,7 +38,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
-      <body className="flex min-h-full flex-col bg-background text-foreground">{children}</body>
+      <body className="flex min-h-full flex-col bg-[#0a0b10] text-white">
+        <Navbar />
+        {children}
+      </body>
     </html>
   );
 }
