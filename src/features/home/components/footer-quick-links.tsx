@@ -5,9 +5,13 @@ import {
   FOOTER_QUICK_LINK_COLUMN_LIST_CLASS,
   FOOTER_QUICK_LINKS_COLUMNS_CLASS,
 } from '@/shared/constants/layout';
+import { EVOLVER_FOOTER_LINK_CLASS } from '@/shared/constants/theme';
+import { cn } from '@/shared/lib/index';
 
-const FOOTER_QUICK_LINK_LABEL_CLASS =
-  'whitespace-nowrap text-sm text-white/55 transition-colors hover:text-white';
+const FOOTER_QUICK_LINK_LABEL_CLASS = cn(
+  'whitespace-nowrap text-sm text-white/55',
+  EVOLVER_FOOTER_LINK_CLASS,
+);
 
 export function FooterQuickLinks() {
   return (

@@ -3,10 +3,8 @@ import {
   FOOTER_SOCIAL_ICON_SIZE_CLASS,
   FOOTER_SOCIAL_LINKS_LIST_CLASS,
 } from '@/shared/constants/layout';
+import { EVOLVER_FOOTER_SOCIAL_LINK_CLASS } from '@/shared/constants/theme';
 import { cn } from '@/shared/lib/index';
-
-const FOOTER_SOCIAL_LINK_CLASS =
-  'inline-flex items-center opacity-55 transition-opacity hover:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0b10]';
 
 export function FooterSocialLinks() {
   return (
@@ -17,7 +15,7 @@ export function FooterSocialLinks() {
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            className={cn(FOOTER_SOCIAL_LINK_CLASS, 'h-6')}
+            className={cn(EVOLVER_FOOTER_SOCIAL_LINK_CLASS, 'h-6')}
             aria-label={label}
           >
             {/* SVG from Figma — native img avoids Next image SVG config */}

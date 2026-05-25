@@ -11,7 +11,11 @@ import {
   FOOTER_USA_ADDRESS_LINES,
   NEETRINO_COMPANY_URL,
 } from '@/features/home/constants/content';
-import { EVOLVER_BRAND_LINK_CLASS } from '@/shared/constants/theme';
+import {
+  EVOLVER_BRAND_LINK_CLASS,
+  EVOLVER_FOOTER_LINK_CLASS,
+  EVOLVER_FOOTER_LOGO_LINK_CLASS,
+} from '@/shared/constants/theme';
 import { siteConfig } from '@/config/site';
 import {
   BRAND_LOGO_INTRINSIC_HEIGHT,
@@ -41,7 +45,11 @@ export function SiteFooter() {
       <div className={FOOTER_INNER_CLASS}>
         <div className={FOOTER_ROW_CLASS}>
           <div className={cn('space-y-4', FOOTER_START_COLUMN_CLASS)}>
-            <Link href="/" className="inline-block" aria-label={`${siteConfig.name} — home`}>
+            <Link
+              href="/"
+              className={EVOLVER_FOOTER_LOGO_LINK_CLASS}
+              aria-label={`${siteConfig.name} — home`}
+            >
               <Image
                 src={BRAND_LOGO_PATH}
                 alt={siteConfig.name}
@@ -64,7 +72,10 @@ export function SiteFooter() {
                 <li>
                   <a
                     href={`mailto:${FOOTER_CONTACT.email}`}
-                    className="inline-flex items-center gap-2 transition-colors hover:text-white"
+                    className={cn(
+                      'inline-flex items-center gap-2 text-white/55',
+                      EVOLVER_FOOTER_LINK_CLASS,
+                    )}
                   >
                     <Mail className="size-4 shrink-0 text-cyan-400/80" aria-hidden />
                     {FOOTER_CONTACT.email}
@@ -73,7 +84,10 @@ export function SiteFooter() {
                 <li>
                   <a
                     href={`tel:${FOOTER_CONTACT.phone.replace(/\s/g, '')}`}
-                    className="inline-flex items-center gap-2 transition-colors hover:text-white"
+                    className={cn(
+                      'inline-flex items-center gap-2 text-white/55',
+                      EVOLVER_FOOTER_LINK_CLASS,
+                    )}
                   >
                     <Phone className="size-4 shrink-0 text-cyan-400/80" aria-hidden />
                     {FOOTER_CONTACT.phone}
