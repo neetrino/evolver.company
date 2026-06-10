@@ -6,7 +6,7 @@ import {
   type HomeHeroAdminLocale,
   type HomeHeroSlide,
 } from "@/lib/home-hero-types";
-import { getHomeHeroSlidePreviewTitle } from "@/lib/home-hero";
+import { getHomeHeroSlidePreviewTitle } from "@/lib/home-hero-utils";
 
 const LOCALE_LABELS: Record<HomeHeroAdminLocale, string> = {
   hy: "Armenian",

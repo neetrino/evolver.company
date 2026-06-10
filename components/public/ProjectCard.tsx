@@ -2,8 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n";
 import { localePath } from "@/lib/i18n";
-import { getProjectTranslation } from "@/lib/projects";
-import type { ProjectWithDetails } from "@/lib/projects";
+import { getProjectTranslation } from "@/lib/project-types";
+import type { ProjectWithDetails } from "@/lib/project-types";
 
 type ProjectCardProps = {
   project: ProjectWithDetails;

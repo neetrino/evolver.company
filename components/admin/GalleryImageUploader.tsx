@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import { SortableGalleryImages } from "@/components/admin/SortableGalleryImages";
-import type { GalleryImageItem } from "@/lib/projects";
+import type { GalleryImageItem } from "@/lib/project-types";
 import { uploadFilesToAdmin } from "@/lib/upload-client";
 
 type GalleryImageUploaderProps = {

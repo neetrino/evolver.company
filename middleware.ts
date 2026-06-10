@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { jwtVerify } from "jose";
-import { SESSION_COOKIE } from "@/lib/auth";
-import { DEFAULT_LOCALE, isLocale } from "@/lib/i18n";
+import { SESSION_COOKIE } from "@/lib/auth/constants";
+import { DEFAULT_LOCALE, isLocale } from "@/lib/i18n/locale";
 
 function getSessionSecret(): Uint8Array {
   const secret = process.env.SESSION_SECRET ?? "dev-secret-change-me";

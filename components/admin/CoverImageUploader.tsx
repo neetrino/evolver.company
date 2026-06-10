@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useRef, useState } from "react";
-import type { CoverImageData } from "@/lib/projects";
+import type { CoverImageData } from "@/lib/project-types";
 import { uploadFilesToAdmin } from "@/lib/upload-client";
 
 type CoverImageUploaderProps = {

@@ -16,7 +16,7 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import Image from "next/image";
-import type { GalleryImageItem } from "@/lib/projects";
+import type { GalleryImageItem } from "@/lib/project-types";
 
 type SortableGalleryImagesProps = {
   images: GalleryImageItem[];

@@ -1,34 +1,15 @@
+import "server-only";
+
 import { prisma } from "@/lib/db";
-import type { Locale } from "@/lib/i18n";
+import type {
+  ProjectFormData,
+  ProjectWithDetails,
+} from "@/lib/project-types";
 
-export type ProjectWithDetails = Awaited<ReturnType<typeof getPublishedProjects>>[number];
+export type { CoverImageData, GalleryImageItem, ProjectFormData, ProjectWithDetails } from "@/lib/project-types";
+export { getProjectTranslation, slugify } from "@/lib/project-types";
 
-export type ProjectFormTranslation = {
-  title: string;
-  shortDescription: string;
-  longDescription: string;
-};
-
-export type CoverImageData = {
-  url: string;
-  key: string;
-};
-
-export type GalleryImageItem = {
-  url: string;
-  key: string;
-};
-
-export type ProjectFormData = {
-  slug: string;
-  projectUrl: string;
-  isPublished: boolean;
-  coverImage: CoverImageData | null;
-  translations: Record<Locale, ProjectFormTranslation>;
-  galleryImages: GalleryImageItem[];
-};
-
-export async function getPublishedProjects() {
+export async function getPublishedProjects(): Promise<ProjectWithDetails[]> {
   return prisma.project.findMany({
     where: { isPublished: true },
     include: {
@@ -39,7 +20,7 @@ export async function getPublishedProjects() {
   });
 }
 
-export async function getFeaturedProjects(limit = 3) {
+export async function getFeaturedProjects(limit = 3): Promise<ProjectWithDetails[]> {
   return prisma.project.findMany({
     where: { isPublished: true },
     include: {
@@ -84,25 +65,6 @@ export async function getProjectById(id: string) {
 export async function isSlugTaken(slug: string, excludeId?: string): Promise<boolean> {
   const existing = await prisma.project.findUnique({ where: { slug } });
   return Boolean(existing && existing.id !== excludeId);
-}
-
-export function getProjectTranslation<
-  T extends { translations: { locale: string; title: string; shortDescription: string; longDescription: string }[] },
->(project: T, locale: Locale) {
-  return (
-    project.translations.find((t) => t.locale === locale) ??
-    project.translations.find((t) => t.locale === "en") ??
-    project.translations[0]
-  );
-}
-
-export function slugify(value: string): string {
-  return value
-    .toLowerCase()
-    .trim()
-    .replace(/[^\w\s-]/g, "")
-    .replace(/[\s_-]+/g, "-")
-    .replace(/^-+|-+$/g, "");
 }
 
 export function projectToFormData(
