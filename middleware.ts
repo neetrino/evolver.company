@@ -1,8 +1,14 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { jwtVerify } from "jose";
-import { SESSION_COOKIE } from "@/lib/auth/constants";
-import { DEFAULT_LOCALE, isLocale } from "@/lib/i18n/locale";
+
+const SESSION_COOKIE = "admin_session";
+const LOCALES = ["en", "hy"] as const;
+const DEFAULT_LOCALE = "en";
+
+function isLocale(value: string): boolean {
+  return (LOCALES as readonly string[]).includes(value);
+}
 
 function getSessionSecret(): Uint8Array {
   const secret = process.env.SESSION_SECRET ?? "dev-secret-change-me";
@@ -24,7 +30,7 @@ async function hasValidAdminSession(request: NextRequest): Promise<boolean> {
   }
 }
 
-export async function proxy(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (pathname.startsWith("/admin")) {
