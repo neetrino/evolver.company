@@ -7,8 +7,9 @@ Thumbs.db
 .env.*
 !.env.example
 
-# Dependencies (if scripts use Node/npm)
+# Dependencies
 node_modules/
+.pnpm-store/
 
 # Build output
 .next/
