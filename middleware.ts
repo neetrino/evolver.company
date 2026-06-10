@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { jwtVerify } from "jose";
 
 const SESSION_COOKIE = "admin_session";
 const LOCALES = ["en", "hy"] as const;
@@ -10,63 +9,43 @@ function isLocale(value: string): boolean {
   return (LOCALES as readonly string[]).includes(value);
 }
 
-function getSessionSecret(): Uint8Array {
-  const secret = process.env.SESSION_SECRET ?? "dev-secret-change-me";
-  return new TextEncoder().encode(secret);
-}
-
-async function hasValidAdminSession(request: NextRequest): Promise<boolean> {
-  const token = request.cookies.get(SESSION_COOKIE)?.value;
-
-  if (!token) {
-    return false;
-  }
-
-  try {
-    await jwtVerify(token, getSessionSecret());
-    return true;
-  } catch {
-    return false;
-  }
+function hasAdminSessionCookie(request: NextRequest): boolean {
+  return Boolean(request.cookies.get(SESSION_COOKIE)?.value);
 }
 
 export async function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+  try {
+    const { pathname } = request.nextUrl;
 
-  if (pathname.startsWith("/admin")) {
-    const isLoginPage = pathname === "/admin/login";
-    const isAuthenticated = await hasValidAdminSession(request);
+    if (pathname.startsWith("/admin")) {
+      const isLoginPage = pathname === "/admin/login";
+      const hasSessionCookie = hasAdminSessionCookie(request);
 
-    if (!isAuthenticated && !isLoginPage) {
-      const loginUrl = request.nextUrl.clone();
-      loginUrl.pathname = "/admin/login";
-      return NextResponse.redirect(loginUrl);
+      if (!hasSessionCookie && !isLoginPage) {
+        return NextResponse.redirect(new URL("/admin/login", request.url));
+      }
+
+      if (hasSessionCookie && isLoginPage) {
+        return NextResponse.redirect(new URL("/admin", request.url));
+      }
+
+      return NextResponse.next();
     }
 
-    if (isAuthenticated && isLoginPage) {
-      const adminUrl = request.nextUrl.clone();
-      adminUrl.pathname = "/admin";
-      return NextResponse.redirect(adminUrl);
+    if (pathname === "/") {
+      return NextResponse.redirect(new URL(`/${DEFAULT_LOCALE}`, request.url));
+    }
+
+    const firstSegment = pathname.split("/")[1];
+
+    if (firstSegment && !isLocale(firstSegment) && !pathname.startsWith("/api")) {
+      return NextResponse.redirect(new URL(`/${DEFAULT_LOCALE}${pathname}`, request.url));
     }
 
     return NextResponse.next();
+  } catch {
+    return NextResponse.next();
   }
-
-  if (pathname === "/") {
-    const url = request.nextUrl.clone();
-    url.pathname = `/${DEFAULT_LOCALE}`;
-    return NextResponse.redirect(url);
-  }
-
-  const firstSegment = pathname.split("/")[1];
-
-  if (firstSegment && !isLocale(firstSegment) && !pathname.startsWith("/api")) {
-    const url = request.nextUrl.clone();
-    url.pathname = `/${DEFAULT_LOCALE}${pathname}`;
-    return NextResponse.redirect(url);
-  }
-
-  return NextResponse.next();
 }
 
 export const config = {
