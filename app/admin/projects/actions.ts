@@ -6,8 +6,9 @@ import { z } from "zod";
 import { requireAdmin, verifyAdminCredentials, createSession, destroySession } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { LOCALES } from "@/lib/i18n";
-import type { GalleryImageItem } from "@/lib/projects";
-import { isSlugTaken, slugify } from "@/lib/projects";
+import type { GalleryImageItem } from "@/lib/project-types";
+import { slugify } from "@/lib/project-types";
+import { isSlugTaken } from "@/lib/projects";
 import { deleteFileFromR2 } from "@/lib/storage";
 
 const translationSchema = z.object({

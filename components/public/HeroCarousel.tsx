@@ -7,7 +7,7 @@ import { Container } from "@/components/shared/Container";
 import {
   getHomeHeroSlideImageSrc,
   getHomeHeroSlideLines,
-} from "@/lib/home-hero";
+} from "@/lib/home-hero-utils";
 import type { HomeHeroSlide } from "@/lib/home-hero-types";
 import { localePath, type Locale } from "@/lib/i18n";
 

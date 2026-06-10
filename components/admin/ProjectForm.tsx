@@ -7,8 +7,8 @@ import { CoverImageUploader } from "@/components/admin/CoverImageUploader";
 import { GalleryImageUploader } from "@/components/admin/GalleryImageUploader";
 import { ProjectLanguageTabs } from "@/components/admin/ProjectLanguageTabs";
 import type { Locale } from "@/lib/i18n";
-import type { ProjectFormData } from "@/lib/projects";
-import { slugify } from "@/lib/projects";
+import type { ProjectFormData } from "@/lib/project-types";
+import { slugify } from "@/lib/project-types";
 
 type ProjectFormProps = {
   mode: "create" | "edit";

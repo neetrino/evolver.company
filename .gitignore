@@ -16,6 +16,7 @@ node_modules/
 dist/
 build/
 coverage/
+prisma/generated/
 
 # Logs and temp
 *.log

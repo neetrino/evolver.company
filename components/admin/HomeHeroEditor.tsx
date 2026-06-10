@@ -7,7 +7,7 @@ import {
   type HomeHeroActionState,
 } from "@/app/admin/home-hero/actions";
 import { HomeHeroSlideEditor } from "@/components/admin/HomeHeroSlideEditor";
-import { createEmptyHomeHeroSlide } from "@/lib/home-hero";
+import { createEmptyHomeHeroSlide } from "@/lib/home-hero-utils";
 import { MAX_HOME_HERO_SLIDES } from "@/lib/home-hero-validation";
 import type { HomeHeroConfig, HomeHeroSlide } from "@/lib/home-hero-types";
 
