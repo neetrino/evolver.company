@@ -1,6 +1,6 @@
+import Link from "next/link";
 import { logoutAction } from "@/app/admin/projects/actions";
 import { AdminShell } from "@/components/admin/AdminShell";
-import { requireAdmin } from "@/lib/auth";
 import { getUnreadContactCount } from "@/lib/contact";
 
 export const dynamic = "force-dynamic";
@@ -18,7 +18,6 @@ async function safeUnreadCount(): Promise<number> {
 }
 
 export default async function AdminProtectedLayout({ children }: AdminProtectedLayoutProps) {
-  await requireAdmin();
   const unreadCount = await safeUnreadCount();
 
   return (

@@ -1,11 +1,13 @@
 import { deleteMessageAction, markMessageReadAction } from "@/app/admin/contact/actions";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { Badge } from "@/components/shared/Badge";
+import { requireAdmin } from "@/lib/auth";
 import { getContactMessages } from "@/lib/contact";
 
 export const dynamic = "force-dynamic";
 
 export default async function ContactMessagesPage() {
+  await requireAdmin();
   const messages = await getContactMessages();
 
   return (
