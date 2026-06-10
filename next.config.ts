@@ -1,5 +1,18 @@
 import type { NextConfig } from "next";
-import { getR2PublicHostname } from "@/lib/storage";
+
+function getR2PublicHostname(): string | null {
+  const publicUrl = process.env.R2_PUBLIC_URL;
+
+  if (!publicUrl) {
+    return null;
+  }
+
+  try {
+    return new URL(publicUrl).hostname;
+  } catch {
+    return null;
+  }
+}
 
 const r2Hostname = getR2PublicHostname();
 

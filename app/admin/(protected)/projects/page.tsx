@@ -2,13 +2,11 @@ import Link from "next/link";
 import { deleteProject, toggleProjectPublished } from "@/app/admin/projects/actions";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { Badge } from "@/components/shared/Badge";
-import { requireAdmin } from "@/lib/auth";
 import { getAllProjects, getProjectTranslation } from "@/lib/projects";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminProjectsPage() {
-  await requireAdmin();
   const projects = await getAllProjects();
 
   return (
