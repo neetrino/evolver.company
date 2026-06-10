@@ -1,11 +1,12 @@
-import { isLocale, type Locale } from "@/lib/i18n/locale";
+export const LOCALES = ["en", "hy"] as const;
 
-export {
-  DEFAULT_LOCALE,
-  isLocale,
-  LOCALES,
-  type Locale,
-} from "@/lib/i18n/locale";
+export type Locale = (typeof LOCALES)[number];
+
+export const DEFAULT_LOCALE: Locale = "en";
+
+export function isLocale(value: string): value is Locale {
+  return LOCALES.includes(value as Locale);
+}
 
 type NavKey = "home" | "services" | "projects" | "aboutUs" | "contactUs";
 

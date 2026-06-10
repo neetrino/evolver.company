@@ -1,7 +1,8 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { SignJWT, jwtVerify } from "jose";
-import { SESSION_COOKIE } from "@/lib/auth/constants";
+
+const SESSION_COOKIE = "admin_session";
 const SESSION_MAX_AGE_SECONDS = 60 * 60 * 24;
 
 type SessionPayload = {
