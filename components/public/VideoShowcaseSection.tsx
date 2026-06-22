@@ -249,21 +249,6 @@ export function VideoShowcaseSection({ locale }: VideoShowcaseSectionProps) {
     return Math.abs(index - centerIndex) === 1;
   }
 
-  function handleSelectSlide(index: number): void {
-    if (index === activeLogicalIndex) {
-      return;
-    }
-
-    setCaptionDirection(index > activeLogicalIndex ? "next" : "prev");
-
-    if (isPairMode) {
-      setActiveLogicalIndex(index);
-      return;
-    }
-
-    void navigateToRawIndex(getMiddleRawIndex(index, videoCount), true);
-  }
-
   return (
     <section
       ref={sectionRef}
@@ -379,22 +364,6 @@ export function VideoShowcaseSection({ locale }: VideoShowcaseSectionProps) {
             ) : null}
           </div>
         )}
-
-        {hasMultiple ? (
-          <div className="video-showcase-slacks" role="tablist" aria-label={locale === "hy" ? "Վիդեոներ" : "Videos"}>
-            {videos.map((video, index) => (
-              <button
-                key={video.id}
-                type="button"
-                role="tab"
-                aria-selected={index === activeLogicalIndex}
-                aria-label={video.title[locale]}
-                className={`video-showcase-slack ${index === activeLogicalIndex ? "video-showcase-slack-active" : ""}`}
-                onClick={() => handleSelectSlide(index)}
-              />
-            ))}
-          </div>
-        ) : null}
 
         {activeVideo ? (
           <div

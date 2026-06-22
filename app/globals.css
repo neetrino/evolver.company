@@ -2897,41 +2897,6 @@ a {
   text-align: center;
 }
 
-.video-showcase-slacks {
-  display: none;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  margin-top: 22px;
-}
-
-.video-showcase-slack {
-  width: 20px;
-  height: 2px;
-  padding: 0;
-  border: 0;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.24);
-  cursor: pointer;
-  transition:
-    width 0.32s cubic-bezier(0.22, 1, 0.36, 1),
-    background 0.32s ease,
-    box-shadow 0.32s ease,
-    opacity 0.32s ease;
-}
-
-.video-showcase-slack:hover,
-.video-showcase-slack:focus-visible {
-  background: rgba(255, 255, 255, 0.42);
-  outline: none;
-}
-
-.video-showcase-slack-active {
-  width: 36px;
-  background: linear-gradient(90deg, #bc13fe 0%, #00f2ff 100%);
-  box-shadow: 0 0 14px rgba(0, 242, 255, 0.38);
-}
-
 .video-showcase-caption-bar[data-direction="next"] {
   animation: video-showcase-caption-from-right 0.58s cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -3039,18 +3004,14 @@ a {
 }
 
 @media (max-width: 768px) {
-  .video-showcase-slacks {
-    display: flex;
-  }
-
   .video-showcase-section {
-    --video-center-width: min(72vw, 340px);
-    --video-pair-side-width: min(78vw, 380px);
+    --video-center-width: min(68vw, 318px);
+    --video-pair-side-width: min(104vw, 580px);
     --video-slot-width: min(72vw, 320px);
     --video-side-scale: 1;
-    --video-pair-side-scale: 1.12;
+    --video-pair-side-scale: 1.56;
     --video-slide-gap: 0;
-    --video-pair-side-overlap: 14px;
+    --video-pair-side-overlap: 40px;
   }
 
   .video-showcase-pair-layout {
@@ -3062,14 +3023,15 @@ a {
     mask-image: linear-gradient(
       90deg,
       transparent 0%,
-      #000000 4%,
-      #000000 96%,
+      #000000 1.5%,
+      #000000 98.5%,
       transparent 100%
     );
   }
 
   .video-showcase-pair-side .video-showcase-slide {
-    opacity: 0.92;
+    opacity: 0.97;
+    filter: saturate(1) brightness(0.99);
   }
 
   .video-showcase-edge-hint {
