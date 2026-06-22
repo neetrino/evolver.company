@@ -122,6 +122,7 @@ export const UI_LABELS: Record<
   Locale,
   {
     openProject: string;
+    viewProject: string;
     projectsHeading: string;
     noProjects: string;
     languageEn: string;
@@ -130,6 +131,7 @@ export const UI_LABELS: Record<
 > = {
   en: {
     openProject: "Open Project",
+    viewProject: "View project",
     projectsHeading: "Projects",
     noProjects: "No published projects yet.",
     languageEn: "English",
@@ -137,6 +139,7 @@ export const UI_LABELS: Record<
   },
   hy: {
     openProject: "Բացել նախագիծը",
+    viewProject: "Դիտել նախագիծը",
     projectsHeading: "Նախագծեր",
     noProjects: "Դեռ հրապարակված նախագծեր չկան։",
     languageEn: "Անգլերեն",

@@ -10,20 +10,37 @@ export type ValueItem = {
   description: string;
 };
 
+export type HeroHeadlineLine = {
+  text: string;
+  gradient?: boolean;
+};
+
+export type HeroFeature = {
+  key: "scanning" | "twins" | "immersive";
+  label: string;
+};
+
 type HomeContent = {
   hero: {
+    eyebrow: string;
+    headline: HeroHeadlineLine[];
     title: string;
     subtitle: string;
     primaryCta: string;
     secondaryCta: string;
+    features: HeroFeature[];
   };
   servicesPreview: ServiceItem[];
   about: string;
+  featuredEyebrow: string;
   featuredTitle: string;
+  featuredTitleLines: HeroHeadlineLine[];
   featuredSubtitle: string;
+  viewAllProjects: string;
 };
 
 type PageHero = {
+  eyebrow?: string;
   title: string;
   subtitle: string;
 };
@@ -56,11 +73,24 @@ type ContactContent = {
 const HOME: Record<Locale, HomeContent> = {
   en: {
     hero: {
-      title: "Digital products built with clarity.",
+      eyebrow: "3D Scanning & Digital Innovation",
+      headline: [
+        { text: "We create" },
+        { text: "The next", gradient: true },
+        { text: "Generation of", gradient: true },
+        { text: "Marketing" },
+        { text: "Content" },
+      ],
+      title: "We create the next generation of marketing content",
       subtitle:
-        "We design and develop websites, platforms and digital tools for businesses that need reliable technology and clean user experience.",
-      primaryCta: "View Projects",
+        "Evolver specializes in 3D scanning and digitizing a wide range of physical spaces, bringing your imagination to life.",
+      primaryCta: "Explore Projects",
       secondaryCta: "Contact Us",
+      features: [
+        { key: "scanning", label: "3D Scanning" },
+        { key: "twins", label: "Digital Twins" },
+        { key: "immersive", label: "Immersive Content" },
+      ],
     },
     servicesPreview: [
       { title: "Web Development", description: "Fast, structured websites built for growth." },
@@ -69,16 +99,36 @@ const HOME: Record<Locale, HomeContent> = {
     ],
     about:
       "We help businesses turn ideas into functional digital products with clean design, scalable architecture and practical execution.",
+    featuredEyebrow: "Selected work",
     featuredTitle: "Featured projects",
-    featuredSubtitle: "Recent work from our studio.",
+    featuredTitleLines: [
+      { text: "Featured" },
+      { text: "projects", gradient: true },
+    ],
+    featuredSubtitle: "Immersive digital experiences built with cutting-edge 3D technology.",
+    viewAllProjects: "View all projects",
   },
   hy: {
     hero: {
-      title: "Թվային լուծումներ՝ հստակ մտածված կառուցվածքով։",
+      eyebrow: "3D սկանավորում և թվային նորարարություն",
+      headline: [
+        { text: "Մենք" },
+        { text: "ստեղծում ենք" },
+        { text: "Հաջորդ", gradient: true },
+        { text: "Սերունդի", gradient: true },
+        { text: "Մարքեթինգային" },
+        { text: "Բովանդակություն" },
+      ],
+      title: "Մենք ստեղծում ենք հաջորդ սերունդի մարքեթինգային բովանդակություն",
       subtitle:
-        "Մենք նախագծում և մշակում ենք կայքեր, հարթակներ և թվային գործիքներ բիզնեսների համար, որոնց պետք է վստահելի տեխնոլոգիա և պարզ օգտագործման փորձ։",
+        "Evolver-ը մասնագիտանում է 3D սկանավորումով և ֆիզիկական տարածությունների թվայնացմամբ՝ ձեր երևակայությունը կյանքի կոչելու համար։",
       primaryCta: "Դիտել նախագծերը",
       secondaryCta: "Կապ մեզ հետ",
+      features: [
+        { key: "scanning", label: "3D Սկանավորում" },
+        { key: "twins", label: "Թվային երկվորյակներ" },
+        { key: "immersive", label: "Լիարժեք բովանդակություն" },
+      ],
     },
     servicesPreview: [
       { title: "Վեբ մշակում", description: "Արագ և կառուցված կայքեր աճի համար։" },
@@ -87,8 +137,14 @@ const HOME: Record<Locale, HomeContent> = {
     ],
     about:
       "Մենք օգնում ենք բիզնեսներին գաղափարները վերածել աշխատող թվային լուծումների՝ մաքուր դիզայնով, մասշտաբավորվող կառուցվածքով և գործնական իրականացմամբ։",
+    featuredEyebrow: "Ընտրված աշխատանք",
     featuredTitle: "Ընտրված նախագծեր",
-    featuredSubtitle: "Մեր ստուդիայի վերջին աշխատանքները։",
+    featuredTitleLines: [
+      { text: "Ընտրված" },
+      { text: "նախագծեր", gradient: true },
+    ],
+    featuredSubtitle: "Լիարժեք թվային փորձառություններ՝ ստեղծված նորագույն 3D տեխնոլոգիաներով։",
+    viewAllProjects: "Դիտել բոլոր նախագծերը",
   },
 };
 
@@ -170,12 +226,14 @@ const SERVICES: Record<Locale, { hero: PageHero; items: ServiceItem[] }> = {
 
 const PROJECTS_PAGE: Record<Locale, PageHero> = {
   en: {
+    eyebrow: "Portfolio",
     title: "Projects",
-    subtitle: "A selection of digital products, websites and platforms.",
+    subtitle: "A curated selection of immersive digital products, platforms, and virtual experiences.",
   },
   hy: {
+    eyebrow: "Պորտֆոլիո",
     title: "Նախագծեր",
-    subtitle: "Թվային պրոդուկտների, կայքերի և հարթակների ընտրանի։",
+    subtitle: "Լիարժեք թվային պրոդուկտների, հարթակների և վիրտուալ փորձառությունների ընտրանի։",
   },
 };
 
@@ -287,4 +345,76 @@ export function getAboutContent(locale: Locale): AboutContent {
 
 export function getContactContent(locale: Locale): ContactContent {
   return CONTACT[locale];
+}
+
+export type FooterSocialKey = "facebook" | "instagram" | "linkedin";
+
+export type FooterContent = {
+  brandDescription: string;
+  locationTitle: string;
+  locationLines: string[];
+  workInquiriesTitle: string;
+  workInquiriesText: string;
+  phoneTitle: string;
+  phone: string;
+  usefulLinksTitle: string;
+  copyright: string;
+  rightsReserved: string;
+  scrollToTop: string;
+  social: Array<{ key: FooterSocialKey; href: string; label: string }>;
+};
+
+const FOOTER: Record<Locale, FooterContent> = {
+  en: {
+    brandDescription:
+      "We create immersive 3D digital and interactive content that connects brands with people.",
+    locationTitle: "USA",
+    locationLines: [
+      "A19709, 651 N Broad St.",
+      "Suite 201 S,",
+      "Middletown, Delaware",
+      "USA",
+    ],
+    workInquiriesTitle: "Work inquiries",
+    workInquiriesText: "Interested in working with us?",
+    phoneTitle: "Phone",
+    phone: "+374 91 62 80 07",
+    usefulLinksTitle: "Useful Links",
+    copyright: "Evolver LLC.",
+    rightsReserved: "All rights reserved.",
+    scrollToTop: "Scroll to top",
+    social: [
+      { key: "facebook", href: "https://facebook.com", label: "Facebook" },
+      { key: "instagram", href: "https://instagram.com", label: "Instagram" },
+      { key: "linkedin", href: "https://linkedin.com", label: "LinkedIn" },
+    ],
+  },
+  hy: {
+    brandDescription:
+      "Մենք ստեղծում ենք լիարժեք 3D թվային և ինտերակտիվ բովանդակություն, որը կապում է բրենդները մարդկանց հետ։",
+    locationTitle: "ԱՄՆ",
+    locationLines: [
+      "A19709, 651 N Broad St.",
+      "Suite 201 S,",
+      "Middletown, Delaware",
+      "USA",
+    ],
+    workInquiriesTitle: "Աշխատանքային հարցումներ",
+    workInquiriesText: "Ցանկանու՞մ եք մեզ հետ աշխատել։",
+    phoneTitle: "Հեռախոս",
+    phone: "+374 91 62 80 07",
+    usefulLinksTitle: "Օգտակար հղումներ",
+    copyright: "Evolver LLC.",
+    rightsReserved: "Բոլոր իրավունքները պաշտպանված են։",
+    scrollToTop: "Վերև",
+    social: [
+      { key: "facebook", href: "https://facebook.com", label: "Facebook" },
+      { key: "instagram", href: "https://instagram.com", label: "Instagram" },
+      { key: "linkedin", href: "https://linkedin.com", label: "LinkedIn" },
+    ],
+  },
+};
+
+export function getFooterContent(locale: Locale): FooterContent {
+  return FOOTER[locale];
 }

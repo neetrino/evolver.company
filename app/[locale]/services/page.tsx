@@ -1,5 +1,4 @@
 import { Container } from "@/components/shared/Container";
-import { SectionHeader } from "@/components/public/SectionHeader";
 import { ServiceCard } from "@/components/public/ServiceCard";
 import { getServicesContent } from "@/lib/content";
 import type { Locale } from "@/lib/i18n";

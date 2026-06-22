@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useState } from "react";
 import type { ProjectActionState } from "@/app/admin/projects/actions";
 import { createProject, updateProject } from "@/app/admin/projects/actions";
 import { CoverImageUploader } from "@/components/admin/CoverImageUploader";
@@ -43,30 +43,29 @@ export function ProjectForm({ mode, projectId, initialData }: ProjectFormProps) 
     {},
   );
 
-  useEffect(() => {
-    if (mode === "create" && !slugTouched && formData.translations.en.title) {
-      setFormData((current) => ({
-        ...current,
-        slug: slugify(current.translations.en.title),
-      }));
-    }
-  }, [formData.translations.en.title, mode, slugTouched]);
-
   function updateTranslation(
     locale: Locale,
     field: keyof ProjectFormData["translations"]["en"],
     value: string,
   ): void {
-    setFormData((current) => ({
-      ...current,
-      translations: {
-        ...current.translations,
-        [locale]: {
-          ...current.translations[locale],
-          [field]: value,
+    setFormData((current) => {
+      const next: ProjectFormData = {
+        ...current,
+        translations: {
+          ...current.translations,
+          [locale]: {
+            ...current.translations[locale],
+            [field]: value,
+          },
         },
-      },
-    }));
+      };
+
+      if (mode === "create" && !slugTouched && locale === "en" && field === "title") {
+        next.slug = slugify(value);
+      }
+
+      return next;
+    });
   }
 
   return (

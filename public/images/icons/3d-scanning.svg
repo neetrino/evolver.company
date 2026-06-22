@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+  <defs>
+    <linearGradient id="scan-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#b026ff" />
+      <stop offset="55%" stop-color="#7b5cff" />
+      <stop offset="100%" stop-color="#00d1ff" />
+    </linearGradient>
+    <filter id="scan-glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="0" stdDeviation="0.65" flood-color="#b026ff" flood-opacity="0.55" />
+      <feDropShadow dx="0" dy="0" stdDeviation="1.1" flood-color="#00d1ff" flood-opacity="0.25" />
+    </filter>
+  </defs>
+  <g filter="url(#scan-glow)" stroke="url(#scan-gradient)" stroke-linecap="round" stroke-linejoin="round">
+    <path stroke-width="1.15" d="M16 26.5 23.5 22.25 16 18 8.5 22.25 16 26.5Z" />
+    <path stroke-width="1.15" d="M16 14.5 23.5 10.25 16 6 8.5 10.25 16 14.5Z" />
+    <path stroke-width="1.15" d="M16 26.5V14.5M23.5 22.25V10.25M8.5 22.25V10.25" />
+    <path stroke-width="1" d="M16 23.75 20.75 21 16 18.25 11.25 21 16 23.75Z" />
+    <path stroke-width="1" d="M16 17.25 20.75 14.5 16 11.75 11.25 14.5 16 17.25Z" />
+    <path stroke-width="1" d="M16 23.75V17.25M20.75 21V14.5M11.25 21V14.5" />
+    <path stroke-width="0.85" opacity="0.75" d="M16 26.5 16 23.75M23.5 22.25 20.75 21M8.5 22.25 11.25 21" />
+    <path stroke-width="0.85" opacity="0.75" d="M16 14.5 16 17.25M23.5 10.25 20.75 14.5M8.5 10.25 11.25 14.5" />
+    <path stroke-width="0.85" opacity="0.55" d="M16 18.25 16 11.75" />
+  </g>
+</svg>

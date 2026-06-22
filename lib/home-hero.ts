@@ -27,7 +27,8 @@ export async function getHomeHeroConfigForAdmin(): Promise<HomeHeroConfig> {
   return normalized ?? getDefaultHomeHeroConfig();
 }
 
-export async function getHomeHeroSlidesForStorefront(_locale: Locale): Promise<HomeHeroSlide[]> {
+export async function getHomeHeroSlidesForStorefront(locale: Locale): Promise<HomeHeroSlide[]> {
+  void locale;
   const config = await getHomeHeroConfigForAdmin();
   return config.slides;
 }

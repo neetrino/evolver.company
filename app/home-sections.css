@@ -1,0 +1,113 @@
+/* Home page — unified canvas and section seams */
+.home-page {
+  --home-seam-inset: clamp(20px, 8vw, 120px);
+  --home-seam-glow-height: clamp(56px, 7vw, 96px);
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(ellipse 120% 70% at 50% -8%, rgba(91, 33, 182, 0.1) 0%, transparent 58%),
+    radial-gradient(ellipse 55% 40% at 8% 38%, rgba(176, 38, 255, 0.05) 0%, transparent 52%),
+    radial-gradient(ellipse 50% 38% at 92% 62%, rgba(0, 209, 255, 0.05) 0%, transparent 52%),
+    linear-gradient(
+      180deg,
+      var(--section-bridge-bg) 0%,
+      #070812 18%,
+      #05050f 36%,
+      #070812 54%,
+      #05050f 72%,
+      #04040a 88%,
+      #030308 100%
+    );
+}
+
+.home-page .what-we-do-section,
+.home-page .video-showcase-section,
+.home-page .projects-section,
+.home-page .about-section,
+.home-page .trusted-by-section {
+  background: transparent;
+}
+
+.home-page .video-showcase-section::before,
+.home-page .projects-section::before,
+.home-page .about-section::before,
+.home-page .trusted-by-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: var(--home-seam-inset);
+  right: var(--home-seam-inset);
+  z-index: 2;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(176, 38, 255, 0.28) 16%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(0, 209, 255, 0.28) 84%,
+    transparent 100%
+  );
+  opacity: 0.55;
+}
+
+.home-page .video-showcase-section::after,
+.home-page .projects-section::after,
+.home-page .about-section::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--home-seam-glow-height);
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(176, 38, 255, 0.045) 0%, transparent 100%);
+}
+
+.home-page .what-we-do-section::after {
+  content: "";
+  position: absolute;
+  left: var(--home-seam-inset);
+  right: var(--home-seam-inset);
+  bottom: 0;
+  z-index: 2;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.06) 50%,
+    transparent 100%
+  );
+  opacity: 0.65;
+}
+
+.home-page .trusted-by-section {
+  padding-bottom: clamp(56px, 7vw, 88px);
+}
+
+.home-page .trusted-by-section::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: clamp(72px, 9vw, 120px);
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 0%, rgba(3, 3, 8, 0.92) 100%);
+}
+
+.public-layout:has(.home-page) .public-footer {
+  margin-top: 0;
+}
+
+.public-layout:has(.home-page) .public-footer-panel {
+  border-radius: clamp(28px, 4vw, 48px) clamp(28px, 4vw, 48px) 0 0;
+}
+
+@media (max-width: 767px) {
+  .home-page {
+    --home-seam-inset: clamp(16px, 5vw, 28px);
+    --home-seam-glow-height: clamp(40px, 8vw, 64px);
+  }
+}
