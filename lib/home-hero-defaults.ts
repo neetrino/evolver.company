@@ -1,7 +1,7 @@
 import { getHomeContent } from "@/lib/content";
 import type { HomeHeroConfig } from "@/lib/home-hero-types";
 
-const DEFAULT_HERO_IMAGE = "/hero-default.svg";
+const DEFAULT_HERO_IMAGE = "/images/hero-banner.png";
 
 export function getDefaultHomeHeroConfig(): HomeHeroConfig {
   const enContent = getHomeContent("en");

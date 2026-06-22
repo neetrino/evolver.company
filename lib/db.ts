@@ -2,6 +2,7 @@ import "server-only";
 
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "@/prisma/generated/prisma/client";
+import { normalizeDatabaseUrl } from "@/lib/database-url";
 import { Pool } from "pg";
 
 const globalForPrisma = globalThis as unknown as {
@@ -15,7 +16,7 @@ function createPrismaClient(): PrismaClient {
     throw new Error("DATABASE_URL must be set.");
   }
 
-  const pool = new Pool({ connectionString });
+  const pool = new Pool({ connectionString: normalizeDatabaseUrl(connectionString) });
   const adapter = new PrismaPg(pool);
 
   return new PrismaClient({

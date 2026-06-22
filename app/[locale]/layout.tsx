@@ -22,7 +22,7 @@ export default async function LocaleLayout({ children, params }: PublicLayoutPro
   const locale = localeParam as Locale;
 
   return (
-    <div className="public-theme">
+    <div className="public-theme public-layout">
       <PublicHeader locale={locale} />
       <main>{children}</main>
       <PublicFooter locale={locale} />

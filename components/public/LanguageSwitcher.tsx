@@ -13,7 +13,7 @@ export function LanguageSwitcher({ locale }: LanguageSwitcherProps) {
   const pathname = usePathname();
 
   return (
-    <div className="lang-switch" aria-label="Language switcher">
+    <div className="lang-switch" role="group" aria-label="Language switcher">
       {LOCALES.map((targetLocale) => {
         const isActive = targetLocale === locale;
         const href = switchLocalePath(pathname, targetLocale);
@@ -24,7 +24,7 @@ export function LanguageSwitcher({ locale }: LanguageSwitcherProps) {
             key={targetLocale}
             href={href}
             className={`lang-switch-link ${isActive ? "lang-switch-link-active" : ""}`}
-            aria-current={isActive ? "page" : undefined}
+            aria-current={isActive ? "true" : undefined}
             title={
               targetLocale === "en" ? UI_LABELS[locale].languageEn : UI_LABELS[locale].languageHy
             }
