@@ -1,13 +1,20 @@
 "use client";
 
-import { type CSSProperties } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import { ClientLogoTile } from "@/components/public/ClientLogoTile";
 import { Container } from "@/components/shared/Container";
 import {
-  getClientLogoRows,
+  buildMarqueeLogoSequence,
+  getClientLogoMarqueeRows,
   getTrustedBySectionContent,
-  TRUSTED_BY_LOGOS_PER_ROW,
-  TRUSTED_BY_ROW_ALIGNMENTS,
+  resolveMarqueeGroupRepeats,
+  TRUSTED_BY_DESKTOP_MARQUEE_ROWS,
+  TRUSTED_BY_MARQUEE_DURATION_S,
+  TRUSTED_BY_MARQUEE_MIN_GROUP_REPEATS,
+  TRUSTED_BY_MARQUEE_MOBILE_BREAKPOINT_PX,
+  TRUSTED_BY_MARQUEE_TRACK_COPIES,
+  TRUSTED_BY_MOBILE_MARQUEE_ROWS,
+  type ClientLogo,
 } from "@/lib/clients-section";
 import { useSectionReveal } from "@/lib/hooks/use-section-reveal";
 import type { Locale } from "@/lib/i18n";
@@ -20,8 +27,114 @@ type TrustedBySectionProps = {
   locale: Locale;
 };
 
+type TrustedByMarqueeDirection = "left" | "right";
+
+type TrustedByMarqueeRowProps = {
+  clients: ClientLogo[];
+  direction: TrustedByMarqueeDirection;
+  durationSeconds: number;
+  groupRepeats: number;
+};
+
 function trustedByDelayStyle(delaySeconds: number): CSSProperties {
   return { "--trusted-by-delay": `${delaySeconds}s` } as CSSProperties;
+}
+
+function trustedByMarqueeDurationStyle(durationSeconds: number): CSSProperties {
+  return { "--trusted-by-marquee-duration": `${durationSeconds}s` } as CSSProperties;
+}
+
+function resolveMarqueeRowCount(viewportWidth: number): number {
+  return viewportWidth <= TRUSTED_BY_MARQUEE_MOBILE_BREAKPOINT_PX
+    ? TRUSTED_BY_MOBILE_MARQUEE_ROWS
+    : TRUSTED_BY_DESKTOP_MARQUEE_ROWS;
+}
+
+function useTrustedByMarqueeRows(): ClientLogo[][] {
+  const [marqueeRows, setMarqueeRows] = useState(() =>
+    getClientLogoMarqueeRows(TRUSTED_BY_DESKTOP_MARQUEE_ROWS),
+  );
+
+  useEffect(() => {
+    function syncMarqueeRows(): void {
+      setMarqueeRows(getClientLogoMarqueeRows(resolveMarqueeRowCount(window.innerWidth)));
+    }
+
+    syncMarqueeRows();
+    window.addEventListener("resize", syncMarqueeRows);
+
+    return () => {
+      window.removeEventListener("resize", syncMarqueeRows);
+    };
+  }, []);
+
+  return marqueeRows;
+}
+
+function useMarqueeGroupRepeats(clientCount: number): number {
+  const [groupRepeats, setGroupRepeats] = useState(() => {
+    if (typeof window === "undefined") {
+      return TRUSTED_BY_MARQUEE_MIN_GROUP_REPEATS;
+    }
+
+    return resolveMarqueeGroupRepeats(clientCount, window.innerWidth);
+  });
+
+  useEffect(() => {
+    function syncGroupRepeats(): void {
+      setGroupRepeats(resolveMarqueeGroupRepeats(clientCount, window.innerWidth));
+    }
+
+    syncGroupRepeats();
+    window.addEventListener("resize", syncGroupRepeats);
+
+    return () => {
+      window.removeEventListener("resize", syncGroupRepeats);
+    };
+  }, [clientCount]);
+
+  return groupRepeats;
+}
+
+function TrustedByMarqueeRow({ clients, direction, durationSeconds, groupRepeats }: TrustedByMarqueeRowProps) {
+  const sequence = buildMarqueeLogoSequence(clients, groupRepeats);
+
+  return (
+    <div className={`trusted-by-marquee-row trusted-by-marquee-row--${direction}`}>
+      <div className="trusted-by-marquee-track" style={trustedByMarqueeDurationStyle(durationSeconds)}>
+        {Array.from({ length: TRUSTED_BY_MARQUEE_TRACK_COPIES }, (_, copyIndex) => (
+          <div
+            key={`trusted-by-marquee-copy-${copyIndex}`}
+            className="trusted-by-marquee-group"
+            aria-hidden={copyIndex > 0 ? true : undefined}
+          >
+            {sequence.map((item) => (
+              <div key={`${copyIndex}-${item.key}`} className="trusted-by-marquee-item">
+                <ClientLogoTile client={item.client} />
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function TrustedByMarqueeRowWithRepeats({
+  clients,
+  direction,
+  durationSeconds,
+}: Omit<TrustedByMarqueeRowProps, "groupRepeats">) {
+  const groupRepeats = useMarqueeGroupRepeats(clients.length);
+
+  return (
+    <TrustedByMarqueeRow
+      clients={clients}
+      direction={direction}
+      durationSeconds={durationSeconds}
+      groupRepeats={groupRepeats}
+    />
+  );
 }
 
 export function TrustedBySection({ locale }: TrustedBySectionProps) {
@@ -30,7 +143,7 @@ export function TrustedBySection({ locale }: TrustedBySectionProps) {
     rootMargin: "0px 0px -4% 0px",
   });
   const content = getTrustedBySectionContent(locale);
-  const clientRows = getClientLogoRows();
+  const marqueeRows = useTrustedByMarqueeRows();
 
   return (
     <section
@@ -62,34 +175,21 @@ export function TrustedBySection({ locale }: TrustedBySectionProps) {
             <span className="trusted-by-header-dot trusted-by-header-dot-cyan" />
           </span>
         </header>
-
-        <div className="trusted-by-rows">
-          {clientRows.map((rowClients, rowIndex) => {
-            const alignment = TRUSTED_BY_ROW_ALIGNMENTS[rowIndex] ?? "left";
-            const rowOffset = rowIndex * TRUSTED_BY_LOGOS_PER_ROW;
-
-            return (
-              <div
-                key={`trusted-by-row-${rowIndex}`}
-                className={`trusted-by-row trusted-by-row--${alignment}`}
-              >
-                {rowClients.map((client, columnIndex) => (
-                  <div
-                    key={client.id}
-                    className="trusted-by-grid-item trusted-by-animate"
-                    style={trustedByDelayStyle(
-                      TRUSTED_BY_ENTER_BASE_DELAY_S +
-                        (rowOffset + columnIndex + 1) * TRUSTED_BY_ENTER_STEP_DELAY_S,
-                    )}
-                  >
-                    <ClientLogoTile client={client} />
-                  </div>
-                ))}
-              </div>
-            );
-          })}
-        </div>
       </Container>
+
+      <div
+        className="trusted-by-marquee trusted-by-animate"
+        style={trustedByDelayStyle(TRUSTED_BY_ENTER_BASE_DELAY_S + TRUSTED_BY_ENTER_STEP_DELAY_S)}
+      >
+        {marqueeRows.map((rowClients, rowIndex) => (
+          <TrustedByMarqueeRowWithRepeats
+            key={`trusted-by-marquee-row-${rowIndex}`}
+            clients={rowClients}
+            direction={rowIndex % 2 === 0 ? "left" : "right"}
+            durationSeconds={TRUSTED_BY_MARQUEE_DURATION_S + rowIndex * 4}
+          />
+        ))}
+      </div>
     </section>
   );
 }
