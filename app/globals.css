@@ -4618,6 +4618,17 @@ a {
   display: block;
 }
 
+.about-section-headline-line-animate {
+  opacity: 0;
+  transform: translate3d(0, 22px, 0);
+  filter: blur(6px);
+}
+
+.about-section--visible .about-section-headline-line-animate {
+  animation: about-section-headline-line-enter 0.88s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: var(--about-headline-delay, 0s);
+}
+
 .about-section-headline-line--gradient {
   background: var(--hero-gradient);
   background-size: 220% auto;
@@ -4636,6 +4647,17 @@ a {
   font-size: clamp(0.9375rem, 1.05vw, 1rem);
   line-height: 1.75;
   color: rgba(255, 255, 255, 0.58);
+}
+
+.about-section-company-text-wrap {
+  opacity: 0;
+  transform: translate3d(0, 14px, 0);
+  filter: blur(4px);
+}
+
+.about-section--visible .about-section-company-text-wrap {
+  animation: about-section-text-enter 0.82s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: var(--about-company-text-delay, 0s);
 }
 
 .about-section-stats {
@@ -4706,6 +4728,7 @@ a {
   font-weight: 700;
   line-height: 1.1;
   letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
 }
 
 .about-section-stat-label {
@@ -4837,6 +4860,11 @@ a {
 .about-section-company-text strong {
   color: rgba(255, 255, 255, 0.92);
   font-weight: 600;
+}
+
+.about-section--visible .about-section-company-text-wrap .about-section-company-text strong {
+  animation: about-section-emphasis-enter 0.75s ease forwards;
+  animation-delay: calc(var(--about-company-text-delay, 0s) + 0.18s);
 }
 
 .about-section-tech {
@@ -4983,6 +5011,44 @@ a {
   }
 }
 
+@keyframes about-section-headline-line-enter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 22px, 0);
+    filter: blur(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    filter: blur(0);
+  }
+}
+
+@keyframes about-section-text-enter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+    filter: blur(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    filter: blur(0);
+  }
+}
+
+@keyframes about-section-emphasis-enter {
+  from {
+    color: rgba(255, 255, 255, 0.62);
+  }
+
+  to {
+    color: rgba(255, 255, 255, 0.92);
+  }
+}
+
 @media (max-width: 1024px) {
   .about-section-layout {
     grid-template-columns: 1fr;
@@ -5029,7 +5095,9 @@ a {
   .about-section-panel,
   .about-section-animate,
   .about-section-eyebrow-line,
-  .about-section-headline-line--gradient {
+  .about-section-headline-line-animate,
+  .about-section-headline-line--gradient,
+  .about-section-company-text-wrap {
     opacity: 1;
     transform: none;
     filter: none;

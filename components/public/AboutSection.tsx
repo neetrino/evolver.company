@@ -1,11 +1,12 @@
 "use client";
 
 import { useId, useState, type CSSProperties } from "react";
+import { AboutHeadline } from "@/components/public/about/AboutHeadline";
+import { AboutStatValue } from "@/components/public/about/AboutStatValue";
 import { Container } from "@/components/shared/Container";
 import {
   getAboutSectionContent,
   type AboutRichPart,
-  type AboutSectionContent,
 } from "@/lib/about-section";
 import { useSectionReveal } from "@/lib/hooks/use-section-reveal";
 import type { Locale } from "@/lib/i18n";
@@ -13,6 +14,8 @@ import type { Locale } from "@/lib/i18n";
 const ABOUT_ENTER_BASE_DELAY_S = 0.08;
 const ABOUT_ENTER_STEP_DELAY_S = 0.1;
 const ABOUT_VIEW_THRESHOLD = 0.14;
+const ABOUT_COMPANY_TEXT_BASE_DELAY_S = 0.42;
+const ABOUT_COMPANY_TEXT_STEP_DELAY_S = 0.12;
 
 type AboutSectionProps = {
   locale: Locale;
@@ -20,6 +23,12 @@ type AboutSectionProps = {
 
 function aboutDelayStyle(delaySeconds: number): CSSProperties {
   return { "--about-section-delay": `${delaySeconds}s` } as CSSProperties;
+}
+
+function aboutCompanyTextDelayStyle(index: number): CSSProperties {
+  return {
+    "--about-company-text-delay": `${ABOUT_COMPANY_TEXT_BASE_DELAY_S + index * ABOUT_COMPANY_TEXT_STEP_DELAY_S}s`,
+  } as CSSProperties;
 }
 
 function AboutRichParagraph({ parts }: { parts: AboutRichPart[] }) {
@@ -98,21 +107,6 @@ function AboutPlusIcon({ expanded }: { expanded: boolean }) {
   );
 }
 
-function AboutHeadline({ content }: { content: AboutSectionContent }) {
-  return (
-    <h2 id="about-section-heading" className="about-section-headline">
-      {content.headline.map((line) => (
-        <span
-          key={line.text}
-          className={`about-section-headline-line ${line.gradient ? "about-section-headline-line--gradient" : ""}`}
-        >
-          {line.text}
-        </span>
-      ))}
-    </h2>
-  );
-}
-
 export function AboutSection({ locale }: AboutSectionProps) {
   const { isVisible, sectionRef } = useSectionReveal({ threshold: ABOUT_VIEW_THRESHOLD });
   const [isTechnologyOpen, setIsTechnologyOpen] = useState(false);
@@ -137,10 +131,7 @@ export function AboutSection({ locale }: AboutSectionProps) {
                 <span className="about-section-eyebrow-line" aria-hidden="true" />
               </p>
 
-              <div
-                className="about-section-animate about-section-animate-left"
-                style={aboutDelayStyle(ABOUT_ENTER_BASE_DELAY_S + ABOUT_ENTER_STEP_DELAY_S)}
-              >
+              <div style={aboutDelayStyle(ABOUT_ENTER_BASE_DELAY_S + ABOUT_ENTER_STEP_DELAY_S)}>
                 <AboutHeadline content={content} />
               </div>
 
@@ -163,7 +154,7 @@ export function AboutSection({ locale }: AboutSectionProps) {
                     <div className="about-section-stat-icon-wrap">
                       <AboutStatIcon />
                     </div>
-                    <p className="about-section-stat-value">{stat.value}</p>
+                    <AboutStatValue value={stat.value} active={isVisible} index={index} />
                     <p className="about-section-stat-label">{stat.label}</p>
                     <span className="about-section-stat-accent" aria-hidden="true" />
                   </article>
@@ -185,7 +176,13 @@ export function AboutSection({ locale }: AboutSectionProps) {
                 <h3 className="about-section-company-title">{content.companyTitle}</h3>
                 <div className="about-section-company-body">
                   {content.companyParagraphs.map((paragraph, index) => (
-                    <AboutRichParagraph key={`company-paragraph-${index}`} parts={paragraph} />
+                    <div
+                      key={`company-paragraph-${index}`}
+                      className="about-section-company-text-wrap"
+                      style={aboutCompanyTextDelayStyle(index)}
+                    >
+                      <AboutRichParagraph parts={paragraph} />
+                    </div>
                   ))}
                 </div>
               </article>
