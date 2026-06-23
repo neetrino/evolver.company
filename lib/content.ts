@@ -45,10 +45,21 @@ type PageHero = {
   subtitle: string;
 };
 
-type AboutContent = {
-  hero: PageHero;
-  body: string;
-  values: ValueItem[];
+export type AboutUsCapability = {
+  id: string;
+  title: string;
+  description: string;
+  href: string;
+};
+
+export type AboutContent = {
+  hero: {
+    title: string;
+  };
+  searchLabel: string;
+  capabilitiesEyebrow: string;
+  capabilitiesHeadline: string;
+  capabilities: AboutUsCapability[];
 };
 
 type ContactContent = {
@@ -265,42 +276,68 @@ const ABOUT: Record<Locale, AboutContent> = {
   en: {
     hero: {
       title: "About Us",
-      subtitle: "We build digital products with structure, clarity and practical thinking.",
     },
-    body: "We are a digital team focused on building websites, platforms and tools that help businesses work better online. Our approach is simple: understand the goal, design the structure, develop the product and keep improving it.",
-    values: [
+    searchLabel: "Contact us",
+    capabilitiesEyebrow: "Capabilities",
+    capabilitiesHeadline: "Evolver 3D scans and digitizes every place that comes to your mind",
+    capabilities: [
       {
-        title: "Clarity",
-        description: "Every product needs a clear structure before development starts.",
+        id: "estatedata",
+        title: "Cloud Services for Property Owners",
+        description: "Experience Your Future Home Today with Our Virtual 3D Tours.",
+        href: "https://estatedata.am/",
       },
       {
-        title: "Functionality",
-        description: "Design must support real business goals, not just look good.",
+        id: "vexpo",
+        title: "Visualisation of Events",
+        description: "Missed an Expo? No worries. Explore with vExpo.",
+        href: "https://evolver.company/",
       },
       {
-        title: "Reliability",
-        description: "We build solutions that can grow, be maintained and improved.",
+        id: "vcity",
+        title: "Virtual City Directory",
+        description: "Walk in your favorite city virtually.",
+        href: "https://vcity.guide/",
+      },
+      {
+        id: "vrealty",
+        title: "Virtual Real Estate Directory",
+        description: "Your dream homes are just one click away!",
+        href: "https://vrealty.am/",
       },
     ],
   },
   hy: {
     hero: {
       title: "Մեր մասին",
-      subtitle: "Մենք ստեղծում ենք թվային պրոդուկտներ՝ հստակ կառուցվածքով, պարզությամբ և գործնական մտածելակերպով։",
     },
-    body: "Մենք թվային թիմ ենք, որը ստեղծում է կայքեր, հարթակներ և գործիքներ՝ բիզնեսներին առցանց ավելի արդյունավետ աշխատելու համար։ Մեր մոտեցումը պարզ է՝ հասկանալ նպատակը, նախագծել կառուցվածքը, մշակել լուծումը և շարունակաբար բարելավել այն։",
-    values: [
+    searchLabel: "Կապ",
+    capabilitiesEyebrow: "Հնարավորություններ",
+    capabilitiesHeadline: "Evolver-ը 3D սկանավորում և թվայնացում է ցանկացած տեղ, որ մտքում ունեք",
+    capabilities: [
       {
-        title: "Հստակություն",
-        description: "Յուրաքանչյուր պրոդուկտ պետք է ունենա հստակ կառուցվածք մինչև մշակման սկիզբը։",
+        id: "estatedata",
+        title: "Ամպային ծառայություններ գույքի սեփականատերերի համար",
+        description: "Զգացեք ձեր ապագա տունը այսօր՝ մեր վիրտուալ 3D տուրերով։",
+        href: "https://estatedata.am/",
       },
       {
-        title: "Ֆունկցիոնալություն",
-        description: "Դիզայնը պետք է օգնի իրական բիզնես նպատակներին, ոչ միայն գեղեցիկ տեսք ունենա։",
+        id: "vexpo",
+        title: "Միջոցառումների վիզուալացում",
+        description: "Բաց թողե՞լ եք ցուցահանդեսը։ vExpo-ով ուսումնասիրեք այն ցանկացած ժամանակ։",
+        href: "https://evolver.company/",
       },
       {
-        title: "Վստահելիություն",
-        description: "Մենք ստեղծում ենք լուծումներ, որոնք կարող են աճել, սպասարկվել և բարելավվել։",
+        id: "vcity",
+        title: "Վիրտուալ քաղաքային ուղեցույց",
+        description: "Քայլեք ձեր սիրելի քաղաքում վիրտուալորեն։",
+        href: "https://vcity.guide/",
+      },
+      {
+        id: "vrealty",
+        title: "Վիրտուալ անշարժ գույքի ուղեցույց",
+        description: "Ձեր երազանի տները ընդամենը մեկ կտտոցով հեռու են!",
+        href: "https://vrealty.am/",
       },
     ],
   },

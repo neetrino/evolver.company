@@ -1,5 +1,12 @@
-import { Container } from "@/components/shared/Container";
-import { SectionHeader } from "@/components/public/SectionHeader";
+import { AboutUsCapabilities } from "@/components/public/about/AboutUsCapabilities";
+import { AboutUsHero } from "@/components/public/about/AboutUsHero";
+import { AboutUsPageChrome } from "@/components/public/about/AboutUsPageChrome";
+import { AboutUsProjects } from "@/components/public/about/AboutUsProjects";
+import { AboutUsSectionSeam } from "@/components/public/about/AboutUsSectionSeam";
+import { AboutUsTeam } from "@/components/public/about/AboutUsTeam";
+import { TrustedBySection } from "@/components/public/TrustedBySection";
+import { getAboutUsProjectsContent } from "@/lib/about-us-projects";
+import { getAboutUsTeamContent } from "@/lib/about-us-team";
 import { getAboutContent } from "@/lib/content";
 import type { Locale } from "@/lib/i18n";
 
@@ -11,35 +18,41 @@ export default async function AboutUsPage({ params }: AboutUsPageProps) {
   const { locale: localeParam } = await params;
   const locale = localeParam as Locale;
   const content = getAboutContent(locale);
+  const projectsContent = getAboutUsProjectsContent(locale);
+  const teamContent = getAboutUsTeamContent(locale);
 
   return (
-    <>
-      <section className="page-hero">
-        <Container>
-          <h1 className="page-hero-title">{content.hero.title}</h1>
-          <p className="page-hero-subtitle">{content.hero.subtitle}</p>
-        </Container>
-      </section>
+    <div className="about-us-page">
+      <div className="about-us-page-backdrop" aria-hidden="true">
+        <span className="about-us-page-aurora about-us-page-aurora-purple" />
+        <span className="about-us-page-aurora about-us-page-aurora-cyan" />
+        <span className="about-us-page-grid" />
+        <span className="about-us-page-noise" />
+      </div>
 
-      <section className="section-sm">
-        <Container>
-          <p className="about-block">{content.body}</p>
-        </Container>
-      </section>
+      <AboutUsHero title={content.hero.title} />
 
-      <section className="section-sm">
-        <Container>
-          <SectionHeader title={locale === "en" ? "Our values" : "Մեր արժեքները"} />
-          <div className="card-grid-3">
-            {content.values.map((value) => (
-              <article key={value.title} className="value-card">
-                <h3 className="value-card-title">{value.title}</h3>
-                <p className="value-card-text">{value.description}</p>
-              </article>
-            ))}
-          </div>
-        </Container>
-      </section>
-    </>
+      <AboutUsSectionSeam index={0} />
+
+      <AboutUsCapabilities
+        eyebrow={content.capabilitiesEyebrow}
+        headline={content.capabilitiesHeadline}
+        items={content.capabilities}
+      />
+
+      <AboutUsSectionSeam index={1} />
+
+      <AboutUsProjects content={projectsContent} />
+
+      <AboutUsSectionSeam index={2} />
+
+      <AboutUsTeam content={teamContent} />
+
+      <AboutUsSectionSeam index={3} />
+
+      <TrustedBySection locale={locale} />
+
+      <AboutUsPageChrome locale={locale} searchLabel={content.searchLabel} />
+    </div>
   );
 }

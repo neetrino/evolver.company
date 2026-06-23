@@ -4,6 +4,7 @@
 @import "./home-sections.css";
 @import "./services-page.css";
 @import "./services-detail.css";
+@import "./about-us-page.css";
 @import "./theme-dark-admin.css";
 
 :root {
@@ -28,6 +29,7 @@
   --hero-bg-scale-drift: 1.07;
   --hero-bg-origin-x: 74%;
   --hero-bg-origin-y: 42%;
+  --about-us-hero-min-height: clamp(420px, 58vh, 720px);
 
   --section-bridge-bg: #05050f;
   --section-bridge-overlap: clamp(40px, 6vh, 72px);
