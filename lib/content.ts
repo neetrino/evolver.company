@@ -224,16 +224,40 @@ const SERVICES: Record<Locale, { hero: PageHero; items: ServiceItem[] }> = {
   },
 };
 
-const PROJECTS_PAGE: Record<Locale, PageHero> = {
+export type ProjectsPageCtaContent = {
+  ctaEyebrow: string;
+  ctaTitle: string;
+  ctaBody: string;
+  ctaLabel: string;
+};
+
+export type ProjectsPageContent = PageHero &
+  ProjectsPageCtaContent & {
+  searchLabel: string;
+};
+
+const PROJECTS_PAGE: Record<Locale, ProjectsPageContent> = {
   en: {
     eyebrow: "Portfolio",
     title: "Projects",
     subtitle: "A curated selection of immersive digital products, platforms, and virtual experiences.",
+    searchLabel: "Contact us",
+    ctaEyebrow: "Become a customer",
+    ctaTitle: "Want to be featured in our projects?",
+    ctaBody:
+      "Contact us to have your business, venue or event be represented in one of our projects. Our devoted team will get back to you shortly.",
+    ctaLabel: "Drop us a line",
   },
   hy: {
     eyebrow: "Պորտֆոլիո",
     title: "Նախագծեր",
     subtitle: "Լիարժեք թվային պրոդուկտների, հարթակների և վիրտուալ փորձառությունների ընտրանի։",
+    searchLabel: "Կապ",
+    ctaEyebrow: "Դարձեք հաճախորդ",
+    ctaTitle: "Ցանկանո՞ւմ եք ներկայացվել մեր նախագծերում",
+    ctaBody:
+      "Կապվեք մեզ հետ՝ ձեր բիզնեսը, վայրը կամ միջոցառումը մեր նախագծերից մեկում ներկայացնելու համար։ Մեր թիմը շուտով կկապվի ձեզ հետ։",
+    ctaLabel: "Գրեք մեզ",
   },
 };
 
@@ -335,7 +359,7 @@ export function getServicesContent(locale: Locale) {
   return SERVICES[locale];
 }
 
-export function getProjectsPageContent(locale: Locale): PageHero {
+export function getProjectsPageContent(locale: Locale): ProjectsPageContent {
   return PROJECTS_PAGE[locale];
 }
 

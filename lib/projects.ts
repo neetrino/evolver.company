@@ -1,6 +1,10 @@
 import "server-only";
 
 import { prisma } from "@/lib/db";
+import {
+  getCatalogProjectBySlug,
+  mergePortfolioProjects,
+} from "@/lib/project-catalog";
 import type {
   ProjectFormData,
   ProjectWithDetails,
@@ -9,37 +13,45 @@ import type {
 export type { CoverImageData, GalleryImageItem, ProjectFormData, ProjectWithDetails } from "@/lib/project-types";
 export { getProjectTranslation, slugify } from "@/lib/project-types";
 
-export async function getPublishedProjects(): Promise<ProjectWithDetails[]> {
+const projectInclude = {
+  translations: true,
+  images: { orderBy: { sortOrder: "asc" as const } },
+};
+
+async function fetchPublishedProjects(): Promise<ProjectWithDetails[]> {
   return prisma.project.findMany({
     where: { isPublished: true },
-    include: {
-      translations: true,
-      images: { orderBy: { sortOrder: "asc" } },
-    },
+    include: projectInclude,
     orderBy: { createdAt: "desc" },
   });
+}
+
+/** Portfolio page projects: catalog defaults merged with published DB rows. */
+export async function getPortfolioProjects(): Promise<ProjectWithDetails[]> {
+  const dbProjects = await fetchPublishedProjects();
+  return mergePortfolioProjects(dbProjects);
+}
+
+export async function getPublishedProjects(): Promise<ProjectWithDetails[]> {
+  return getPortfolioProjects();
 }
 
 export async function getFeaturedProjects(limit = 3): Promise<ProjectWithDetails[]> {
-  return prisma.project.findMany({
-    where: { isPublished: true },
-    include: {
-      translations: true,
-      images: { orderBy: { sortOrder: "asc" } },
-    },
-    orderBy: { createdAt: "desc" },
-    take: limit,
-  });
+  const projects = await getPortfolioProjects();
+  return projects.slice(0, limit);
 }
 
 export async function getPublishedProjectBySlug(slug: string) {
-  return prisma.project.findFirst({
+  const project = await prisma.project.findFirst({
     where: { slug, isPublished: true },
-    include: {
-      translations: true,
-      images: { orderBy: { sortOrder: "asc" } },
-    },
+    include: projectInclude,
   });
+
+  if (project?.translations.some((translation) => translation.title.trim().length > 0)) {
+    return project;
+  }
+
+  return getCatalogProjectBySlug(slug);
 }
 
 export async function getAllProjects() {
