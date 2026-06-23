@@ -1715,11 +1715,26 @@
     padding-left: clamp(18px, 2.4vw, 24px);
   }
 
+  .about-us-capabilities-grid {
+    gap: 36px;
+  }
+
   .about-us-projects-logos {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .about-us-team-photo {
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 3 / 4;
+  }
+}
+
+@media (max-width: 430px) {
+  .about-us-hero-frame {
+    inset: 10px;
+    border-radius: 14px;
+  }
+
+  .about-us-projects-logos {
+    grid-template-columns: 1fr 1fr;
   }
 }

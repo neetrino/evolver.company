@@ -1,7 +1,6 @@
 import { getHomeContent } from "@/lib/content";
+import { HOME_HERO_IMAGE } from "@/lib/home-hero-image";
 import type { HomeHeroConfig } from "@/lib/home-hero-types";
-
-const DEFAULT_HERO_IMAGE = "/images/hero-banner.png";
 
 export function getDefaultHomeHeroConfig(): HomeHeroConfig {
   const enContent = getHomeContent("en");
@@ -10,7 +9,7 @@ export function getDefaultHomeHeroConfig(): HomeHeroConfig {
   return {
     slides: [
       {
-        imageUrl: DEFAULT_HERO_IMAGE,
+        imageUrl: HOME_HERO_IMAGE.src,
         ctaHref: "/projects",
         copy: {
           hy: {

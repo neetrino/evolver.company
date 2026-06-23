@@ -818,6 +818,20 @@
   .projects-portfolio-shell {
     padding-right: var(--portfolio-inset-x);
   }
+
+  .projects-portfolio-header {
+    margin-bottom: clamp(28px, 6vw, 40px);
+  }
+
+  .projects-portfolio-card-wrap {
+    min-width: 0;
+  }
+}
+
+@media (max-width: 430px) {
+  .projects-portfolio-shell {
+    padding-inline: clamp(16px, 4vw, 20px);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

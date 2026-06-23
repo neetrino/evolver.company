@@ -8,6 +8,7 @@
 @import "./customer-cta.css";
 @import "./contact-page.css";
 @import "./theme-dark-admin.css";
+@import "./responsive.css";
 
 :root {
   --public-bg: #05050f;
@@ -74,7 +75,6 @@
   --header-height: 92px;
   --header-shell-height: 64px;
   --brand-logo-height: 44px;
-  --brand-logo-height-mobile: 36px;
   --showcase-accent-magenta: #e91e8c;
   --showcase-accent-cyan: #00d1ff;
   --showcase-accent-blue: #5b8cff;
@@ -647,10 +647,6 @@ a {
 }
 
 @media (max-width: 430px) {
-  .public-brand-logo {
-    height: var(--brand-logo-height-mobile);
-  }
-
   .lang-switch-link {
     min-width: 36px;
     padding: 6px 10px;

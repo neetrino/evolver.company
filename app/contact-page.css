@@ -933,6 +933,16 @@
   transform: translateY(0);
 }
 
+@media (max-width: 767px) {
+  .contact-main-grid {
+    gap: clamp(20px, 5vw, 28px);
+  }
+
+  .contact-info-panel {
+    padding: clamp(20px, 5vw, 28px);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .contact-page-aurora,
   .contact-hero-orb,

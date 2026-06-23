@@ -1,5 +1,6 @@
 import type { Locale } from "@/lib/i18n";
 import type { ProductShowcaseAccent } from "@/lib/product-showcase";
+import { staticAssetUrl } from "@/lib/static-assets";
 
 export type ServicesShowcaseItem = {
   id: string;
@@ -27,7 +28,7 @@ const SERVICE_ASSETS: Omit<
 >[] = [
   {
     id: "estatedata",
-    logoSrc: "/images/services/estatedata-illustration.png",
+    logoSrc: staticAssetUrl("/images/services/estatedata-illustration.png"),
     logoWidth: SERVICE_LOGO_SIZE,
     logoHeight: SERVICE_LOGO_SIZE,
     href: "https://estatedata.am/",
@@ -35,7 +36,7 @@ const SERVICE_ASSETS: Omit<
   },
   {
     id: "vexpo",
-    logoSrc: "/images/services/vexpo-illustration.png",
+    logoSrc: staticAssetUrl("/images/services/vexpo-illustration.png"),
     logoWidth: SERVICE_LOGO_SIZE,
     logoHeight: SERVICE_LOGO_SIZE,
     href: "https://evolver.company/",
@@ -43,7 +44,7 @@ const SERVICE_ASSETS: Omit<
   },
   {
     id: "vcity",
-    logoSrc: "/images/services/vcity-illustration.png",
+    logoSrc: staticAssetUrl("/images/services/vcity-illustration.png"),
     logoWidth: SERVICE_LOGO_SIZE,
     logoHeight: SERVICE_LOGO_SIZE,
     href: "https://vcity.guide/",
@@ -51,7 +52,7 @@ const SERVICE_ASSETS: Omit<
   },
   {
     id: "vrealty",
-    logoSrc: "/images/services/vrealty-illustration.png",
+    logoSrc: staticAssetUrl("/images/services/vrealty-illustration.png"),
     logoWidth: SERVICE_LOGO_SIZE,
     logoHeight: SERVICE_LOGO_SIZE,
     href: "https://vrealty.am/",

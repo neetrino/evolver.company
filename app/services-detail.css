@@ -1403,6 +1403,25 @@
   }
 }
 
+@media (max-width: 767px) {
+  .service-detail-section {
+    min-height: auto;
+  }
+
+  .service-detail-media {
+    min-height: clamp(240px, 52vw, 360px);
+  }
+
+  .service-detail-media-stage {
+    width: min(92%, 300px);
+  }
+
+  .service-detail-brand-logo {
+    max-width: 64px;
+    max-height: 64px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .service-detail-animate,
   .service-detail-media-logo,

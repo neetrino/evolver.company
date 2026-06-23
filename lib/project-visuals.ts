@@ -1,4 +1,5 @@
 import { getProductAsset } from "./product-showcase";
+import { staticAssetUrl } from "@/lib/static-assets";
 
 export type ProjectAccent = "magenta" | "blue" | "teal" | "coral" | "purple";
 
@@ -16,23 +17,23 @@ export type ProjectLogoMeta = {
 
 const PROJECT_VISUALS: Record<string, ProjectVisualMeta> = {
   estatedata: {
-    background: "/images/projects/estatedata-bg.png",
-    illustration: "/images/services/estatedata-illustration.png",
+    background: staticAssetUrl("/images/projects/estatedata-bg.png"),
+    illustration: staticAssetUrl("/images/services/estatedata-illustration.png"),
     accent: "magenta",
   },
   vexpo: {
-    background: "/images/projects/vexpo-bg.png",
-    illustration: "/images/services/vexpo-illustration.png",
+    background: staticAssetUrl("/images/projects/vexpo-bg.png"),
+    illustration: staticAssetUrl("/images/services/vexpo-illustration.png"),
     accent: "blue",
   },
   vcity: {
-    background: "/images/projects/vcity-bg.png",
-    illustration: "/images/services/vcity-illustration.png",
+    background: staticAssetUrl("/images/projects/vcity-bg.png"),
+    illustration: staticAssetUrl("/images/services/vcity-illustration.png"),
     accent: "teal",
   },
   vrealty: {
-    background: "/images/projects/vrealty-bg.png",
-    illustration: "/images/services/vrealty-illustration.png",
+    background: staticAssetUrl("/images/projects/vrealty-bg.png"),
+    illustration: staticAssetUrl("/images/services/vrealty-illustration.png"),
     accent: "coral",
   },
 };
