@@ -24,7 +24,7 @@ export function FooterNavBlock({ locale, content }: FooterNavBlockProps) {
       <ul className="footer-nav-list">
         {navItems.map((item) => (
           <li key={item.key}>
-            <Link href={item.href} className="footer-nav-link">
+            <Link href={item.href} prefetch className="footer-nav-link">
               <span className="footer-nav-chevron" aria-hidden="true">
                 <svg viewBox="0 0 24 24" className="footer-nav-chevron-svg">
                   <path

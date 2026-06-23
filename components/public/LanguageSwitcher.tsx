@@ -23,6 +23,7 @@ export function LanguageSwitcher({ locale }: LanguageSwitcherProps) {
           <Link
             key={targetLocale}
             href={href}
+            prefetch
             className={`lang-switch-link ${isActive ? "lang-switch-link-active" : ""}`}
             aria-current={isActive ? "true" : undefined}
             title={

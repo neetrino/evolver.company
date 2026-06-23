@@ -1,13 +1,5 @@
 @import "tailwindcss";
-@import "./trusted-by-section.css";
 @import "./footer-section.css";
-@import "./home-sections.css";
-@import "./services-page.css";
-@import "./services-detail.css";
-@import "./about-us-page.css";
-@import "./customer-cta.css";
-@import "./contact-page.css";
-@import "./theme-dark-admin.css";
 @import "./responsive.css";
 
 :root {
@@ -256,6 +248,21 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+.what-we-do-section,
+.video-showcase-section,
+.projects-section,
+.about-section,
+.trusted-by-section,
+.services-page,
+.service-detail-section,
+.about-us-section,
+.projects-portfolio-page,
+.public-footer,
+.project-detail {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 480px;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -268,6 +275,11 @@ a {
 
 .public-layout {
   position: relative;
+}
+
+.route-loading {
+  min-height: 50vh;
+  background: var(--public-bg);
 }
 
 .admin-theme {

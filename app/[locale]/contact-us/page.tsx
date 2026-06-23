@@ -1,10 +1,27 @@
+import dynamic from "next/dynamic";
+import "@/app/contact-page.css";
 import { AboutUsSectionSeam } from "@/components/public/about/AboutUsSectionSeam";
-import { ContactUsCta } from "@/components/public/contact/ContactUsCta";
 import { ContactUsHero } from "@/components/public/contact/ContactUsHero";
-import { ContactUsMain } from "@/components/public/contact/ContactUsMain";
-import { ContactUsMap } from "@/components/public/contact/ContactUsMap";
 import { getContactContent } from "@/lib/content";
 import type { Locale } from "@/lib/i18n";
+
+const ContactUsMain = dynamic(() =>
+  import("@/components/public/contact/ContactUsMain").then((module) => ({
+    default: module.ContactUsMain,
+  })),
+);
+
+const ContactUsMap = dynamic(() =>
+  import("@/components/public/contact/ContactUsMap").then((module) => ({
+    default: module.ContactUsMap,
+  })),
+);
+
+const ContactUsCta = dynamic(() =>
+  import("@/components/public/contact/ContactUsCta").then((module) => ({
+    default: module.ContactUsCta,
+  })),
+);
 
 type ContactUsPageProps = {
   params: Promise<{ locale: string }>;

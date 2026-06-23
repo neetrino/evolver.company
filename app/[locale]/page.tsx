@@ -1,15 +1,42 @@
-import { AboutSection } from "@/components/public/AboutSection";
-import { TrustedBySection } from "@/components/public/TrustedBySection";
+import dynamic from "next/dynamic";
+import "@/app/home-sections.css";
 import { HeroCarousel } from "@/components/public/HeroCarousel";
-import { ProjectsSection } from "@/components/public/ProjectsSection";
-import { VideoShowcaseSection } from "@/components/public/VideoShowcaseSection";
-import { WhatWeDoSection } from "@/components/public/WhatWeDoSection";
 import { getHomeContent } from "@/lib/content";
 import { getHomeHeroSlidesForStorefront } from "@/lib/home-hero";
 import type { Locale } from "@/lib/i18n";
 import { getFeaturedProjects } from "@/lib/projects";
 
-export const dynamic = "force-dynamic";
+const WhatWeDoSection = dynamic(() =>
+  import("@/components/public/WhatWeDoSection").then((module) => ({
+    default: module.WhatWeDoSection,
+  })),
+);
+
+const VideoShowcaseSection = dynamic(() =>
+  import("@/components/public/VideoShowcaseSection").then((module) => ({
+    default: module.VideoShowcaseSection,
+  })),
+);
+
+const ProjectsSection = dynamic(() =>
+  import("@/components/public/ProjectsSection").then((module) => ({
+    default: module.ProjectsSection,
+  })),
+);
+
+const AboutSection = dynamic(() =>
+  import("@/components/public/AboutSection").then((module) => ({
+    default: module.AboutSection,
+  })),
+);
+
+const TrustedBySection = dynamic(() =>
+  import("@/components/public/TrustedBySection").then((module) => ({
+    default: module.TrustedBySection,
+  })),
+);
+
+export const revalidate = 60;
 
 type HomePageProps = {
   params: Promise<{ locale: string }>;
@@ -19,8 +46,10 @@ export default async function HomePage({ params }: HomePageProps) {
   const { locale: localeParam } = await params;
   const locale = localeParam as Locale;
   const content = getHomeContent(locale);
-  const heroSlides = await getHomeHeroSlidesForStorefront(locale);
-  const featuredProjects = await getFeaturedProjects(3);
+  const [heroSlides, featuredProjects] = await Promise.all([
+    getHomeHeroSlidesForStorefront(locale),
+    getFeaturedProjects(3),
+  ]);
 
   return (
     <div className="home-page">
