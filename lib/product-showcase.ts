@@ -124,6 +124,17 @@ const SHOWCASE: Record<
   },
 };
 
+/** Shared product logo/href/accent assets used across homepage and services detail. */
+export function getProductAsset(
+  id: string,
+): Omit<ProductShowcaseItem, "title" | "description"> {
+  const asset = PRODUCT_ASSETS.find((product) => product.id === id);
+  if (!asset) {
+    throw new Error(`Unknown product asset: ${id}`);
+  }
+  return asset;
+}
+
 /** Product showcase copy and assets for the homepage “What we do” section. */
 export function getProductShowcaseContent(locale: Locale): ProductShowcaseContent {
   const content = SHOWCASE[locale];

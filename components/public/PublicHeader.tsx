@@ -51,6 +51,8 @@ export function PublicHeader({ locale }: PublicHeaderProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileMenuPathname, setMobileMenuPathname] = useState(pathname);
   const isHomePage = pathname === `/${locale}`;
+  const isServicesPage = pathname === `/${locale}/services`;
+  const isOverlayHeader = isHomePage || isServicesPage;
 
   if (mobileMenuPathname !== pathname) {
     setMobileMenuPathname(pathname);
@@ -74,7 +76,7 @@ export function PublicHeader({ locale }: PublicHeaderProps) {
 
   return (
     <header
-      className={`public-header ${isHomePage ? "public-header-overlay" : ""} public-header--locale-${locale}`}
+      className={`public-header ${isOverlayHeader ? "public-header-overlay" : ""} public-header--locale-${locale}`}
     >
       <Container className="public-header-wrap">
         <div className="public-header-shell">
