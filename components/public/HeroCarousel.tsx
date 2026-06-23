@@ -73,6 +73,7 @@ function HeroBackground({ slide, priority = false, slideKey }: HeroBackgroundPro
           fill
           unoptimized
           priority={priority}
+          fetchPriority={priority ? "high" : "auto"}
           className="home-hero-bg-image home-hero-bg-image-desktop"
         />
         <Image
@@ -80,7 +81,8 @@ function HeroBackground({ slide, priority = false, slideKey }: HeroBackgroundPro
           alt=""
           fill
           unoptimized
-          priority={priority}
+          loading="lazy"
+          fetchPriority="low"
           className="home-hero-bg-image home-hero-bg-image-mobile"
         />
       </div>
@@ -94,6 +96,7 @@ function HeroBackground({ slide, priority = false, slideKey }: HeroBackgroundPro
         alt=""
         fill
         priority={priority}
+        fetchPriority={priority ? "high" : "auto"}
         className="home-hero-bg-image home-hero-bg-image-desktop object-cover"
         sizes="100vw"
       />
@@ -101,7 +104,8 @@ function HeroBackground({ slide, priority = false, slideKey }: HeroBackgroundPro
         src={mobileSrc}
         alt=""
         fill
-        priority={priority}
+        loading="lazy"
+        fetchPriority="low"
         className="home-hero-bg-image home-hero-bg-image-mobile object-cover"
         sizes="100vw"
       />

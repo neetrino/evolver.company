@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { requireAdmin } from "@/lib/auth";
 import {
   getHomeHeroConfigForAdmin,
@@ -15,6 +15,7 @@ export type HomeHeroActionState = {
 };
 
 function revalidateHomeHeroPaths(): void {
+  revalidateTag("home-hero", "max");
   revalidatePath("/");
   revalidatePath("/en");
   revalidatePath("/hy");

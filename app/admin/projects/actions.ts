@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { requireAdmin, verifyAdminCredentials, createSession, destroySession } from "@/lib/auth";
@@ -10,6 +10,15 @@ import type { GalleryImageItem } from "@/lib/project-types";
 import { slugify } from "@/lib/project-types";
 import { isSlugTaken } from "@/lib/projects";
 import { deleteFileFromR2 } from "@/lib/storage";
+
+function revalidatePublicProjectsCache(): void {
+  revalidateTag("projects", "max");
+  revalidatePath("/");
+  revalidatePath("/en");
+  revalidatePath("/en/projects");
+  revalidatePath("/hy");
+  revalidatePath("/hy/projects");
+}
 
 const translationSchema = z.object({
   title: z.string().trim().min(1, "Title is required"),
@@ -233,7 +242,7 @@ export async function createProject(
     },
   });
 
-  revalidatePath("/");
+  revalidatePublicProjectsCache();
   redirect("/admin/projects");
 }
 
@@ -307,7 +316,7 @@ export async function updateProject(
 
   await syncGalleryImages(projectId, data.galleryImages);
 
-  revalidatePath("/");
+  revalidatePublicProjectsCache();
   revalidatePath("/admin/projects");
 
   return { success: "Project updated successfully." };
@@ -339,7 +348,7 @@ export async function deleteProject(projectId: string): Promise<void> {
 
   await prisma.project.delete({ where: { id: projectId } });
 
-  revalidatePath("/");
+  revalidatePublicProjectsCache();
   redirect("/admin/projects");
 }
 
@@ -357,7 +366,7 @@ export async function toggleProjectPublished(projectId: string): Promise<void> {
     data: { isPublished: !project.isPublished },
   });
 
-  revalidatePath("/");
+  revalidatePublicProjectsCache();
   revalidatePath("/admin/projects");
 }
 

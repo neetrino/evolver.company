@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Container } from "@/components/shared/Container";
 import { UI_LABELS, localePath, type Locale } from "@/lib/i18n";
+import type { ProjectImageRecord } from "@/lib/project-types";
 import { getProjectTranslation, getPublishedProjectBySlug } from "@/lib/projects";
 
 export const revalidate = 60;
@@ -82,7 +83,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                 />
               </figure>
             ) : null}
-            {project.images.map((image, index) => (
+            {project.images.map((image: ProjectImageRecord, index: number) => (
               <figure key={`${image.url}-${index}`} className="project-detail-figure">
                 <Image
                   src={image.url}
