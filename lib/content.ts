@@ -62,23 +62,42 @@ export type AboutContent = {
   capabilities: AboutUsCapability[];
 };
 
-type ContactContent = {
-  hero: PageHero;
+export type ContactContent = {
+  hero: {
+    title: string;
+    subtitle: string;
+    kicker: string;
+  };
   form: {
+    title: string;
+    subtitle: string;
     name: string;
     email: string;
     phone: string;
     message: string;
     submit: string;
+    sending: string;
     success: string;
     error: string;
   };
   info: {
+    title: string;
     emailLabel: string;
     email: string;
+    phoneLabel: string;
+    phone: string;
     locationLabel: string;
-    location: string;
+    locationLines: string[];
+    hoursLabel: string;
+    hours: string;
   };
+  map: {
+    title: string;
+    subtitle: string;
+    directions: string;
+    openInMaps: string;
+  };
+  cta: ProjectsPageCtaContent;
 };
 
 const HOME: Record<Locale, HomeContent> = {
@@ -346,44 +365,88 @@ const ABOUT: Record<Locale, AboutContent> = {
 const CONTACT: Record<Locale, ContactContent> = {
   en: {
     hero: {
+      kicker: "Evolver",
       title: "Contact Us",
-      subtitle: "Tell us about your project and we will get back to you.",
+      subtitle: "Tell us about your project and we will get back to you shortly.",
     },
     form: {
+      title: "Send a message",
+      subtitle: "Share your idea — our team responds within one business day.",
       name: "Name",
       email: "Email",
       phone: "Phone",
       message: "Message",
       submit: "Send Message",
+      sending: "Sending…",
       success: "Thank you. Your message has been sent.",
       error: "Something went wrong. Please try again.",
     },
     info: {
+      title: "Reach us directly",
       emailLabel: "Email",
-      email: "hello@example.com",
-      locationLabel: "Location",
-      location: "Yerevan, Armenia",
+      email: "info@evolver.am",
+      phoneLabel: "Phone",
+      phone: "+374 91 62 80 07",
+      locationLabel: "Office",
+      locationLines: ["Adonts 4/3, Penthouse", "0014 Yerevan", "Armenia"],
+      hoursLabel: "Hours",
+      hours: "Monday – Friday, 10:30 – 18:30",
+    },
+    map: {
+      title: "Find us in Yerevan",
+      subtitle: "Visit our penthouse studio on Adonts Street.",
+      directions: "Get directions",
+      openInMaps: "Open in Google Maps",
+    },
+    cta: {
+      ctaEyebrow: "Become a customer",
+      ctaTitle: "Want to be featured in our projects?",
+      ctaBody:
+        "Contact us to have your business, venue or event be represented in one of our projects. Our devoted team will get back to you shortly.",
+      ctaLabel: "Drop us a line",
     },
   },
   hy: {
     hero: {
+      kicker: "Evolver",
       title: "Կապ մեզ հետ",
-      subtitle: "Պատմեք ձեր նախագծի մասին, և մենք կկապվենք ձեզ հետ։",
+      subtitle: "Պատմեք ձեր նախագծի մասին, և մենք կկապվենք ձեզ հետ հնարավորինս շուտ։",
     },
     form: {
+      title: "Ուղարկել հաղորդագրություն",
+      subtitle: "Կիսվեք ձեր գաղափարով — մեր թիմը կպատասխանի մեկ աշխատանքային օրվա ընթացքում։",
       name: "Անուն",
       email: "Էլ․ փոստ",
       phone: "Հեռախոս",
       message: "Հաղորդագրություն",
       submit: "Ուղարկել",
+      sending: "Ուղարկվում է…",
       success: "Շնորհակալություն։ Ձեր հաղորդագրությունը ուղարկված է։",
       error: "Սխալ է տեղի ունեցել։ Խնդրում ենք փորձել կրկին։",
     },
     info: {
+      title: "Կապնվել մեզ հետ",
       emailLabel: "Էլ․ փոստ",
-      email: "hello@example.com",
-      locationLabel: "Գտնվելու վայր",
-      location: "Երևան, Հայաստան",
+      email: "info@evolver.am",
+      phoneLabel: "Հեռախոս",
+      phone: "+374 91 62 80 07",
+      locationLabel: "Գրասենյակ",
+      locationLines: ["Ադոնց 4/3, Պենթհաուս", "0014 Երևան", "Հայաստան"],
+      hoursLabel: "Աշխատանքային ժամեր",
+      hours: "Երկուշաբթի – Ուրբաթ, 10:30 – 18:30",
+    },
+    map: {
+      title: "Գտեք մեզ Երևանում",
+      subtitle: "Այցելեք մեր ստուդիա-պենթհաուսը Ադոնց փողոցում։",
+      directions: "Ուղղություններ",
+      openInMaps: "Բացել Google Maps-ում",
+    },
+    cta: {
+      ctaEyebrow: "Դարձեք հաճախորդ",
+      ctaTitle: "Ցանկանո՞ւմ եք ներկայացվել մեր նախագծերում",
+      ctaBody:
+        "Կապվեք մեզ հետ՝ ձեր բիզնեսը, վայրը կամ միջոցառումը մեր նախագծերից մեկում ներկայացնելու համար։ Մեր թիմը շուտով կկապվի ձեզ հետ։",
+      ctaLabel: "Գրեք մեզ",
     },
   },
 };

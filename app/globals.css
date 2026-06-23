@@ -5,6 +5,8 @@
 @import "./services-page.css";
 @import "./services-detail.css";
 @import "./about-us-page.css";
+@import "./customer-cta.css";
+@import "./contact-page.css";
 @import "./theme-dark-admin.css";
 
 :root {
@@ -4914,86 +4916,7 @@ a {
   color: var(--public-text-muted);
 }
 
-/* Contact */
-.contact-layout {
-  display: grid;
-  gap: 40px;
-}
-
-@media (min-width: 900px) {
-  .contact-layout {
-    grid-template-columns: 1.2fr 0.8fr;
-    gap: 56px;
-  }
-}
-
-.contact-form {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.field label {
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--public-text-muted);
-}
-
-.field input,
-.field textarea {
-  width: 100%;
-  padding: 12px 14px;
-  border: 1px solid var(--public-border);
-  border-radius: var(--radius-sm);
-  background: var(--public-bg-elevated);
-  color: var(--public-text);
-  font: inherit;
-}
-
-.field textarea {
-  min-height: 140px;
-  resize: vertical;
-}
-
-.contact-info-card {
-  padding: 28px;
-  border: 1px solid var(--public-border);
-  border-radius: var(--radius-lg);
-  background: var(--public-bg-card);
-}
-
-.contact-info-item {
-  margin-bottom: 20px;
-}
-
-.contact-info-label {
-  display: block;
-  margin-bottom: 6px;
-  font-size: 0.8125rem;
-  color: var(--public-text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-.contact-info-value {
-  font-size: 1rem;
-}
-
-.form-success {
-  color: #86efac;
-  font-size: 0.9375rem;
-}
-
-.form-error {
-  color: #fca5a5;
-  font-size: 0.9375rem;
-}
+/* Contact — legacy classes removed; see contact-page.css */
 
 /* Admin shell */
 .admin-shell {
