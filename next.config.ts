@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 import { getR2PublicHostname } from "@/lib/storage";
 
 const r2Hostname = getR2PublicHostname();
+const r2PublicUrl = process.env.R2_PUBLIC_URL?.trim().replace(/\/$/, "");
 
 const nextConfig: NextConfig = {
   images: {
@@ -15,6 +16,18 @@ const nextConfig: NextConfig = {
           },
         ]
       : [],
+  },
+  async rewrites() {
+    if (!r2PublicUrl) {
+      return [];
+    }
+
+    return [
+      {
+        source: "/cdn/:path*",
+        destination: `${r2PublicUrl}/:path*`,
+      },
+    ];
   },
 };
 
