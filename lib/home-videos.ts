@@ -1,4 +1,5 @@
 import type { Locale } from "@/lib/i18n";
+import { staticAssetUrl } from "@/lib/static-assets";
 
 export type HomeVideoItem = {
   id: string;
@@ -11,7 +12,7 @@ export type HomeVideoItem = {
 const HOME_VIDEOS: HomeVideoItem[] = [
   {
     id: "showcase-01",
-    src: "/videos/showcase-01.mp4",
+    src: staticAssetUrl("/videos/showcase-01.mp4"),
     title: {
       en: "Evolver in motion",
       hy: "Evolver-ը գործողության մեջ",
@@ -23,7 +24,7 @@ const HOME_VIDEOS: HomeVideoItem[] = [
   },
   {
     id: "showcase-02",
-    src: "/videos/showcase-02.mp4",
+    src: staticAssetUrl("/videos/showcase-02.mp4"),
     title: {
       en: "3D experience preview",
       hy: "3D փորձառության նախադիտում",

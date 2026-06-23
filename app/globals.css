@@ -4,7 +4,11 @@
 @import "./home-sections.css";
 @import "./services-page.css";
 @import "./services-detail.css";
+@import "./about-us-page.css";
+@import "./customer-cta.css";
+@import "./contact-page.css";
 @import "./theme-dark-admin.css";
+@import "./responsive.css";
 
 :root {
   --public-bg: #05050f;
@@ -28,6 +32,7 @@
   --hero-bg-scale-drift: 1.07;
   --hero-bg-origin-x: 74%;
   --hero-bg-origin-y: 42%;
+  --about-us-hero-min-height: clamp(420px, 58vh, 720px);
 
   --section-bridge-bg: #05050f;
   --section-bridge-overlap: clamp(40px, 6vh, 72px);
@@ -70,7 +75,6 @@
   --header-height: 92px;
   --header-shell-height: 64px;
   --brand-logo-height: 44px;
-  --brand-logo-height-mobile: 36px;
   --showcase-accent-magenta: #e91e8c;
   --showcase-accent-cyan: #00d1ff;
   --showcase-accent-blue: #5b8cff;
@@ -643,10 +647,6 @@ a {
 }
 
 @media (max-width: 430px) {
-  .public-brand-logo {
-    height: var(--brand-logo-height-mobile);
-  }
-
   .lang-switch-link {
     min-width: 36px;
     padding: 6px 10px;
@@ -4045,201 +4045,6 @@ a {
   transform: translateX(3px);
 }
 
-.project-card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  min-height: 100%;
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  border-radius: 18px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.015) 100%),
-    rgba(8, 8, 18, 0.62);
-  box-shadow:
-    0 10px 40px rgba(0, 0, 0, 0.22),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(16px);
-  color: var(--public-text);
-  text-decoration: none;
-  overflow: hidden;
-  transition:
-    transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 0.28s ease,
-    box-shadow 0.28s ease;
-}
-
-.project-card-glow {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  pointer-events: none;
-  background: radial-gradient(circle at 88% 8%, rgba(176, 38, 255, 0.2) 0%, transparent 52%);
-  transition: opacity 0.28s ease;
-}
-
-.project-card:hover,
-.project-card:focus-visible {
-  transform: translateY(-4px);
-  border-color: rgba(255, 255, 255, 0.16);
-  box-shadow:
-    0 18px 48px rgba(0, 0, 0, 0.32),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  outline: none;
-}
-
-.project-card:hover .project-card-glow,
-.project-card:focus-visible .project-card-glow {
-  opacity: 1;
-}
-
-.project-card-arrow {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  z-index: 3;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 34px;
-  height: 34px;
-  flex-shrink: 0;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(5, 5, 16, 0.55);
-  color: rgba(255, 255, 255, 0.55);
-  opacity: 0;
-  transform: translate(-4px, 4px);
-  transition:
-    opacity 0.28s ease,
-    transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
-    background 0.28s ease,
-    color 0.28s ease,
-    border-color 0.28s ease;
-}
-
-.project-card:hover .project-card-arrow,
-.project-card:focus-visible .project-card-arrow {
-  opacity: 1;
-  transform: translate(0, 0);
-  background: rgba(176, 38, 255, 0.16);
-  border-color: rgba(176, 38, 255, 0.35);
-  color: #ffffff;
-}
-
-.project-card-arrow-icon {
-  display: block;
-  width: 16px;
-  height: 16px;
-  max-width: 16px;
-  max-height: 16px;
-  flex-shrink: 0;
-}
-
-.project-card-media {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  background: #12121c;
-}
-
-.project-card-image {
-  object-fit: cover;
-  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.project-card:hover .project-card-image,
-.project-card:focus-visible .project-card-image {
-  transform: scale(1.04);
-}
-
-.project-card-media-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(5, 5, 16, 0.04) 0%,
-    rgba(5, 5, 16, 0.12) 55%,
-    rgba(5, 5, 16, 0.42) 100%
-  );
-  pointer-events: none;
-}
-
-.project-card-placeholder {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  min-height: 180px;
-  background: linear-gradient(135deg, rgba(176, 38, 255, 0.12) 0%, rgba(0, 209, 255, 0.08) 100%);
-  color: rgba(255, 255, 255, 0.35);
-  font-size: 2.5rem;
-  font-weight: 700;
-  letter-spacing: -0.04em;
-}
-
-.project-card-body {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  padding: 22px 22px 20px;
-}
-
-.project-card-title {
-  margin: 0 0 10px;
-  font-size: 1.0625rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.3;
-}
-
-.project-card-accent-line {
-  display: block;
-  width: 34px;
-  height: 2px;
-  margin-bottom: 12px;
-  border-radius: 999px;
-  background: var(--hero-gradient);
-  box-shadow: 0 0 12px rgba(176, 38, 255, 0.35);
-}
-
-.project-card-text {
-  margin: 0;
-  flex: 1;
-  color: rgba(255, 255, 255, 0.62);
-  font-size: 0.875rem;
-  line-height: 1.65;
-}
-
-.project-card-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 18px;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.72);
-  transition: color 0.28s ease, gap 0.28s ease;
-}
-
-.project-card-cta svg {
-  width: 14px;
-  height: 14px;
-  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.project-card:hover .project-card-cta,
-.project-card:focus-visible .project-card-cta {
-  color: var(--hero-cyan);
-}
-
-.project-card:hover .project-card-cta svg,
-.project-card:focus-visible .project-card-cta svg {
-  transform: translate(2px, -2px);
-}
-
 @media (max-width: 1100px) {
   .projects-showcase-layout {
     grid-template-columns: 1fr;
@@ -4309,10 +4114,6 @@ a {
     width: min(100%, 400px);
   }
 
-  .project-card-arrow {
-    opacity: 1;
-    transform: translate(0, 0);
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -4363,19 +4164,26 @@ a {
     opacity: 1;
   }
 
-  .project-card,
-  .project-card-image,
-  .project-card-arrow,
-  .project-card-glow,
-  .project-card-cta,
-  .project-card-cta svg,
+  .home-project-card,
+  .home-project-card-image,
+  .home-project-card-cta,
+  .home-project-card-cta-icon,
+  .home-project-card-cta-line,
+  .home-project-card-surface,
   .projects-section-view-all,
   .projects-section-view-all-icon {
     transition: none;
+    animation: none;
   }
 
-  .project-card:hover .project-card-image,
-  .project-card:focus-visible .project-card-image {
+  .home-page .projects-grid--featured .home-project-card {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+
+  .home-project-card:hover .home-project-card-image,
+  .home-project-card:focus-visible .home-project-card-image {
     transform: none;
   }
 }
@@ -5104,86 +4912,7 @@ a {
   color: var(--public-text-muted);
 }
 
-/* Contact */
-.contact-layout {
-  display: grid;
-  gap: 40px;
-}
-
-@media (min-width: 900px) {
-  .contact-layout {
-    grid-template-columns: 1.2fr 0.8fr;
-    gap: 56px;
-  }
-}
-
-.contact-form {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.field label {
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--public-text-muted);
-}
-
-.field input,
-.field textarea {
-  width: 100%;
-  padding: 12px 14px;
-  border: 1px solid var(--public-border);
-  border-radius: var(--radius-sm);
-  background: var(--public-bg-elevated);
-  color: var(--public-text);
-  font: inherit;
-}
-
-.field textarea {
-  min-height: 140px;
-  resize: vertical;
-}
-
-.contact-info-card {
-  padding: 28px;
-  border: 1px solid var(--public-border);
-  border-radius: var(--radius-lg);
-  background: var(--public-bg-card);
-}
-
-.contact-info-item {
-  margin-bottom: 20px;
-}
-
-.contact-info-label {
-  display: block;
-  margin-bottom: 6px;
-  font-size: 0.8125rem;
-  color: var(--public-text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-.contact-info-value {
-  font-size: 1rem;
-}
-
-.form-success {
-  color: #86efac;
-  font-size: 0.9375rem;
-}
-
-.form-error {
-  color: #fca5a5;
-  font-size: 0.9375rem;
-}
+/* Contact — legacy classes removed; see contact-page.css */
 
 /* Admin shell */
 .admin-shell {
@@ -5512,11 +5241,6 @@ a {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
-}
-
-.project-card svg.project-card-arrow-icon {
-  width: 16px;
-  height: 16px;
 }
 
 /* Showcase sizing guards — override Tailwind preflight on intrinsic 1000px logos */

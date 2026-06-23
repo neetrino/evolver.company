@@ -1,0 +1,173 @@
+/* Shared customer CTA banner — projects & contact pages */
+
+.customer-cta {
+  --customer-cta-magenta: #e91e8c;
+  --customer-cta-magenta-hover: #f02da0;
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(24px, 4vw, 40px);
+  padding: clamp(28px, 4vw, 40px) clamp(24px, 3.5vw, 36px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: clamp(16px, 2vw, 22px);
+  background:
+    linear-gradient(135deg, rgba(233, 30, 140, 0.06) 0%, transparent 42%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%),
+    rgba(8, 8, 14, 0.72);
+  box-shadow:
+    0 24px 64px rgba(0, 0, 0, 0.38),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(18px);
+  overflow: hidden;
+}
+
+.customer-cta-glow {
+  position: absolute;
+  top: -20%;
+  left: -8%;
+  width: min(42vw, 360px);
+  height: min(42vw, 360px);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(233, 30, 140, 0.16) 0%, transparent 68%);
+  pointer-events: none;
+}
+
+.customer-cta-glow-right {
+  position: absolute;
+  right: -6%;
+  bottom: -30%;
+  width: min(36vw, 300px);
+  height: min(36vw, 300px);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(233, 30, 140, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.customer-cta-frame {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 1px rgba(233, 30, 140, 0.08);
+}
+
+.customer-cta-content {
+  position: relative;
+  z-index: 1;
+  flex: 1 1 280px;
+  max-width: 640px;
+}
+
+.customer-cta-eyebrow {
+  margin: 0 0 12px;
+  color: rgba(255, 255, 255, 0.48);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.customer-cta-title {
+  margin: 0;
+  color: #fff;
+  font-size: clamp(1.375rem, 2.8vw, 2rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.customer-cta-divider {
+  display: block;
+  width: 100%;
+  height: 1px;
+  margin: clamp(16px, 2.5vw, 22px) 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.22) 0%,
+    rgba(255, 255, 255, 0.06) 72%,
+    transparent 100%
+  );
+}
+
+.customer-cta-text {
+  margin: 0;
+  max-width: 52ch;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: clamp(0.875rem, 1.4vw, 0.9375rem);
+  line-height: 1.65;
+}
+
+.customer-cta-button {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 14px clamp(22px, 3vw, 28px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--customer-cta-magenta) 0%, #d4147a 100%);
+  box-shadow:
+    0 14px 36px rgba(233, 30, 140, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  color: #fff;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.32s ease,
+    background 0.32s ease;
+}
+
+.customer-cta-button:hover,
+.customer-cta-button:focus-visible {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, var(--customer-cta-magenta-hover) 0%, #e01886 100%);
+  box-shadow:
+    0 18px 44px rgba(233, 30, 140, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+.customer-cta-button-icon {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.customer-cta-button:hover .customer-cta-button-icon,
+.customer-cta-button:focus-visible .customer-cta-button-icon {
+  transform: translateX(3px);
+}
+
+@media (max-width: 767px) {
+  .customer-cta {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .customer-cta-button {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .customer-cta-button,
+  .customer-cta-button-icon {
+    transition: none;
+  }
+
+  .customer-cta-button:hover,
+  .customer-cta-button:focus-visible,
+  .customer-cta-button:hover .customer-cta-button-icon,
+  .customer-cta-button:focus-visible .customer-cta-button-icon {
+    transform: none;
+  }
+}

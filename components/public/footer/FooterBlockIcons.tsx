@@ -6,21 +6,49 @@ export const FooterBlockIcons = {
         fill="none"
         stroke="currentColor"
         strokeWidth="1.5"
+        strokeLinejoin="round"
       />
-      <circle cx="12" cy="11" r="2.2" fill="currentColor" />
+      <circle cx="12" cy="11" r="2.25" fill="none" stroke="currentColor" strokeWidth="1.5" />
     </svg>
   ),
   briefcase: (
     <svg viewBox="0 0 24 24" aria-hidden="true" className="footer-block-icon-svg">
-      <rect x="4.5" y="8.5" width="15" height="10" rx="2" fill="none" stroke="currentColor" strokeWidth="1.5" />
-      <path d="M9 8.5V7a3 3 0 0 1 6 0v1.5" fill="none" stroke="currentColor" strokeWidth="1.5" />
+      <rect
+        x="4.5"
+        y="8.5"
+        width="15"
+        height="10"
+        rx="2"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M9 8.5V7a3 3 0 0 1 6 0v1.5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M4.5 13h15"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
     </svg>
   ),
   phone: (
     <svg viewBox="0 0 24 24" aria-hidden="true" className="footer-block-icon-svg">
       <path
-        d="M8.2 5.5c.4-1 1.4-1.4 2.3-1.1l1.8.7c.8.3 1.2 1.2 1 2l-.5 1.8c-.2.7.1 1.4.7 1.8l1.6 1.1c.6.4 1.4.3 1.9-.2l1.3-1.3c.7-.7 1.8-.6 2.4.2l1.2 1.5c.6.8.4 1.9-.5 2.4-2 1.1-4.4 1.5-6.7.9-3.3-.8-6.1-3.6-6.9-6.9-.6-2.3-.2-4.7.9-6.7.5-.9 1.6-1.1 2.4-.5Z"
-        fill="currentColor"
+        d="M8.5 5.5c.4 2.1 1.4 4.1 2.9 5.9 1.5 1.8 3.4 3.1 5.5 3.8l1.6-1.6c.3-.3.8-.4 1.2-.2 1 .4 2.1.7 3.3.7.6 0 1 .4 1 1V19c0 .6-.4 1-1 1C10.3 20 4 13.7 4 5c0-.6.4-1 1-1h3.2c.6 0 1 .4 1 1 0 1.2.3 2.3.7 3.3.2.4.1.9-.2 1.2L8.5 5.5Z"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
       />
     </svg>
   ),
@@ -32,6 +60,7 @@ export const FooterBlockIcons = {
         stroke="currentColor"
         strokeWidth="1.5"
         strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   ),

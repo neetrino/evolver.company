@@ -137,9 +137,9 @@ export function ProjectsSection({
 
         {hasProjects ? (
           <>
-            <div className="projects-grid">
-              {projects.map((project) => (
-                <ProjectCard key={project.id} project={project} locale={locale} />
+            <div className="projects-grid projects-grid--featured">
+              {projects.map((project, index) => (
+                <ProjectCard key={project.id} project={project} locale={locale} index={index} />
               ))}
             </div>
 

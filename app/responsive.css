@@ -1,0 +1,381 @@
+/* Responsive foundation — phones, tablets, laptops, desktops */
+
+:root {
+  --content-inset: clamp(16px, 3vw, 48px);
+  --section-padding-y: clamp(48px, 8vw, 80px);
+  --section-padding-y-sm: clamp(40px, 6vw, 56px);
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+.public-layout {
+  overflow-x: clip;
+  width: 100%;
+}
+
+.public-layout main {
+  min-width: 0;
+}
+
+.public-theme img:not(.public-brand-logo):not(.footer-brand-logo),
+.public-theme video:not([class*="video-showcase"]),
+.public-theme iframe {
+  max-width: 100%;
+}
+
+/* Evolver brand logo — fixed size (do not scale down on mobile) */
+.public-brand-logo,
+.footer-brand-logo {
+  width: auto;
+  height: var(--brand-logo-height);
+  max-width: none;
+  flex-shrink: 0;
+}
+
+.section {
+  padding: var(--section-padding-y) 0;
+}
+
+.section-sm {
+  padding: var(--section-padding-y-sm) 0;
+}
+
+.page-hero {
+  padding: clamp(64px, 10vw, 96px) 0 clamp(32px, 5vw, 48px);
+}
+
+.section-header-title {
+  font-size: clamp(1.375rem, 3.5vw, 1.75rem);
+}
+
+.page-hero-subtitle {
+  font-size: clamp(0.9375rem, 1.6vw, 1.0625rem);
+}
+
+/* Tablet / iPad (768px–1100px) */
+@media (min-width: 768px) and (max-width: 1100px) {
+  /* Home hero — narrower copy column, smaller type, stronger left scrim */
+  .home-hero {
+    --hero-bg-origin-x: 76%;
+    --hero-bg-origin-y: 40%;
+    --hero-content-max: 400px;
+    --hero-title-max: 360px;
+  }
+
+  .home-hero-bg-image {
+    object-position: 78% 42%;
+  }
+
+  .home-hero-overlay-left {
+    background: linear-gradient(
+      90deg,
+      rgba(5, 5, 16, 0.82) 0%,
+      rgba(5, 5, 16, 0.58) 26%,
+      rgba(5, 5, 16, 0.24) 44%,
+      transparent 56%
+    );
+  }
+
+  .home-hero-inner {
+    padding-left: clamp(12px, 2vw, 28px);
+    padding-right: clamp(16px, 2.5vw, 32px);
+  }
+
+  .home-hero-content {
+    max-width: min(46vw, 400px);
+    margin-left: 0;
+  }
+
+  .home-hero-content::before {
+    inset: -18px -32px -18px -22px;
+    background: radial-gradient(
+      ellipse 135% 115% at 0% 40%,
+      rgba(5, 5, 16, 0.78) 0%,
+      rgba(5, 5, 16, 0.45) 50%,
+      transparent 74%
+    );
+  }
+
+  .home-hero-eyebrow {
+    margin-bottom: 14px;
+    font-size: 0.5625rem;
+    letter-spacing: 0.2em;
+  }
+
+  .home-hero-title {
+    max-width: min(46vw, 360px);
+    margin-bottom: 18px;
+    font-size: clamp(1.625rem, 3.8vw, 2.35rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .home-hero--hy .home-hero-title {
+    font-size: clamp(1.375rem, 3.2vw, 2rem);
+    line-height: 1.02;
+  }
+
+  .home-hero-description {
+    max-width: min(42vw, 340px);
+    margin-bottom: 22px;
+    font-size: clamp(0.8125rem, 1.6vw, 0.875rem);
+    line-height: 1.58;
+  }
+
+  .home-hero-cta {
+    padding: 11px 20px;
+    font-size: 0.8125rem;
+  }
+
+  .home-hero-feature-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  /* Section headlines */
+  .what-we-do-headline {
+    font-size: clamp(1.625rem, 3.6vw, 2.25rem);
+  }
+
+  .what-we-do-supporting {
+    font-size: clamp(0.875rem, 1.6vw, 0.9375rem);
+  }
+
+  .video-showcase-section {
+    --video-center-width: min(58vw, 480px);
+    --video-pair-side-width: min(88vw, 520px);
+    --video-slot-width: min(56vw, 400px);
+    --video-pair-side-scale: 1.38;
+    --video-pair-side-overlap: 48px;
+  }
+
+  .video-showcase-title {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+  }
+
+  .video-showcase-subtitle {
+    font-size: clamp(0.875rem, 1.6vw, 0.9375rem);
+  }
+
+  .projects-showcase-title {
+    font-size: clamp(1.875rem, 4vw, 2.75rem);
+  }
+
+  .projects-showcase-subtitle {
+    font-size: clamp(0.875rem, 1.5vw, 1rem);
+  }
+
+  .about-section-headline {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+  }
+
+  .about-section-company-text {
+    font-size: clamp(0.875rem, 1.5vw, 0.9375rem);
+  }
+
+  .services-page-title-text {
+    font-size: clamp(2.25rem, 5.5vw, 3.5rem);
+  }
+
+  .services-page-card-title {
+    font-size: clamp(1.125rem, 1.8vw, 1.5rem);
+  }
+
+  .services-page-card-description {
+    font-size: clamp(0.8125rem, 1.2vw, 0.875rem);
+  }
+
+  .projects-portfolio-title {
+    font-size: clamp(2rem, 5vw, 3rem);
+  }
+
+  .about-us-hero-title {
+    font-size: clamp(2rem, 5.5vw, 2.85rem);
+  }
+
+  .contact-hero-title {
+    font-size: clamp(2rem, 5vw, 3rem);
+  }
+
+  .contact-hero-subtitle {
+    font-size: clamp(0.9375rem, 1.6vw, 1.0625rem);
+  }
+
+  .service-detail-content {
+    padding-inline: clamp(20px, 4vw, 40px);
+  }
+
+  .service-detail-title {
+    font-size: clamp(1.625rem, 3.2vw, 2.125rem);
+  }
+
+  .service-detail-body {
+    font-size: clamp(0.875rem, 1.4vw, 0.9375rem);
+  }
+
+  .about-us-team-photo-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .trusted-by-title {
+    letter-spacing: 0.24em;
+    font-size: clamp(0.6875rem, 1.2vw, 0.75rem);
+  }
+}
+
+/* Phone & small tablet (≤767px) */
+@media (max-width: 767px) {
+  .container {
+    padding-inline: clamp(16px, 4vw, 24px);
+  }
+
+  .video-showcase-section {
+    padding-top: clamp(56px, 12vw, 72px);
+    padding-bottom: clamp(56px, 12vw, 80px);
+  }
+
+  .video-showcase-header {
+    padding-inline: clamp(8px, 2vw, 16px);
+  }
+
+  .video-showcase-title {
+    font-size: clamp(1.75rem, 7.5vw, 2.35rem);
+  }
+
+  .what-we-do-headline {
+    font-size: clamp(1.65rem, 7vw, 2.25rem);
+  }
+
+  .projects-showcase-title {
+    font-size: clamp(1.65rem, 7vw, 2.35rem);
+  }
+
+  .service-detail-content {
+    padding: clamp(28px, 6vw, 40px) clamp(16px, 4vw, 24px);
+  }
+
+  .service-detail-title {
+    font-size: clamp(1.5rem, 6.5vw, 2rem);
+  }
+
+  .service-detail-body {
+    font-size: clamp(0.875rem, 3.8vw, 0.9375rem);
+  }
+
+  .service-detail-media-logo {
+    max-width: min(84%, 240px);
+    max-height: min(68%, 220px);
+  }
+
+  .service-detail-content-inner {
+    max-width: none;
+  }
+
+  .contact-hero-title {
+    font-size: clamp(2rem, 9vw, 2.75rem);
+  }
+
+  .contact-hero-subtitle {
+    font-size: clamp(0.9375rem, 3.8vw, 1.0625rem);
+  }
+
+  .contact-form-card {
+    padding: clamp(20px, 5vw, 28px);
+    border-radius: 16px;
+  }
+
+  .contact-map-frame {
+    border-radius: 16px;
+  }
+
+  .contact-map-embed-wrap {
+    min-height: 220px;
+    aspect-ratio: 4 / 3;
+  }
+
+  .projects-portfolio-title {
+    font-size: clamp(2rem, 9vw, 2.75rem);
+  }
+
+  .projects-portfolio-shell {
+    padding-top: clamp(72px, 14vw, 96px);
+  }
+
+  .services-page-title-text {
+    font-size: clamp(2.25rem, 10vw, 3.25rem);
+  }
+
+  .about-us-hero-title {
+    font-size: clamp(2rem, 10vw, 2.85rem);
+  }
+
+  .about-us-team-photo-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .about-us-projects-logos {
+    gap: 20px 16px;
+  }
+
+  .customer-cta-title {
+    font-size: clamp(1.25rem, 5.5vw, 1.5rem);
+  }
+
+  .customer-cta-text {
+    white-space: normal;
+  }
+}
+
+/* Small phones (≤430px) */
+@media (max-width: 430px) {
+  .public-header-shell {
+    padding-inline: 12px 14px;
+    gap: 10px;
+  }
+
+  .public-header-actions {
+    gap: 8px;
+  }
+
+  .contact-hero-kicker {
+    letter-spacing: 0.16em;
+    font-size: 0.75rem;
+  }
+
+  .trusted-by-title {
+    letter-spacing: 0.2em;
+    font-size: clamp(0.6875rem, 3vw, 0.75rem);
+  }
+
+  .services-page-grid-cell {
+    flex: 0 0 min(88vw, 300px);
+  }
+}
+
+/* Large desktops (≥1440px) — cap content width for readability */
+@media (min-width: 1440px) {
+  .container {
+    padding-inline: clamp(32px, 3vw, 48px);
+  }
+}
+
+/* Notched devices — safe area padding */
+@supports (padding: max(0px)) {
+  .public-header {
+    padding-top: max(14px, env(safe-area-inset-top, 0px));
+  }
+
+  @media (max-width: 1023px) {
+    .public-header {
+      padding-top: max(10px, env(safe-area-inset-top, 0px));
+    }
+  }
+
+  .public-footer-panel {
+    padding-bottom: max(18px, env(safe-area-inset-bottom, 0px));
+  }
+}

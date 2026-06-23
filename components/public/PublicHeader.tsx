@@ -52,7 +52,9 @@ export function PublicHeader({ locale }: PublicHeaderProps) {
   const [mobileMenuPathname, setMobileMenuPathname] = useState(pathname);
   const isHomePage = pathname === `/${locale}`;
   const isServicesPage = pathname === `/${locale}/services`;
-  const isOverlayHeader = isHomePage || isServicesPage;
+  const isProjectsPage = pathname === `/${locale}/projects`;
+  const isAboutUsPage = pathname === `/${locale}/about-us`;
+  const isOverlayHeader = isHomePage || isServicesPage || isProjectsPage || isAboutUsPage;
 
   if (mobileMenuPathname !== pathname) {
     setMobileMenuPathname(pathname);

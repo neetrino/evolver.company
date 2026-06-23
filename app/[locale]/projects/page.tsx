@@ -1,4 +1,4 @@
-import { ProjectsSection } from "@/components/public/ProjectsSection";
+import { ProjectsPortfolioPage } from "@/components/public/ProjectsPortfolioPage";
 import { getProjectsPageContent } from "@/lib/content";
 import { UI_LABELS, type Locale } from "@/lib/i18n";
 import { getPublishedProjects } from "@/lib/projects";
@@ -16,14 +16,11 @@ export default async function ProjectsPage({ params }: ProjectsPageProps) {
   const projects = await getPublishedProjects();
 
   return (
-    <ProjectsSection
+    <ProjectsPortfolioPage
       locale={locale}
-      eyebrow={content.eyebrow ?? UI_LABELS[locale].projectsHeading}
-      title={content.title}
-      subtitle={content.subtitle}
+      content={content}
       projects={projects}
       emptyMessage={UI_LABELS[locale].noProjects}
-      headingId="projects-page-heading"
     />
   );
 }

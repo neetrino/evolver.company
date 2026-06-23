@@ -1,4 +1,5 @@
 import type { Locale } from "@/lib/i18n";
+import { staticAssetUrl } from "@/lib/static-assets";
 
 export type ProductShowcaseAccent = "magenta" | "cyan" | "blue" | "coral";
 
@@ -30,7 +31,7 @@ const PRODUCT_LOGO_DISPLAY_SIZE = 140;
 const PRODUCT_ASSETS: Omit<ProductShowcaseItem, "title" | "description">[] = [
   {
     id: "estatedata",
-    logoSrc: "/images/products/estatedata.png",
+    logoSrc: staticAssetUrl("/images/products/estatedata.png"),
     logoWidth: PRODUCT_LOGO_DISPLAY_SIZE,
     logoHeight: PRODUCT_LOGO_DISPLAY_SIZE,
     href: "https://estatedata.am/",
@@ -38,7 +39,7 @@ const PRODUCT_ASSETS: Omit<ProductShowcaseItem, "title" | "description">[] = [
   },
   {
     id: "vcity",
-    logoSrc: "/images/products/vcity.png",
+    logoSrc: staticAssetUrl("/images/products/vcity.png"),
     logoWidth: PRODUCT_LOGO_DISPLAY_SIZE,
     logoHeight: PRODUCT_LOGO_DISPLAY_SIZE,
     href: "https://vcity.guide/",
@@ -46,7 +47,7 @@ const PRODUCT_ASSETS: Omit<ProductShowcaseItem, "title" | "description">[] = [
   },
   {
     id: "vexpo",
-    logoSrc: "/images/products/vexpo.png",
+    logoSrc: staticAssetUrl("/images/products/vexpo.png"),
     logoWidth: PRODUCT_LOGO_DISPLAY_SIZE,
     logoHeight: PRODUCT_LOGO_DISPLAY_SIZE,
     href: "https://evolver.company/",
@@ -54,7 +55,7 @@ const PRODUCT_ASSETS: Omit<ProductShowcaseItem, "title" | "description">[] = [
   },
   {
     id: "vrealty",
-    logoSrc: "/images/products/vrealty.png",
+    logoSrc: staticAssetUrl("/images/products/vrealty.png"),
     logoWidth: PRODUCT_LOGO_DISPLAY_SIZE,
     logoHeight: PRODUCT_LOGO_DISPLAY_SIZE,
     href: "https://vrealty.am/",

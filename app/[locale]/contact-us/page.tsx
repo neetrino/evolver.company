@@ -1,5 +1,8 @@
-import { Container } from "@/components/shared/Container";
-import { ContactForm } from "@/components/public/ContactForm";
+import { AboutUsSectionSeam } from "@/components/public/about/AboutUsSectionSeam";
+import { ContactUsCta } from "@/components/public/contact/ContactUsCta";
+import { ContactUsHero } from "@/components/public/contact/ContactUsHero";
+import { ContactUsMain } from "@/components/public/contact/ContactUsMain";
+import { ContactUsMap } from "@/components/public/contact/ContactUsMap";
 import { getContactContent } from "@/lib/content";
 import type { Locale } from "@/lib/i18n";
 
@@ -13,32 +16,27 @@ export default async function ContactUsPage({ params }: ContactUsPageProps) {
   const content = getContactContent(locale);
 
   return (
-    <>
-      <section className="page-hero">
-        <Container>
-          <h1 className="page-hero-title">{content.hero.title}</h1>
-          <p className="page-hero-subtitle">{content.hero.subtitle}</p>
-        </Container>
-      </section>
+    <div className="contact-page">
+      <div className="contact-page-backdrop" aria-hidden="true">
+        <span className="contact-page-aurora contact-page-aurora-purple" />
+        <span className="contact-page-aurora contact-page-aurora-cyan" />
+        <span className="contact-page-grid" />
+        <span className="contact-page-noise" />
+      </div>
 
-      <section className="section-sm">
-        <Container>
-          <div className="contact-layout">
-            <ContactForm labels={content.form} />
+      <ContactUsHero hero={content.hero} />
 
-            <aside className="contact-info-card">
-              <div className="contact-info-item">
-                <span className="contact-info-label">{content.info.emailLabel}</span>
-                <span className="contact-info-value">{content.info.email}</span>
-              </div>
-              <div className="contact-info-item">
-                <span className="contact-info-label">{content.info.locationLabel}</span>
-                <span className="contact-info-value">{content.info.location}</span>
-              </div>
-            </aside>
-          </div>
-        </Container>
-      </section>
-    </>
+      <AboutUsSectionSeam index={0} />
+
+      <ContactUsMain content={content} />
+
+      <AboutUsSectionSeam index={1} />
+
+      <ContactUsMap map={content.map} />
+
+      <AboutUsSectionSeam index={2} />
+
+      <ContactUsCta cta={content.cta} />
+    </div>
   );
 }
