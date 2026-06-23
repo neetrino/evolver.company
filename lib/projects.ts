@@ -2,7 +2,9 @@ import "server-only";
 
 import { prisma } from "@/lib/db";
 import {
+  PROJECT_CATALOG_ORDER,
   getCatalogProjectBySlug,
+  getCatalogProjects,
   mergePortfolioProjects,
 } from "@/lib/project-catalog";
 import type {
@@ -37,8 +39,19 @@ export async function getPublishedProjects(): Promise<ProjectWithDetails[]> {
 }
 
 export async function getFeaturedProjects(limit = 3): Promise<ProjectWithDetails[]> {
-  const projects = await getPortfolioProjects();
-  return projects.slice(0, limit);
+  const catalogFallback = getCatalogProjects().slice(0, limit);
+
+  try {
+    const slugs = PROJECT_CATALOG_ORDER.slice(0, limit);
+    const dbProjects = await prisma.project.findMany({
+      where: { isPublished: true, slug: { in: [...slugs] } },
+      include: projectInclude,
+    });
+
+    return mergePortfolioProjects(dbProjects).slice(0, limit);
+  } catch {
+    return catalogFallback;
+  }
 }
 
 export async function getPublishedProjectBySlug(slug: string) {

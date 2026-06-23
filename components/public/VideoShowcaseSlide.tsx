@@ -59,8 +59,7 @@ export function VideoShowcaseSlide({
             muted
             loop
             playsInline
-            autoPlay={isVisible && isCenter}
-            preload={isCenter ? "auto" : shouldPreload ? "metadata" : "none"}
+            preload="none"
             controls={false}
             disablePictureInPicture
             controlsList="nodownload nofullscreen noplaybackrate"
