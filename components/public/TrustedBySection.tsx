@@ -164,15 +164,26 @@ export function TrustedBySection({ locale }: TrustedBySectionProps) {
           style={trustedByDelayStyle(TRUSTED_BY_ENTER_BASE_DELAY_S)}
         >
           <span className="trusted-by-header-line trusted-by-header-line-left" aria-hidden="true">
-            <span className="trusted-by-header-dot trusted-by-header-dot-purple" />
+            <span className="trusted-by-header-line-track" />
+            <span className="trusted-by-header-line-beam" />
+            <span className="trusted-by-header-dot trusted-by-header-dot-purple">
+              <span className="trusted-by-header-dot-core" />
+              <span className="trusted-by-header-dot-ring" />
+            </span>
           </span>
 
           <h2 id="trusted-by-heading" className="trusted-by-title">
-            {content.title}
+            <span className="trusted-by-title-text">{content.title}</span>
+            <span className="trusted-by-title-glow" aria-hidden="true" />
           </h2>
 
           <span className="trusted-by-header-line trusted-by-header-line-right" aria-hidden="true">
-            <span className="trusted-by-header-dot trusted-by-header-dot-cyan" />
+            <span className="trusted-by-header-line-track" />
+            <span className="trusted-by-header-line-beam" />
+            <span className="trusted-by-header-dot trusted-by-header-dot-cyan">
+              <span className="trusted-by-header-dot-core" />
+              <span className="trusted-by-header-dot-ring" />
+            </span>
           </span>
         </header>
       </Container>

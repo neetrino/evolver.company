@@ -1,6 +1,8 @@
-import { Container } from "@/components/shared/Container";
-import { ServiceCard } from "@/components/public/ServiceCard";
-import { getServicesContent } from "@/lib/content";
+import { ServicesDetailSections } from "@/components/public/ServicesDetailSections";
+import { ServicesSection } from "@/components/public/ServicesSection";
+import { TrustedBySection } from "@/components/public/TrustedBySection";
+import { getServicesDetailContent } from "@/lib/services-detail";
+import { getServicesShowcaseContent } from "@/lib/services-showcase";
 import type { Locale } from "@/lib/i18n";
 
 type ServicesPageProps = {
@@ -10,30 +12,14 @@ type ServicesPageProps = {
 export default async function ServicesPage({ params }: ServicesPageProps) {
   const { locale: localeParam } = await params;
   const locale = localeParam as Locale;
-  const content = getServicesContent(locale);
+  const content = getServicesShowcaseContent(locale);
+  const detailContent = getServicesDetailContent(locale);
 
   return (
     <>
-      <section className="page-hero">
-        <Container>
-          <h1 className="page-hero-title">{content.hero.title}</h1>
-          <p className="page-hero-subtitle">{content.hero.subtitle}</p>
-        </Container>
-      </section>
-
-      <section className="section-sm">
-        <Container>
-          <div className="card-grid">
-            {content.items.map((service) => (
-              <ServiceCard
-                key={service.title}
-                title={service.title}
-                description={service.description}
-              />
-            ))}
-          </div>
-        </Container>
-      </section>
+      <ServicesSection locale={locale} content={content} />
+      <ServicesDetailSections content={detailContent} />
+      <TrustedBySection locale={locale} />
     </>
   );
 }

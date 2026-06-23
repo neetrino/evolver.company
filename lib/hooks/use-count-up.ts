@@ -24,19 +24,29 @@ export function useCountUp(
 
   useEffect(() => {
     if (!active) {
-      setValue(0);
-      return;
-    }
-
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reducedMotion) {
-      setValue(target);
       return;
     }
 
     let frame = 0;
+    let resetFrame = 0;
     let startTime: number | null = null;
     let delayTimer = 0;
+    let cancelled = false;
+
+    const applyValue = (next: number): void => {
+      if (!cancelled) {
+        setValue(next);
+      }
+    };
+
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reducedMotion) {
+      resetFrame = window.requestAnimationFrame(() => applyValue(target));
+      return () => {
+        cancelled = true;
+        window.cancelAnimationFrame(resetFrame);
+      };
+    }
 
     const animate = (timestamp: number): void => {
       if (startTime === null) {
@@ -45,22 +55,26 @@ export function useCountUp(
 
       const elapsed = timestamp - startTime;
       const progress = Math.min(elapsed / durationMs, 1);
-      setValue(Math.round(target * easeOutCubic(progress)));
+      applyValue(Math.round(target * easeOutCubic(progress)));
 
       if (progress < 1) {
         frame = window.requestAnimationFrame(animate);
       }
     };
 
+    resetFrame = window.requestAnimationFrame(() => applyValue(0));
+
     delayTimer = window.setTimeout(() => {
       frame = window.requestAnimationFrame(animate);
     }, delayMs);
 
     return () => {
+      cancelled = true;
       window.clearTimeout(delayTimer);
+      window.cancelAnimationFrame(resetFrame);
       window.cancelAnimationFrame(frame);
     };
   }, [active, delayMs, durationMs, target]);
 
-  return value;
+  return active ? value : 0;
 }

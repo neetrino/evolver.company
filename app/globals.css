@@ -2,6 +2,8 @@
 @import "./trusted-by-section.css";
 @import "./footer-section.css";
 @import "./home-sections.css";
+@import "./services-page.css";
+@import "./services-detail.css";
 @import "./theme-dark-admin.css";
 
 :root {
