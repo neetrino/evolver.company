@@ -5,8 +5,15 @@ const r2Hostname = getR2PublicHostname();
 const r2PublicUrl = process.env.R2_PUBLIC_URL?.trim().replace(/\/$/, "");
 
 const nextConfig: NextConfig = {
+  experimental: {
+    staleTimes: {
+      dynamic: 30,
+      static: 300,
+    },
+  },
   images: {
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840, 7680],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
+    formats: ["image/avif", "image/webp"],
     remotePatterns: r2Hostname
       ? [
           {

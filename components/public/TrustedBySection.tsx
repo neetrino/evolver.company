@@ -1,5 +1,6 @@
 "use client";
 
+import "@/app/trusted-by-section.css";
 import { useEffect, useState, type CSSProperties } from "react";
 import { ClientLogoTile } from "@/components/public/ClientLogoTile";
 import { Container } from "@/components/shared/Container";

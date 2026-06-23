@@ -1,3 +1,5 @@
+import "@/app/theme-dark-admin.css";
+
 type AdminRootLayoutProps = {
   children: React.ReactNode;
 };

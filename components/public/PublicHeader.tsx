@@ -45,21 +45,25 @@ function MenuIcon({ open }: { open: boolean }) {
   );
 }
 
+type MobileMenuState = {
+  isOpen: boolean;
+  openedAtPathname: string;
+};
+
 export function PublicHeader({ locale }: PublicHeaderProps) {
   const pathname = usePathname();
   const navItems = getNavItems(locale);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [mobileMenuPathname, setMobileMenuPathname] = useState(pathname);
+  const [mobileMenuState, setMobileMenuState] = useState<MobileMenuState>({
+    isOpen: false,
+    openedAtPathname: pathname,
+  });
+  const mobileOpen =
+    mobileMenuState.isOpen && mobileMenuState.openedAtPathname === pathname;
   const isHomePage = pathname === `/${locale}`;
   const isServicesPage = pathname === `/${locale}/services`;
   const isProjectsPage = pathname === `/${locale}/projects`;
   const isAboutUsPage = pathname === `/${locale}/about-us`;
   const isOverlayHeader = isHomePage || isServicesPage || isProjectsPage || isAboutUsPage;
-
-  if (mobileMenuPathname !== pathname) {
-    setMobileMenuPathname(pathname);
-    setMobileOpen(false);
-  }
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
@@ -67,6 +71,20 @@ export function PublicHeader({ locale }: PublicHeaderProps) {
       document.body.style.overflow = "";
     };
   }, [mobileOpen]);
+
+  function toggleMobileMenu(): void {
+    setMobileMenuState((prev) => {
+      const isCurrentlyOpen = prev.isOpen && prev.openedAtPathname === pathname;
+      return {
+        isOpen: !isCurrentlyOpen,
+        openedAtPathname: pathname,
+      };
+    });
+  }
+
+  function closeMobileMenu(): void {
+    setMobileMenuState({ isOpen: false, openedAtPathname: pathname });
+  }
 
   function isActive(href: string): boolean {
     if (href === `/${locale}`) {
@@ -82,7 +100,7 @@ export function PublicHeader({ locale }: PublicHeaderProps) {
     >
       <Container className="public-header-wrap">
         <div className="public-header-shell">
-          <Link href={`/${locale}`} className="public-brand">
+          <Link href={`/${locale}`} prefetch className="public-brand">
             <Image
               src={BRAND_LOGO.src}
               alt={BRAND_LOGO.alt}
@@ -98,6 +116,7 @@ export function PublicHeader({ locale }: PublicHeaderProps) {
               <Link
                 key={item.key}
                 href={item.href}
+                prefetch
                 className={`public-nav-link ${isActive(item.href) ? "public-nav-link-active" : ""}`}
               >
                 {item.label}
@@ -112,7 +131,7 @@ export function PublicHeader({ locale }: PublicHeaderProps) {
               className="public-header-menu-btn"
               aria-expanded={mobileOpen}
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
-              onClick={() => setMobileOpen((open) => !open)}
+              onClick={toggleMobileMenu}
             >
               <MenuIcon open={mobileOpen} />
             </button>
@@ -129,8 +148,9 @@ export function PublicHeader({ locale }: PublicHeaderProps) {
               <Link
                 key={item.key}
                 href={item.href}
+                prefetch
                 className={`public-nav-link public-nav-link-mobile ${isActive(item.href) ? "public-nav-link-active" : ""}`}
-                onClick={() => setMobileOpen(false)}
+                onClick={closeMobileMenu}
               >
                 {item.label}
               </Link>

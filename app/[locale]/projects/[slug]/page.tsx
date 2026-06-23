@@ -5,7 +5,7 @@ import { Container } from "@/components/shared/Container";
 import { UI_LABELS, localePath, type Locale } from "@/lib/i18n";
 import { getProjectTranslation, getPublishedProjectBySlug } from "@/lib/projects";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 type ProjectDetailPageProps = {
   params: Promise<{ locale: string; slug: string }>;

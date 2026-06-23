@@ -1,9 +1,10 @@
+import "@/app/projects-page.css";
 import { ProjectsPortfolioPage } from "@/components/public/ProjectsPortfolioPage";
 import { getProjectsPageContent } from "@/lib/content";
 import { UI_LABELS, type Locale } from "@/lib/i18n";
 import { getPublishedProjects } from "@/lib/projects";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 type ProjectsPageProps = {
   params: Promise<{ locale: string }>;

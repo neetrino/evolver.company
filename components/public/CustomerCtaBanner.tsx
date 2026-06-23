@@ -1,3 +1,4 @@
+import "@/app/customer-cta.css";
 import { type CSSProperties } from "react";
 import type { ProjectsPageCtaContent } from "@/lib/content";
 

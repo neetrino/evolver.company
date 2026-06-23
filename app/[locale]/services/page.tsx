@@ -1,9 +1,22 @@
-import { ServicesDetailSections } from "@/components/public/ServicesDetailSections";
+import dynamic from "next/dynamic";
+import "@/app/services-page.css";
+import "@/app/services-detail.css";
 import { ServicesSection } from "@/components/public/ServicesSection";
-import { TrustedBySection } from "@/components/public/TrustedBySection";
 import { getServicesDetailContent } from "@/lib/services-detail";
 import { getServicesShowcaseContent } from "@/lib/services-showcase";
 import type { Locale } from "@/lib/i18n";
+
+const ServicesDetailSections = dynamic(() =>
+  import("@/components/public/ServicesDetailSections").then((module) => ({
+    default: module.ServicesDetailSections,
+  })),
+);
+
+const TrustedBySection = dynamic(() =>
+  import("@/components/public/TrustedBySection").then((module) => ({
+    default: module.TrustedBySection,
+  })),
+);
 
 type ServicesPageProps = {
   params: Promise<{ locale: string }>;

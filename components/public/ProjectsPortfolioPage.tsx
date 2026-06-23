@@ -1,16 +1,12 @@
-"use client";
-
-import "@/app/projects-page.css";
 import Link from "next/link";
 import { type CSSProperties } from "react";
-import { ProjectsPortfolioCta } from "@/components/public/ProjectsPortfolioCta";
 import { ProjectsPortfolioCard } from "@/components/public/ProjectsPortfolioCard";
+import { ProjectsPortfolioCta } from "@/components/public/ProjectsPortfolioCta";
+import { ProjectsPortfolioReveal } from "@/components/public/ProjectsPortfolioReveal";
 import type { ProjectsPageContent } from "@/lib/content";
-import { useSectionReveal } from "@/lib/hooks/use-section-reveal";
 import { localePath, UI_LABELS, type Locale } from "@/lib/i18n";
 import type { ProjectWithDetails } from "@/lib/project-types";
 
-const PORTFOLIO_VIEW_THRESHOLD = 0.06;
 const PORTFOLIO_ENTER_BASE_DELAY_S = 0.06;
 const PORTFOLIO_PARTICLE_KEYS = ["one", "two", "three", "four", "five", "six"] as const;
 
@@ -46,19 +42,11 @@ export function ProjectsPortfolioPage({
   projects,
   emptyMessage,
 }: ProjectsPortfolioPageProps) {
-  const { isVisible, sectionRef } = useSectionReveal({
-    threshold: PORTFOLIO_VIEW_THRESHOLD,
-    rootMargin: "0px 0px -2% 0px",
-  });
   const viewLabel = UI_LABELS[locale].viewProject;
   const hasProjects = projects.length > 0;
 
   return (
-    <section
-      ref={sectionRef}
-      className={`projects-portfolio-page ${isVisible ? "projects-portfolio-page--visible" : ""}`}
-      aria-labelledby="projects-portfolio-heading"
-    >
+    <ProjectsPortfolioReveal>
       <div className="projects-portfolio-backdrop" aria-hidden="true">
         <span className="projects-portfolio-aurora projects-portfolio-aurora-one" />
         <span className="projects-portfolio-aurora projects-portfolio-aurora-two" />
@@ -77,6 +65,7 @@ export function ProjectsPortfolioPage({
 
       <Link
         href={localePath(locale, "/contact-us")}
+        prefetch
         className="projects-portfolio-search projects-portfolio-animate"
         style={portfolioDelayStyle(0.14)}
         aria-label={content.searchLabel}
@@ -117,6 +106,6 @@ export function ProjectsPortfolioPage({
           delayStyle={portfolioDelayStyle(PORTFOLIO_ENTER_BASE_DELAY_S + 0.32)}
         />
       </div>
-    </section>
+    </ProjectsPortfolioReveal>
   );
 }
