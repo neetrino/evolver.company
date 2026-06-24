@@ -6,6 +6,7 @@ export type ProjectAccent = "magenta" | "blue" | "teal" | "coral" | "purple";
 type ProjectVisualMeta = {
   background: string;
   illustration: string;
+  detailCover?: string;
   accent: ProjectAccent;
 };
 
@@ -19,16 +20,19 @@ const PROJECT_VISUALS: Record<string, ProjectVisualMeta> = {
   estatedata: {
     background: staticAssetUrl("/images/projects/estatedata-bg.png"),
     illustration: staticAssetUrl("/images/services/estatedata-illustration.png"),
+    detailCover: staticAssetUrl("/images/projects/estatedata-detail.png"),
     accent: "magenta",
   },
   vexpo: {
     background: staticAssetUrl("/images/projects/vexpo-bg.png"),
     illustration: staticAssetUrl("/images/services/vexpo-illustration.png"),
+    detailCover: staticAssetUrl("/images/projects/vexpo-detail.png"),
     accent: "blue",
   },
   vcity: {
     background: staticAssetUrl("/images/projects/vcity-bg.png"),
     illustration: staticAssetUrl("/images/services/vcity-illustration.png"),
+    detailCover: staticAssetUrl("/images/projects/vcity-detail.png"),
     accent: "teal",
   },
   vrealty: {
@@ -91,6 +95,17 @@ export function resolveProjectBackgroundImage(slug: string, coverImage: string |
   }
 
   return visual.illustration || null;
+}
+
+/** Hero image for the project detail page; prefers slug-specific detail art. */
+export function resolveProjectDetailImage(slug: string, coverImage: string | null): string | null {
+  const visual = getProjectVisual(slug);
+
+  if (visual.detailCover) {
+    return visual.detailCover;
+  }
+
+  return resolveProjectBackgroundImage(slug, coverImage);
 }
 
 /** Cover image with illustration fallback for known slugs. */

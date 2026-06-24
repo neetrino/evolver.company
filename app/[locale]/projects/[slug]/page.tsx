@@ -1,10 +1,10 @@
 import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Container } from "@/components/shared/Container";
-import { UI_LABELS, localePath, type Locale } from "@/lib/i18n";
+import { UI_LABELS, type Locale } from "@/lib/i18n";
 import type { ProjectImageRecord } from "@/lib/project-types";
 import { getProjectTranslation, getPublishedProjectBySlug } from "@/lib/projects";
+import { resolveProjectDetailImage } from "@/lib/project-visuals";
 
 export const revalidate = 60;
 
@@ -27,7 +27,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
     notFound();
   }
 
-  const backLabel = locale === "en" ? "Back to projects" : "Վերադառնալ նախագծեր";
+  const coverSrc = resolveProjectDetailImage(project.slug, project.coverImage);
 
   return (
     <article className="project-detail">
@@ -37,20 +37,6 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
       </div>
 
       <Container className="project-detail-container">
-        <Link href={localePath(locale, "/projects")} className="project-detail-back">
-          <svg viewBox="0 0 24 24" aria-hidden="true" className="project-detail-back-icon">
-            <path
-              d="M19 12H5M11 6l-6 6 6 6"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.75"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-          <span>{backLabel}</span>
-        </Link>
-
         <div className="project-detail-layout">
           <header className="project-detail-info">
             <p className="project-detail-eyebrow">{UI_LABELS[locale].projectsHeading}</p>
@@ -70,10 +56,10 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
           </header>
 
           <div className="project-detail-gallery">
-            {project.coverImage ? (
+            {coverSrc ? (
               <figure className="project-detail-figure project-detail-figure-cover">
                 <Image
-                  src={project.coverImage}
+                  src={coverSrc}
                   alt={translation.title}
                   width={1200}
                   height={750}
