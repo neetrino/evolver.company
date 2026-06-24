@@ -6,10 +6,13 @@ import { type CSSProperties } from "react";
 import { localePath, type Locale } from "@/lib/i18n";
 import { UI_LABELS } from "@/lib/i18n";
 import {
-  getProjectVisual,
   getProjectLogo,
   resolveHomeProjectImage,
 } from "@/lib/project-visuals";
+import {
+  buildHomeAccentStyle,
+  resolveProjectAccent,
+} from "@/lib/project-accent";
 import { getProjectTranslation } from "@/lib/project-types";
 import type { ProjectWithDetails } from "@/lib/project-types";
 
@@ -60,8 +63,9 @@ function CardArrowIcon() {
 export function ProjectCard({ project, locale, index = 0 }: ProjectCardProps) {
   const translation = getProjectTranslation(project, locale);
   const viewLabel = UI_LABELS[locale].viewProject;
-  const visual = getProjectVisual(project.slug);
-  const logo = getProjectLogo(project.slug);
+  const { token: accentToken, accentColor } = resolveProjectAccent(project);
+  const accentStyle = buildHomeAccentStyle(accentColor);
+  const logo = getProjectLogo(project.catalogSlug ?? project.slug);
   const illustrationSrc = resolveHomeProjectImage(project.slug, project.coverImage);
   const cardIndex = String(index + 1).padStart(2, "0");
 
@@ -73,9 +77,9 @@ export function ProjectCard({ project, locale, index = 0 }: ProjectCardProps) {
     <Link
       href={localePath(locale, `/projects/${project.slug}`)}
       className="home-project-card"
-      data-accent={visual.accent}
+      data-accent={accentToken}
       data-enter={resolveEnterVariant(index)}
-      style={cardStyle(index)}
+      style={{ ...cardStyle(index), ...accentStyle }}
       aria-label={`${viewLabel}: ${translation.title}`}
     >
       <span className="home-project-card-surface">

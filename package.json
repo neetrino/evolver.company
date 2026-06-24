@@ -10,6 +10,9 @@
     "lint": "eslint",
     "postinstall": "prisma generate",
     "db:seed": "tsx prisma/seed.ts",
+    "backfill:project-covers": "tsx scripts/backfill-project-cover-images-from-static.ts",
+    "backfill:project-catalog-slugs": "tsx scripts/backfill-project-catalog-slugs.ts",
+    "backfill:project-colors": "tsx scripts/backfill-project-colors.ts",
     "assets:sync-r2": "tsx scripts/sync-static-assets-to-r2.ts"
   },
   "dependencies": {

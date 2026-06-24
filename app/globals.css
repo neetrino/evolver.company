@@ -4337,6 +4337,19 @@ a {
   height: auto;
 }
 
+.project-detail-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  min-height: 220px;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.18) 0%, rgba(255, 255, 255, 0.03) 100%);
+  color: #fff;
+  font-size: clamp(2.5rem, 8vw, 4rem);
+  font-weight: 700;
+}
+
 @media (max-width: 900px) {
   .project-detail {
     padding-top: calc(var(--header-height) + 16px);

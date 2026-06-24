@@ -125,9 +125,11 @@ export function catalogEntryToProjectWithDetails(entry: ProjectCatalogEntry): Pr
   return {
     id: `catalog-${entry.slug}`,
     slug: entry.slug,
+    catalogSlug: null,
     projectUrl: entry.projectUrl,
     coverImage: visual.background || visual.illustration || null,
     coverImageKey: null,
+    accentColor: null,
     isPublished: true,
     createdAt: CATALOG_REFERENCE_DATE,
     updatedAt: CATALOG_REFERENCE_DATE,
@@ -160,22 +162,62 @@ function dbProjectHasContent(project: ProjectWithDetails): boolean {
   return project.translations.some((translation) => translation.title.trim().length > 0);
 }
 
-/** Prefer published DB rows; fall back to the static catalog. */
-export function mergePortfolioProjects(dbProjects: ProjectWithDetails[]): ProjectWithDetails[] {
-  const dbBySlug = new Map(dbProjects.map((project) => [project.slug, project]));
+function getCatalogClaimSlug(project: ProjectWithDetails): string | null {
+  if (project.catalogSlug) {
+    return project.catalogSlug;
+  }
 
-  const orderedCatalog = PROJECT_CATALOG_ORDER.map((slug) => {
-    const dbProject = dbBySlug.get(slug);
-    if (dbProject?.isPublished && dbProjectHasContent(dbProject)) {
-      return dbProject;
+  if (isCatalogSlug(project.slug)) {
+    return project.slug;
+  }
+
+  return null;
+}
+
+function findDbProjectClaimingCatalogSlot(
+  catalogSlot: ProjectCatalogSlug,
+  catalogSlugDbProjects: ProjectWithDetails[],
+): ProjectWithDetails | undefined {
+  return catalogSlugDbProjects.find((project) => getCatalogClaimSlug(project) === catalogSlot);
+}
+
+/**
+ * Prefer published DB rows; fall back to the static catalog only when no DB row claims the slot.
+ * When a catalog slot is claimed in DB as draft, it is omitted (DB status wins over fallback).
+ */
+export function mergePortfolioProjects(
+  publishedDbProjects: ProjectWithDetails[],
+  catalogSlugDbProjects?: ProjectWithDetails[],
+): ProjectWithDetails[] {
+  const catalogDbProjects = catalogSlugDbProjects ?? publishedDbProjects;
+
+  const orderedCatalog = PROJECT_CATALOG_ORDER.map((catalogSlot) => {
+    const claimedDbProject = findDbProjectClaimingCatalogSlot(catalogSlot, catalogDbProjects);
+
+    if (claimedDbProject && !claimedDbProject.isPublished) {
+      return null;
     }
 
-    return catalogEntryToProjectWithDetails(CATALOG_BY_SLUG.get(slug)!);
-  });
+    if (
+      claimedDbProject?.isPublished &&
+      dbProjectHasContent(claimedDbProject)
+    ) {
+      return claimedDbProject;
+    }
 
-  const catalogSlugs = new Set<string>(PROJECT_CATALOG_ORDER);
-  const extraProjects = dbProjects.filter(
-    (project) => !catalogSlugs.has(project.slug) && project.isPublished && dbProjectHasContent(project),
+    if (!claimedDbProject) {
+      return catalogEntryToProjectWithDetails(CATALOG_BY_SLUG.get(catalogSlot)!);
+    }
+
+    return catalogEntryToProjectWithDetails(CATALOG_BY_SLUG.get(catalogSlot)!);
+  }).filter((project): project is ProjectWithDetails => project !== null);
+
+  const returnedIds = new Set(orderedCatalog.map((project) => project.id));
+  const extraProjects = publishedDbProjects.filter(
+    (project) =>
+      !returnedIds.has(project.id) &&
+      project.isPublished &&
+      dbProjectHasContent(project),
   );
 
   return [...orderedCatalog, ...extraProjects];

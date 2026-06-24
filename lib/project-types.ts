@@ -19,6 +19,7 @@ export type GalleryImageItem = {
 export type ProjectFormData = {
   slug: string;
   projectUrl: string;
+  accentColor: string;
   isPublished: boolean;
   coverImage: CoverImageData | null;
   translations: Record<Locale, ProjectFormTranslation>;
@@ -41,15 +42,21 @@ export type ProjectImageRecord = {
 export type ProjectWithDetails = {
   id: string;
   slug: string;
+  catalogSlug: string | null;
   projectUrl: string | null;
   coverImage: string | null;
   coverImageKey: string | null;
+  accentColor: string | null;
   isPublished: boolean;
   createdAt: Date;
   updatedAt: Date;
   translations: ProjectTranslationRecord[];
   images: ProjectImageRecord[];
 };
+
+export type PublishedProjectLookupResult =
+  | { kind: "project"; project: ProjectWithDetails }
+  | { kind: "redirect"; targetSlug: string };
 
 export function getProjectTranslation<
   T extends { translations: ProjectTranslationRecord[] },
@@ -64,6 +71,15 @@ export function getProjectTranslation<
       longDescription: "",
     }
   );
+}
+
+export function getProjectPlaceholderLetter(title: string, slug: string): string {
+  const source = title.trim() || slug.trim();
+  if (!source) {
+    return "?";
+  }
+
+  return source.charAt(0).toUpperCase();
 }
 
 export function slugify(value: string): string {

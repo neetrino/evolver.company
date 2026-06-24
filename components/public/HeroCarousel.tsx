@@ -263,6 +263,8 @@ export function HeroCarousel({ slides, locale }: HeroCarouselProps) {
 
   const activeSlide = slides[activeIndex];
   const slideLines = getHomeHeroSlideLines(activeSlide, locale);
+  const adminHeroTitle = slideLines.title.trim();
+  const titleLineCount = adminHeroTitle ? 1 : heroContent.headline.length;
   const description = slideLines.description || heroContent.subtitle;
   const ctaLabel = slideLines.ctaLabel || heroContent.primaryCta;
   const ctaHref = resolveCtaHref(locale, activeSlide.ctaHref);
@@ -297,24 +299,33 @@ export function HeroCarousel({ slides, locale }: HeroCarouselProps) {
             </p>
 
             <h1 className="home-hero-title">
-              {heroContent.headline.map((line, index) => (
+              {adminHeroTitle ? (
                 <span
-                  key={line.text}
-                  className={`home-hero-title-line home-hero-animate ${
-                    line.gradient ? "home-hero-title-gradient home-hero-title-gradient-animated" : ""
-                  }`}
-                  style={heroDelayStyle(HERO_ENTER_BASE_DELAY_S + (index + 1) * HERO_ENTER_STEP_DELAY_S)}
+                  className="home-hero-title-line home-hero-animate"
+                  style={heroDelayStyle(HERO_ENTER_BASE_DELAY_S + HERO_ENTER_STEP_DELAY_S)}
                 >
-                  {line.text}
+                  {adminHeroTitle}
                 </span>
-              ))}
+              ) : (
+                heroContent.headline.map((line, index) => (
+                  <span
+                    key={line.text}
+                    className={`home-hero-title-line home-hero-animate ${
+                      line.gradient ? "home-hero-title-gradient home-hero-title-gradient-animated" : ""
+                    }`}
+                    style={heroDelayStyle(HERO_ENTER_BASE_DELAY_S + (index + 1) * HERO_ENTER_STEP_DELAY_S)}
+                  >
+                    {line.text}
+                  </span>
+                ))
+              )}
             </h1>
 
             {description ? (
               <p
                 className="home-hero-description home-hero-animate"
                 style={heroDelayStyle(
-                  HERO_ENTER_BASE_DELAY_S + (heroContent.headline.length + 2) * HERO_ENTER_STEP_DELAY_S,
+                  HERO_ENTER_BASE_DELAY_S + (titleLineCount + 2) * HERO_ENTER_STEP_DELAY_S,
                 )}
               >
                 {description}
@@ -326,7 +337,7 @@ export function HeroCarousel({ slides, locale }: HeroCarouselProps) {
                 href={ctaHref}
                 className="home-hero-cta home-hero-animate home-hero-cta-animated"
                 style={heroDelayStyle(
-                  HERO_ENTER_BASE_DELAY_S + (heroContent.headline.length + 3) * HERO_ENTER_STEP_DELAY_S,
+                  HERO_ENTER_BASE_DELAY_S + (titleLineCount + 3) * HERO_ENTER_STEP_DELAY_S,
                 )}
               >
                 <span>{ctaLabel}</span>

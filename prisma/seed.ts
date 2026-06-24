@@ -25,6 +25,7 @@ async function main(): Promise<void> {
         where: { slug: entry.slug },
         create: {
           slug: entry.slug,
+          catalogSlug: entry.slug,
           projectUrl: entry.projectUrl,
           coverImage,
           isPublished: true,
@@ -48,6 +49,7 @@ async function main(): Promise<void> {
         update: {
           projectUrl: entry.projectUrl,
           coverImage,
+          catalogSlug: entry.slug,
           isPublished: true,
           translations: {
             deleteMany: {},

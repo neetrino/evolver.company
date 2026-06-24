@@ -19,6 +19,7 @@ type ProjectFormProps = {
 const EMPTY_FORM: ProjectFormData = {
   slug: "",
   projectUrl: "",
+  accentColor: "",
   isPublished: true,
   coverImage: null,
   translations: {
@@ -73,6 +74,9 @@ export function ProjectForm({ mode, projectId, initialData }: ProjectFormProps) 
       {state.error ? <p className="form-error">{state.error}</p> : null}
       {state.success ? <p className="form-success">{state.success}</p> : null}
       {state.fieldErrors?.slug ? <p className="form-error">{state.fieldErrors.slug}</p> : null}
+      {state.fieldErrors?.accentColor ? (
+        <p className="form-error">{state.fieldErrors.accentColor}</p>
+      ) : null}
 
       <div className="admin-form-field">
         <label htmlFor="slug">Slug</label>
@@ -99,6 +103,39 @@ export function ProjectForm({ mode, projectId, initialData }: ProjectFormProps) 
             setFormData((current) => ({ ...current, projectUrl: event.target.value }))
           }
         />
+      </div>
+
+      <div className="admin-form-field">
+        <label htmlFor="accentColor">Accent color</label>
+        <div className="flex items-center gap-3">
+          <input
+            id="accentColorPicker"
+            type="color"
+            value={formData.accentColor || "#7b5cff"}
+            onChange={(event) =>
+              setFormData((current) => ({ ...current, accentColor: event.target.value }))
+            }
+            aria-label="Accent color picker"
+          />
+          <input
+            id="accentColor"
+            name="accentColor"
+            type="text"
+            value={formData.accentColor}
+            onChange={(event) =>
+              setFormData((current) => ({ ...current, accentColor: event.target.value }))
+            }
+            placeholder="#00d1b4"
+            spellCheck={false}
+          />
+          <span
+            className="inline-block h-9 w-9 shrink-0 rounded-md border border-[var(--public-border)]"
+            style={{
+              backgroundColor: formData.accentColor || "transparent",
+            }}
+            aria-hidden="true"
+          />
+        </div>
       </div>
 
       <CoverImageUploader
