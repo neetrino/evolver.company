@@ -6,10 +6,9 @@ import { type CSSProperties } from "react";
 import { useCardTilt } from "@/lib/hooks/use-card-tilt";
 import { localePath, type Locale } from "@/lib/i18n";
 import {
-  getProjectVisual,
-  getProjectLogo,
-  resolveProjectBackgroundImage,
-} from "@/lib/project-visuals";
+  buildPortfolioAccentStyle,
+  resolveProjectAccent,
+} from "@/lib/project-accent";
 import { getProjectTranslation } from "@/lib/project-types";
 import type { ProjectWithDetails } from "@/lib/project-types";
 
@@ -50,9 +49,9 @@ export function ProjectsPortfolioCard({
 }: ProjectsPortfolioCardProps) {
   const { ref, handlePointerMove, handlePointerLeave } = useCardTilt();
   const translation = getProjectTranslation(project, locale);
-  const visual = getProjectVisual(project.slug);
-  const logo = getProjectLogo(project.slug);
-  const backgroundSrc = resolveProjectBackgroundImage(project.slug, project.coverImage);
+  const { token: accentToken, accentColor } = resolveProjectAccent(project);
+  const accentStyle = buildPortfolioAccentStyle(accentColor);
+  const coverSrc = project.coverImage;
 
   if (!translation.title) {
     return null;
@@ -61,14 +60,14 @@ export function ProjectsPortfolioCard({
   return (
     <article
       className="projects-portfolio-card-wrap"
-      data-accent={visual.accent}
-      style={cardDelayStyle(index * CARD_ENTER_STEP_S)}
+      data-accent={accentToken}
+      style={{ ...cardDelayStyle(index * CARD_ENTER_STEP_S), ...accentStyle }}
     >
       <Link
         ref={ref}
         href={localePath(locale, `/projects/${project.slug}`)}
         className="projects-portfolio-card"
-        data-accent={visual.accent}
+        data-accent={accentToken}
         data-index={index}
         onPointerMove={handlePointerMove}
         onPointerLeave={handlePointerLeave}
@@ -85,9 +84,9 @@ export function ProjectsPortfolioCard({
           <span className="projects-portfolio-card-media-shimmer" aria-hidden="true" />
           <span className="projects-portfolio-card-media-glow" aria-hidden="true" />
 
-          {backgroundSrc ? (
+          {coverSrc ? (
             <Image
-              src={backgroundSrc}
+              src={coverSrc}
               alt=""
               fill
               unoptimized
@@ -100,19 +99,6 @@ export function ProjectsPortfolioCard({
               <span>{translation.title.charAt(0)}</span>
             </div>
           )}
-
-          {logo ? (
-            <div className="projects-portfolio-card-logo-wrap">
-              <Image
-                src={logo.logoSrc}
-                alt={translation.title}
-                width={logo.logoWidth}
-                height={logo.logoHeight}
-                className="projects-portfolio-card-logo"
-                sizes="(max-width: 768px) 160px, 220px"
-              />
-            </div>
-          ) : null}
 
           <span className="projects-portfolio-card-media-vignette" aria-hidden="true" />
           <span className="projects-portfolio-card-hover-arrow" aria-hidden="true">

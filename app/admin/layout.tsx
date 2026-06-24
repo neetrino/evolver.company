@@ -1,4 +1,4 @@
-import "@/app/theme-dark-admin.css";
+import "@/app/theme-light-admin.css";
 
 type AdminRootLayoutProps = {
   children: React.ReactNode;

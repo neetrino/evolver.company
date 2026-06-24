@@ -25,8 +25,8 @@ export function Sidebar({ groups, onNavigate }: SidebarProps) {
 
   return (
     <aside className="admin-sidebar-inner">
-      <Link href="/admin" className="admin-sidebar-brand" onClick={onNavigate}>
-        Evolver Admin
+      <Link href="/" className="admin-sidebar-brand" onClick={onNavigate}>
+        Evolver
       </Link>
 
       {groups.map((group) => (

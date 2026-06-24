@@ -1,0 +1,12 @@
+.admin-theme {
+  color-scheme: light;
+
+  --admin-bg: #f5f4f1;
+  --admin-bg-card: #ffffff;
+  --admin-border: #e4e4e7;
+  --admin-text: #18181b;
+  --admin-text-muted: #71717a;
+  --admin-accent: #6d28d9;
+  --admin-accent-hover: #5b21b6;
+  --admin-sidebar: #ffffff;
+}

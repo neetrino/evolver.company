@@ -8,16 +8,26 @@ import { prisma } from "@/lib/db";
 import { LOCALES } from "@/lib/i18n";
 import type { GalleryImageItem } from "@/lib/project-types";
 import { slugify } from "@/lib/project-types";
-import { isSlugTaken } from "@/lib/projects";
+import { isSlugTaken, getCatalogSlugForCreate, getPublicRevalidationSlugs } from "@/lib/projects";
+import { normalizeHexColor } from "@/lib/project-accent";
 import { deleteFileFromR2 } from "@/lib/storage";
 
-function revalidatePublicProjectsCache(): void {
+function revalidatePublicProjectSlug(slug: string): void {
+  revalidatePath(`/en/projects/${slug}`);
+  revalidatePath(`/hy/projects/${slug}`);
+}
+
+function revalidatePublicProjectsCache(projectSlugs?: string[]): void {
   revalidateTag("projects", "max");
   revalidatePath("/");
   revalidatePath("/en");
   revalidatePath("/en/projects");
   revalidatePath("/hy");
   revalidatePath("/hy/projects");
+
+  for (const slug of projectSlugs ?? []) {
+    revalidatePublicProjectSlug(slug);
+  }
 }
 
 const translationSchema = z.object({
@@ -31,18 +41,29 @@ const galleryImageSchema = z.object({
   key: z.string().min(1),
 });
 
-const projectSchema = z.object({
-  slug: z.string().trim().min(1, "Slug is required"),
-  projectUrl: z.string().trim().optional(),
-  isPublished: z.boolean(),
-  coverImage: z.string().nullable(),
-  coverImageKey: z.string().nullable(),
-  galleryImages: z.array(galleryImageSchema),
-  translations: z.object({
-    en: translationSchema,
-    hy: translationSchema,
-  }),
-});
+const projectSchema = z
+  .object({
+    slug: z.string().trim().min(1, "Slug is required"),
+    projectUrl: z.string().trim().optional(),
+    accentColor: z.string().trim(),
+    isPublished: z.boolean(),
+    coverImage: z.string().nullable(),
+    coverImageKey: z.string().nullable(),
+    galleryImages: z.array(galleryImageSchema),
+    translations: z.object({
+      en: translationSchema,
+      hy: translationSchema,
+    }),
+  })
+  .superRefine((data, ctx) => {
+    if (data.accentColor && !normalizeHexColor(data.accentColor)) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["accentColor"],
+        message: "Must be a valid hex color (#rgb or #rrggbb).",
+      });
+    }
+  });
 
 export type ProjectActionState = {
   error?: string;
@@ -70,6 +91,7 @@ function parseProjectForm(formData: FormData) {
   return projectSchema.safeParse({
     slug: formData.get("slug"),
     projectUrl: formData.get("projectUrl") || undefined,
+    accentColor: String(formData.get("accentColor") ?? "").trim(),
     isPublished: formData.get("isPublished") === "on" || formData.get("isPublished") === "true",
     coverImage,
     coverImageKey,
@@ -208,6 +230,7 @@ export async function createProject(
 
   const data = parsed.data;
   const normalizedSlug = slugify(data.slug);
+  const accentColor = normalizeHexColor(data.accentColor);
 
   if (!normalizedSlug) {
     return { fieldErrors: { slug: "Slug is required" } };
@@ -220,9 +243,11 @@ export async function createProject(
   await prisma.project.create({
     data: {
       slug: normalizedSlug,
+      catalogSlug: getCatalogSlugForCreate(normalizedSlug),
       projectUrl: data.projectUrl || null,
       coverImage: data.coverImage,
       coverImageKey: data.coverImageKey,
+      accentColor,
       isPublished: data.isPublished,
       translations: {
         create: LOCALES.map((locale) => ({
@@ -242,7 +267,12 @@ export async function createProject(
     },
   });
 
-  revalidatePublicProjectsCache();
+  revalidatePublicProjectsCache(
+    getPublicRevalidationSlugs({
+      slug: normalizedSlug,
+      catalogSlug: getCatalogSlugForCreate(normalizedSlug),
+    }),
+  );
   redirect("/admin/projects");
 }
 
@@ -267,6 +297,7 @@ export async function updateProject(
 
   const data = parsed.data;
   const normalizedSlug = slugify(data.slug);
+  const accentColor = normalizeHexColor(data.accentColor);
 
   if (!normalizedSlug) {
     return { fieldErrors: { slug: "Slug is required" } };
@@ -285,6 +316,7 @@ export async function updateProject(
       projectUrl: data.projectUrl || null,
       coverImage: data.coverImage,
       coverImageKey: data.coverImageKey,
+      accentColor,
       isPublished: data.isPublished,
     },
   });
@@ -316,7 +348,12 @@ export async function updateProject(
 
   await syncGalleryImages(projectId, data.galleryImages);
 
-  revalidatePublicProjectsCache();
+  const slugsToRevalidate = getPublicRevalidationSlugs({
+    slug: normalizedSlug,
+    previousSlug: existing.slug === normalizedSlug ? undefined : existing.slug,
+    catalogSlug: existing.catalogSlug,
+  });
+  revalidatePublicProjectsCache(slugsToRevalidate);
   revalidatePath("/admin/projects");
 
   return { success: "Project updated successfully." };
@@ -348,7 +385,12 @@ export async function deleteProject(projectId: string): Promise<void> {
 
   await prisma.project.delete({ where: { id: projectId } });
 
-  revalidatePublicProjectsCache();
+  revalidatePublicProjectsCache(
+    getPublicRevalidationSlugs({
+      slug: project.slug,
+      catalogSlug: project.catalogSlug,
+    }),
+  );
   redirect("/admin/projects");
 }
 
@@ -366,14 +408,22 @@ export async function toggleProjectPublished(projectId: string): Promise<void> {
     data: { isPublished: !project.isPublished },
   });
 
-  revalidatePublicProjectsCache();
+  revalidatePublicProjectsCache(
+    getPublicRevalidationSlugs({
+      slug: project.slug,
+      catalogSlug: project.catalogSlug,
+    }),
+  );
   revalidatePath("/admin/projects");
 }
 
 export async function removeProjectImage(imageId: string): Promise<void> {
   await requireAdmin();
 
-  const image = await prisma.projectImage.findUnique({ where: { id: imageId } });
+  const image = await prisma.projectImage.findUnique({
+    where: { id: imageId },
+    include: { project: { select: { slug: true, catalogSlug: true } } },
+  });
 
   if (!image) {
     return;
@@ -385,5 +435,11 @@ export async function removeProjectImage(imageId: string): Promise<void> {
 
   await prisma.projectImage.delete({ where: { id: imageId } });
 
+  revalidatePublicProjectsCache(
+    getPublicRevalidationSlugs({
+      slug: image.project.slug,
+      catalogSlug: image.project.catalogSlug,
+    }),
+  );
   revalidatePath("/admin/projects");
 }

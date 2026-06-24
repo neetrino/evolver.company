@@ -34,10 +34,6 @@ export function AdminShell({ children, unreadCount = 0, topbarActions }: AdminSh
         },
       ],
     },
-    {
-      label: "System",
-      links: [{ href: "/en", label: "View Public Site" }],
-    },
   ];
 
   return (

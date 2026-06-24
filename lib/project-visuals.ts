@@ -82,16 +82,16 @@ export function resolveHomeProjectImage(slug: string, coverImage: string | null)
   return visual.background || null;
 }
 
-/** High-res 3D background for portfolio cards; falls back to illustration. */
+/** High-res 3D background for portfolio cards; DB cover first, then static fallbacks. */
 export function resolveProjectBackgroundImage(slug: string, coverImage: string | null): string | null {
   const visual = getProjectVisual(slug);
 
-  if (visual.background) {
-    return visual.background;
-  }
-
   if (coverImage) {
     return coverImage;
+  }
+
+  if (visual.background) {
+    return visual.background;
   }
 
   return visual.illustration || null;

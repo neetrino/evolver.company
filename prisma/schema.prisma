@@ -10,14 +10,18 @@ datasource db {
 model Project {
   id             String               @id @default(cuid())
   slug           String               @unique
+  catalogSlug    String?
   projectUrl     String?
   coverImage     String?
   coverImageKey  String?
+  accentColor    String?
   isPublished    Boolean              @default(true)
   createdAt      DateTime             @default(now())
   updatedAt      DateTime             @updatedAt
   translations   ProjectTranslation[]
   images         ProjectImage[]
+
+  @@index([catalogSlug])
 }
 
 model ProjectTranslation {

@@ -1,10 +1,13 @@
 import Image from "next/image";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { Container } from "@/components/shared/Container";
 import { UI_LABELS, type Locale } from "@/lib/i18n";
-import type { ProjectImageRecord } from "@/lib/project-types";
-import { getProjectTranslation, getPublishedProjectBySlug } from "@/lib/projects";
-import { resolveProjectDetailImage } from "@/lib/project-visuals";
+import {
+  buildProjectDetailImages,
+  getProjectPlaceholderLetter,
+  getProjectTranslation,
+  resolvePublishedProjectBySlug,
+} from "@/lib/projects";
 
 export const revalidate = 60;
 
@@ -15,11 +18,17 @@ type ProjectDetailPageProps = {
 export default async function ProjectDetailPage({ params }: ProjectDetailPageProps) {
   const { locale: localeParam, slug } = await params;
   const locale = localeParam as Locale;
-  const project = await getPublishedProjectBySlug(slug);
+  const lookup = await resolvePublishedProjectBySlug(slug);
 
-  if (!project) {
+  if (!lookup) {
     notFound();
   }
+
+  if (lookup.kind === "redirect") {
+    redirect(`/${locale}/projects/${lookup.targetSlug}`);
+  }
+
+  const project = lookup.project;
 
   const translation = getProjectTranslation(project, locale);
 
@@ -27,7 +36,8 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
     notFound();
   }
 
-  const coverSrc = resolveProjectDetailImage(project.slug, project.coverImage);
+  const detailImages = buildProjectDetailImages(project);
+  const placeholderLetter = getProjectPlaceholderLetter(translation.title, project.slug);
 
   return (
     <article className="project-detail">
@@ -56,31 +66,34 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
           </header>
 
           <div className="project-detail-gallery">
-            {coverSrc ? (
+            {detailImages.length > 0 ? (
+              detailImages.map((image, index) => (
+                <figure
+                  key={`${image.type}-${image.url}-${image.sortOrder}`}
+                  className={
+                    image.type === "cover"
+                      ? "project-detail-figure project-detail-figure-cover"
+                      : "project-detail-figure"
+                  }
+                >
+                  <Image
+                    src={image.url}
+                    alt={translation.title}
+                    width={1200}
+                    height={image.type === "cover" ? 750 : 800}
+                    unoptimized
+                    className="project-detail-image"
+                    priority={index === 0}
+                  />
+                </figure>
+              ))
+            ) : (
               <figure className="project-detail-figure project-detail-figure-cover">
-                <Image
-                  src={coverSrc}
-                  alt={translation.title}
-                  width={1200}
-                  height={750}
-                  unoptimized
-                  className="project-detail-image"
-                  priority
-                />
+                <div className="project-detail-placeholder" aria-hidden="true">
+                  <span>{placeholderLetter}</span>
+                </div>
               </figure>
-            ) : null}
-            {project.images.map((image: ProjectImageRecord, index: number) => (
-              <figure key={`${image.url}-${index}`} className="project-detail-figure">
-                <Image
-                  src={image.url}
-                  alt={translation.title}
-                  width={1200}
-                  height={800}
-                  unoptimized
-                  className="project-detail-image"
-                />
-              </figure>
-            ))}
+            )}
           </div>
         </div>
       </Container>
