@@ -12,9 +12,12 @@ export function LoginPage() {
   return (
     <div className="admin-login-wrap">
       <div className="admin-login-card">
-        <div className="mb-8 text-center">
+        <div className="admin-login-brand">
+          <span className="admin-login-brand-mark" aria-hidden="true">
+            E
+          </span>
           <h1 className="admin-page-title">Evolver Admin</h1>
-          <p className="admin-page-subtitle">Sign in to manage projects and messages</p>
+          <p className="admin-page-subtitle">Sign in to manage content and inbox</p>
         </div>
         <form action={formAction} className="admin-card">
           {state.error ? <p className="form-error">{state.error}</p> : null}

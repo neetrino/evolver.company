@@ -1,3 +1,4 @@
+import type { AdminContentLocale } from "@/lib/admin-locales";
 import type { Locale } from "@/lib/i18n";
 
 export type CareerFormTranslation = {
@@ -16,7 +17,7 @@ export type CareerFormData = {
   workHours: string;
   isPublished: boolean;
   coverImage: CareerCoverImageData | null;
-  translations: Record<Locale, CareerFormTranslation>;
+  translations: Record<AdminContentLocale, CareerFormTranslation>;
 };
 
 export type CareerTranslationRecord = {

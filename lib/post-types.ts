@@ -1,3 +1,4 @@
+import type { AdminContentLocale } from "@/lib/admin-locales";
 import type { Locale } from "@/lib/i18n";
 
 export type PostFormTranslation = {
@@ -14,7 +15,7 @@ export type PostFormData = {
   slug: string;
   isPublished: boolean;
   coverImage: PostCoverImageData | null;
-  translations: Record<Locale, PostFormTranslation>;
+  translations: Record<AdminContentLocale, PostFormTranslation>;
 };
 
 export type PostTranslationRecord = {

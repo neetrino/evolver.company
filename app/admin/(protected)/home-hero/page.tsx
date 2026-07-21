@@ -1,4 +1,4 @@
-import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { AdminLocalizedHeader } from "@/components/admin/AdminLocalizedHeader";
 import { HomeHeroEditor } from "@/components/admin/HomeHeroEditor";
 import { requireAdmin } from "@/lib/auth";
 import { getHomeHeroConfigForAdmin } from "@/lib/home-hero";
@@ -11,10 +11,7 @@ export default async function HomeHeroAdminPage() {
 
   return (
     <>
-      <AdminPageHeader
-        title="Home Hero"
-        subtitle="Manage homepage hero carousel slides, images, and bilingual copy."
-      />
+      <AdminLocalizedHeader titleKey="homeHeroTitle" subtitleKey="homeHeroSubtitle" />
       <HomeHeroEditor initialConfig={config} />
     </>
   );

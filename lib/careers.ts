@@ -92,6 +92,7 @@ export function careerJobToFormData(job: CareerJobWithDetails): CareerFormData {
           : null,
     translations: {
       en: byLocale.en ?? { title: "", description: "" },
+      ru: byLocale.ru ?? { title: "", description: "" },
       hy: byLocale.hy ?? { title: "", description: "" },
     },
   };

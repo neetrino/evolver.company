@@ -157,6 +157,7 @@ export function projectToFormData(
   project: NonNullable<Awaited<ReturnType<typeof getProjectById>>>,
 ): ProjectFormData {
   const en = project.translations.find((t) => t.locale === "en");
+  const ru = project.translations.find((t) => t.locale === "ru");
   const hy = project.translations.find((t) => t.locale === "hy");
 
   return {
@@ -175,6 +176,11 @@ export function projectToFormData(
         title: en?.title ?? "",
         shortDescription: en?.shortDescription ?? "",
         longDescription: en?.longDescription ?? "",
+      },
+      ru: {
+        title: ru?.title ?? "",
+        shortDescription: ru?.shortDescription ?? "",
+        longDescription: ru?.longDescription ?? "",
       },
       hy: {
         title: hy?.title ?? "",
