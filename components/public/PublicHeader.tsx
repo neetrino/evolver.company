@@ -64,8 +64,15 @@ export function PublicHeader({ locale }: PublicHeaderProps) {
   const isProjectsPage = pathname === `/${locale}/projects`;
   const isAboutUsPage = pathname === `/${locale}/about-us`;
   const isPartnershipPage = pathname === `/${locale}/partnership`;
+  const isBlogPage =
+    pathname === `/${locale}/blog` || pathname.startsWith(`/${locale}/blog/`);
   const isOverlayHeader =
-    isHomePage || isServicesPage || isProjectsPage || isAboutUsPage || isPartnershipPage;
+    isHomePage ||
+    isServicesPage ||
+    isProjectsPage ||
+    isAboutUsPage ||
+    isPartnershipPage ||
+    isBlogPage;
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";

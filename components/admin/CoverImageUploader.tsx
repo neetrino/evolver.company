@@ -3,15 +3,22 @@
 import Image from "next/image";
 import { useRef, useState } from "react";
 import type { CoverImageData } from "@/lib/project-types";
+import type { UploadContext } from "@/lib/upload-types";
 import { uploadFilesToAdmin } from "@/lib/upload-client";
 
 type CoverImageUploaderProps = {
   value: CoverImageData | null;
   onChange: (value: CoverImageData | null) => void;
   projectId?: string;
+  uploadContext?: UploadContext;
 };
 
-export function CoverImageUploader({ value, onChange, projectId }: CoverImageUploaderProps) {
+export function CoverImageUploader({
+  value,
+  onChange,
+  projectId,
+  uploadContext = "project",
+}: CoverImageUploaderProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -28,7 +35,7 @@ export function CoverImageUploader({ value, onChange, projectId }: CoverImageUpl
     setIsUploading(true);
 
     try {
-      const uploaded = await uploadFilesToAdmin([fileList[0]], projectId);
+      const uploaded = await uploadFilesToAdmin([fileList[0]], projectId, uploadContext);
       const file = uploaded[0];
 
       if (!file) {

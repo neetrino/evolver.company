@@ -21,6 +21,7 @@ export function AdminShell({ children, unreadCount = 0, topbarActions }: AdminSh
       label: "Content",
       links: [
         { href: "/admin/projects", label: "Projects" },
+        { href: "/admin/posts", label: "Blog posts" },
         { href: "/admin/home-hero", label: "Home Hero" },
       ],
     },

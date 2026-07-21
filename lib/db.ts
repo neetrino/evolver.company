@@ -25,8 +25,25 @@ function createPrismaClient(): PrismaClient {
   });
 }
 
-export const prisma = globalForPrisma.prisma ?? createPrismaClient();
-
-if (process.env.NODE_ENV !== "production") {
-  globalForPrisma.prisma = prisma;
+function hasPostDelegate(client: PrismaClient): boolean {
+  return typeof client.post?.findMany === "function";
 }
+
+function resolvePrismaClient(): PrismaClient {
+  const existing = globalForPrisma.prisma;
+
+  // After `prisma generate` adds models, a stale global client can lack new delegates.
+  if (existing && hasPostDelegate(existing)) {
+    return existing;
+  }
+
+  const client = createPrismaClient();
+
+  if (process.env.NODE_ENV !== "production") {
+    globalForPrisma.prisma = client;
+  }
+
+  return client;
+}
+
+export const prisma = resolvePrismaClient();
