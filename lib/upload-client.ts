@@ -1,3 +1,5 @@
+import type { UploadContext } from "@/lib/upload-types";
+
 export type UploadedFileResult = {
   url: string;
   key: string;
@@ -12,6 +14,7 @@ type UploadResponse = {
 export async function uploadFilesToAdmin(
   files: File[],
   projectId?: string,
+  context: UploadContext = "project",
 ): Promise<UploadedFileResult[]> {
   const formData = new FormData();
 
@@ -21,6 +24,10 @@ export async function uploadFilesToAdmin(
 
   if (projectId) {
     formData.append("projectId", projectId);
+  }
+
+  if (context !== "project") {
+    formData.append("context", context);
   }
 
   const response = await fetch("/api/admin/upload", {

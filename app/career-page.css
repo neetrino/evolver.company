@@ -1,0 +1,60 @@
+/* Career-specific overlays on top of blog + contact visual language */
+
+.career-card-meta {
+  display: grid;
+  gap: 10px;
+  margin: 4px 0 0;
+}
+
+.career-card-meta div {
+  display: grid;
+  gap: 2px;
+}
+
+.career-card-meta dt {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(176, 38, 255, 0.72);
+}
+
+.blog-card-item[data-accent="cyan"] .career-card-meta dt {
+  color: rgba(0, 209, 255, 0.72);
+}
+
+.career-card-meta dd {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: rgba(244, 244, 245, 0.88);
+}
+
+.career-detail-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 28px;
+  margin: 0;
+}
+
+.career-detail-meta dt {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(0, 209, 255, 0.72);
+}
+
+.career-detail-meta dd {
+  margin: 6px 0 0;
+  font-size: 1.05rem;
+  color: rgba(244, 244, 245, 0.92);
+}
+
+.career-apply {
+  position: relative;
+  z-index: 1;
+  margin-top: clamp(28px, 4vw, 40px);
+  margin-bottom: clamp(28px, 4vw, 40px);
+  isolation: isolate;
+  overflow: hidden;
+}

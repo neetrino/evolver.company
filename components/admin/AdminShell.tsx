@@ -6,10 +6,16 @@ import { Sidebar } from "@/components/admin/Sidebar";
 type AdminShellProps = {
   children: React.ReactNode;
   unreadCount?: number;
+  applicationUnreadCount?: number;
   topbarActions?: React.ReactNode;
 };
 
-export function AdminShell({ children, unreadCount = 0, topbarActions }: AdminShellProps) {
+export function AdminShell({
+  children,
+  unreadCount = 0,
+  applicationUnreadCount = 0,
+  topbarActions,
+}: AdminShellProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const groups = [
@@ -21,6 +27,8 @@ export function AdminShell({ children, unreadCount = 0, topbarActions }: AdminSh
       label: "Content",
       links: [
         { href: "/admin/projects", label: "Projects" },
+        { href: "/admin/posts", label: "Blog posts" },
+        { href: "/admin/careers", label: "Careers" },
         { href: "/admin/home-hero", label: "Home Hero" },
       ],
     },
@@ -31,6 +39,11 @@ export function AdminShell({ children, unreadCount = 0, topbarActions }: AdminSh
           href: "/admin/contact-messages",
           label: "Contact Messages",
           badge: unreadCount,
+        },
+        {
+          href: "/admin/career-applications",
+          label: "Career applications",
+          badge: applicationUnreadCount,
         },
       ],
     },

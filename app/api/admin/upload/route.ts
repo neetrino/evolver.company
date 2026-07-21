@@ -7,6 +7,14 @@ function parseUploadContext(value: FormDataEntryValue | null): UploadContext {
     return "homeHero";
   }
 
+  if (value === "blog") {
+    return "blog";
+  }
+
+  if (value === "career") {
+    return "career";
+  }
+
   return "project";
 }
 

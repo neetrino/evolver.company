@@ -64,6 +64,7 @@
   --radius-md: 12px;
   --radius-lg: 16px;
   --container: 1320px;
+  --header-container: 1520px;
   --header-height: 92px;
   --header-shell-height: 64px;
   --brand-logo-height: 44px;
@@ -318,6 +319,11 @@ a {
 .public-header-overlay {
   background: transparent;
   backdrop-filter: none;
+}
+
+.public-header .container {
+  max-width: var(--header-container);
+  padding-inline: clamp(12px, 2vw, 28px);
 }
 
 .public-header-wrap {
