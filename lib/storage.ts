@@ -98,6 +98,11 @@ function buildBlogObjectKey(folder: string, filename: string, mimeType: string):
   return `blog/${folder}/${Date.now()}-${randomUUID()}${extension}`;
 }
 
+function buildCareerObjectKey(folder: string, filename: string, mimeType: string): string {
+  const extension = getExtension(filename, mimeType);
+  return `career/${folder}/${Date.now()}-${randomUUID()}${extension}`;
+}
+
 function buildObjectKey(
   context: UploadContext,
   folder: string,
@@ -110,6 +115,10 @@ function buildObjectKey(
 
   if (context === "blog") {
     return buildBlogObjectKey(folder, filename, mimeType);
+  }
+
+  if (context === "career") {
+    return buildCareerObjectKey(folder, filename, mimeType);
   }
 
   return buildProjectObjectKey(folder, filename, mimeType);

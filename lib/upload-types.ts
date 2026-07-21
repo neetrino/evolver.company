@@ -1,1 +1,1 @@
-export type UploadContext = "project" | "homeHero" | "blog";
+export type UploadContext = "project" | "homeHero" | "blog" | "career";

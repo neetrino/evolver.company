@@ -86,3 +86,43 @@ model PostTranslation {
 
   @@unique([postId, locale])
 }
+
+model CareerJob {
+  id            String                 @id @default(cuid())
+  slug          String                 @unique
+  coverImage    String?
+  coverImageKey String?
+  salary        String
+  workHours     String
+  isPublished   Boolean                @default(true)
+  createdAt     DateTime               @default(now())
+  updatedAt     DateTime               @updatedAt
+  translations  CareerJobTranslation[]
+  applications  CareerApplication[]
+}
+
+model CareerJobTranslation {
+  id          String    @id @default(cuid())
+  jobId       String
+  locale      String
+  title       String
+  description String
+  job         CareerJob @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  @@unique([jobId, locale])
+}
+
+model CareerApplication {
+  id        String    @id @default(cuid())
+  jobId     String
+  name      String
+  email     String
+  phone     String?
+  message   String
+  isRead    Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  job       CareerJob @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  @@index([jobId])
+  @@index([isRead])
+}

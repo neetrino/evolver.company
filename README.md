@@ -58,6 +58,10 @@ Protected routes:
 - `/admin/projects/new`
 - `/admin/projects/[id]/edit`
 - `/admin/contact-messages`
+- `/admin/careers`
+- `/admin/careers/new`
+- `/admin/careers/[id]/edit`
+- `/admin/career-applications`
 
 ## Home Hero carousel
 
@@ -70,7 +74,7 @@ Protected routes:
 ## Image uploads (Cloudflare R2)
 
 - All uploads go through `POST /api/admin/upload` (admin-only)
-- Optional `context` field: `project` (default) or `homeHero`
+- Optional `context` field: `project` (default), `homeHero`, `blog`, or `career`
 - Storage implementation: `lib/storage.ts`
 - Public URLs saved in DB use `R2_PUBLIC_URL`
 - R2 object keys are stored in `Project.coverImageKey` and `ProjectImage.key` for delete/replace
@@ -93,6 +97,10 @@ Upload path format:
   - `/[locale]/projects/[slug]`
   - `/[locale]/about-us`
   - `/[locale]/contact-us`
+  - `/[locale]/career`
+  - `/[locale]/career/[slug]`
+  - `/[locale]/blog`
+  - `/[locale]/blog/[slug]`
 
 The header language switcher keeps the current page when switching locale.
 
@@ -115,6 +123,14 @@ Static page copy for Home, Services, About Us, and Contact Us is hardcoded in `l
 8. Click **Create project** — both translations are saved on one project record.
 
 Slug auto-generates from the English title on create; you can edit it before saving.
+
+## Careers
+
+1. Log in to admin → **Careers → New job**.
+2. Fill salary, work hours, cover image, and EN/HY title + description.
+3. Publish — the role appears on `/[locale]/career`.
+4. Public visitors open a role and submit an application (name, email, phone, message).
+5. Review submissions under **Career applications**.
 
 ## Scripts
 

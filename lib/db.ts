@@ -25,15 +25,18 @@ function createPrismaClient(): PrismaClient {
   });
 }
 
-function hasPostDelegate(client: PrismaClient): boolean {
-  return typeof client.post?.findMany === "function";
+function hasRequiredDelegates(client: PrismaClient): boolean {
+  return (
+    typeof client.post?.findMany === "function" &&
+    typeof client.careerJob?.findMany === "function"
+  );
 }
 
 function resolvePrismaClient(): PrismaClient {
   const existing = globalForPrisma.prisma;
 
   // After `prisma generate` adds models, a stale global client can lack new delegates.
-  if (existing && hasPostDelegate(existing)) {
+  if (existing && hasRequiredDelegates(existing)) {
     return existing;
   }
 
