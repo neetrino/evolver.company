@@ -1,5 +1,5 @@
 import { deleteMessageAction, markMessageReadAction } from "@/app/admin/contact/actions";
-import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { AdminLocalizedHeader } from "@/components/admin/AdminLocalizedHeader";
 import { Badge } from "@/components/shared/Badge";
 import { requireAdmin } from "@/lib/auth";
 import { getContactMessages } from "@/lib/contact";
@@ -12,10 +12,7 @@ export default async function ContactMessagesPage() {
 
   return (
     <>
-      <AdminPageHeader
-        title="Contact Messages"
-        subtitle="Messages submitted from the public contact form."
-      />
+      <AdminLocalizedHeader titleKey="contactTitle" subtitleKey="contactSubtitle" />
 
       <div className="admin-card overflow-x-auto">
         {messages.length === 0 ? (

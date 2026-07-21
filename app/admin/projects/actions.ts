@@ -3,9 +3,9 @@
 import { revalidatePath, revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import { ADMIN_CONTENT_LOCALES } from "@/lib/admin-locales";
 import { requireAdmin, verifyAdminCredentials, createSession, destroySession } from "@/lib/auth";
 import { prisma } from "@/lib/db";
-import { LOCALES } from "@/lib/i18n";
 import type { GalleryImageItem } from "@/lib/project-types";
 import { slugify } from "@/lib/project-types";
 import { isSlugTaken, getCatalogSlugForCreate, getPublicRevalidationSlugs } from "@/lib/projects";
@@ -52,6 +52,7 @@ const projectSchema = z
     galleryImages: z.array(galleryImageSchema),
     translations: z.object({
       en: translationSchema,
+      ru: translationSchema,
       hy: translationSchema,
     }),
   })
@@ -101,6 +102,11 @@ function parseProjectForm(formData: FormData) {
         title: formData.get("en_title"),
         shortDescription: formData.get("en_shortDescription"),
         longDescription: formData.get("en_longDescription"),
+      },
+      ru: {
+        title: formData.get("ru_title"),
+        shortDescription: formData.get("ru_shortDescription"),
+        longDescription: formData.get("ru_longDescription"),
       },
       hy: {
         title: formData.get("hy_title"),
@@ -250,7 +256,7 @@ export async function createProject(
       accentColor,
       isPublished: data.isPublished,
       translations: {
-        create: LOCALES.map((locale) => ({
+        create: ADMIN_CONTENT_LOCALES.map((locale) => ({
           locale,
           title: data.translations[locale].title,
           shortDescription: data.translations[locale].shortDescription,
@@ -273,7 +279,9 @@ export async function createProject(
       catalogSlug: getCatalogSlugForCreate(normalizedSlug),
     }),
   );
-  redirect("/admin/projects");
+  revalidatePath("/admin/projects");
+
+  return { success: "Project created successfully." };
 }
 
 export async function updateProject(
@@ -322,7 +330,7 @@ export async function updateProject(
   });
 
   await Promise.all(
-    LOCALES.map((locale) =>
+    ADMIN_CONTENT_LOCALES.map((locale) =>
       prisma.projectTranslation.upsert({
         where: {
           projectId_locale: {

@@ -1,7 +1,36 @@
 "use client";
 
-import { useState } from "react";
-import { Sidebar } from "@/components/admin/Sidebar";
+import { useCallback, useState, useSyncExternalStore } from "react";
+import { AdminContentLocaleProvider } from "@/components/admin/AdminContentLocaleProvider";
+import {
+  Sidebar,
+  type SidebarGroupKey,
+  type SidebarNavKey,
+} from "@/components/admin/Sidebar";
+import { useAdminUi } from "@/components/admin/useAdminUi";
+
+const SIDEBAR_COLLAPSED_KEY = "evolver-admin-sidebar-collapsed";
+
+const collapsedListeners = new Set<() => void>();
+
+function emitCollapsedChange(): void {
+  collapsedListeners.forEach((listener) => listener());
+}
+
+function subscribeCollapsed(listener: () => void): () => void {
+  collapsedListeners.add(listener);
+  return () => {
+    collapsedListeners.delete(listener);
+  };
+}
+
+function getCollapsedSnapshot(): boolean {
+  return window.localStorage.getItem(SIDEBAR_COLLAPSED_KEY) === "true";
+}
+
+function getCollapsedServerSnapshot(): boolean {
+  return false;
+}
 
 type AdminShellProps = {
   children: React.ReactNode;
@@ -10,44 +39,73 @@ type AdminShellProps = {
   topbarActions?: React.ReactNode;
 };
 
-export function AdminShell({
+type NavGroup = {
+  labelKey: SidebarGroupKey;
+  links: Array<{
+    href: string;
+    labelKey: SidebarNavKey;
+    badge?: number;
+  }>;
+};
+
+function AdminShellInner({
   children,
   unreadCount = 0,
   applicationUnreadCount = 0,
   topbarActions,
 }: AdminShellProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const sidebarCollapsed = useSyncExternalStore(
+    subscribeCollapsed,
+    getCollapsedSnapshot,
+    getCollapsedServerSnapshot,
+  );
+  const ui = useAdminUi();
 
-  const groups = [
+  const toggleSidebarCollapsed = useCallback(() => {
+    const next = !getCollapsedSnapshot();
+    window.localStorage.setItem(SIDEBAR_COLLAPSED_KEY, String(next));
+    emitCollapsedChange();
+  }, []);
+
+  const groups: NavGroup[] = [
     {
-      label: "Overview",
-      links: [{ href: "/admin", label: "Dashboard" }],
+      labelKey: "groupOverview",
+      links: [{ href: "/admin", labelKey: "navDashboard" }],
     },
     {
-      label: "Content",
+      labelKey: "groupContent",
       links: [
-        { href: "/admin/projects", label: "Projects" },
-        { href: "/admin/posts", label: "Blog posts" },
-        { href: "/admin/careers", label: "Careers" },
-        { href: "/admin/home-hero", label: "Home Hero" },
+        { href: "/admin/projects", labelKey: "navProjects" },
+        { href: "/admin/posts", labelKey: "navPosts" },
+        { href: "/admin/careers", labelKey: "navCareers" },
+        { href: "/admin/home-hero", labelKey: "navHomeHero" },
       ],
     },
     {
-      label: "Inbox",
+      labelKey: "groupInbox",
       links: [
         {
           href: "/admin/contact-messages",
-          label: "Contact Messages",
+          labelKey: "navContactMessages",
           badge: unreadCount,
         },
         {
           href: "/admin/career-applications",
-          label: "Career applications",
+          labelKey: "navCareerApplications",
           badge: applicationUnreadCount,
         },
       ],
     },
   ];
+
+  const sidebarClassName = [
+    "admin-sidebar",
+    sidebarOpen ? "admin-sidebar-open" : "",
+    sidebarCollapsed ? "admin-sidebar-collapsed" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <div className="admin-shell">
@@ -60,8 +118,13 @@ export function AdminShell({
         />
       ) : null}
 
-      <div className={`admin-sidebar ${sidebarOpen ? "admin-sidebar-open" : ""}`}>
-        <Sidebar groups={groups} onNavigate={() => setSidebarOpen(false)} />
+      <div className={sidebarClassName}>
+        <Sidebar
+          groups={groups}
+          collapsed={sidebarCollapsed}
+          onToggleCollapsed={toggleSidebarCollapsed}
+          onNavigate={() => setSidebarOpen(false)}
+        />
       </div>
 
       <div className="admin-main">
@@ -71,12 +134,20 @@ export function AdminShell({
             className="admin-mobile-toggle"
             onClick={() => setSidebarOpen(true)}
           >
-            Menu
+            {ui.menu}
           </button>
           <div className="ml-auto flex items-center gap-3">{topbarActions}</div>
         </div>
         <div className="admin-content">{children}</div>
       </div>
     </div>
+  );
+}
+
+export function AdminShell(props: AdminShellProps) {
+  return (
+    <AdminContentLocaleProvider>
+      <AdminShellInner {...props} />
+    </AdminContentLocaleProvider>
   );
 }

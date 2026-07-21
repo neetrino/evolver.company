@@ -1,14 +1,5 @@
-import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
-import { requireAdmin } from "@/lib/auth";
-import { ProjectForm } from "@/components/admin/ProjectForm";
+import { redirect } from "next/navigation";
 
-export default async function NewProjectPage() {
-  await requireAdmin();
-
-  return (
-    <>
-      <AdminPageHeader title="New project" subtitle="Create a bilingual project with R2 media." />
-      <ProjectForm mode="create" />
-    </>
-  );
+export default function NewProjectPage() {
+  redirect("/admin/projects");
 }

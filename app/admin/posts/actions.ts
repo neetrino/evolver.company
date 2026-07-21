@@ -3,9 +3,9 @@
 import { revalidatePath, revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import { ADMIN_CONTENT_LOCALES } from "@/lib/admin-locales";
 import { requireAdmin } from "@/lib/auth";
 import { prisma } from "@/lib/db";
-import { LOCALES } from "@/lib/i18n";
 import { isPostSlugTaken, slugify } from "@/lib/posts";
 import { deleteFileFromR2 } from "@/lib/storage";
 
@@ -32,6 +32,7 @@ const postSchema = z.object({
   coverImageKey: z.string().nullable(),
   translations: z.object({
     en: translationSchema,
+    ru: translationSchema,
     hy: translationSchema,
   }),
 });
@@ -52,6 +53,10 @@ function parsePostForm(formData: FormData) {
       en: {
         title: formData.get("en_title"),
         description: formData.get("en_description"),
+      },
+      ru: {
+        title: formData.get("ru_title"),
+        description: formData.get("ru_description"),
       },
       hy: {
         title: formData.get("hy_title"),
@@ -113,7 +118,7 @@ export async function createPost(
       coverImageKey: data.coverImageKey,
       isPublished: data.isPublished,
       translations: {
-        create: LOCALES.map((locale) => ({
+        create: ADMIN_CONTENT_LOCALES.map((locale) => ({
           locale,
           title: data.translations[locale].title,
           description: data.translations[locale].description,
@@ -123,7 +128,9 @@ export async function createPost(
   });
 
   revalidatePublicBlogCache([normalizedSlug]);
-  redirect("/admin/posts");
+  revalidatePath("/admin/posts");
+
+  return { success: "Post created successfully." };
 }
 
 export async function updatePost(
@@ -169,7 +176,7 @@ export async function updatePost(
   });
 
   await Promise.all(
-    LOCALES.map((locale) =>
+    ADMIN_CONTENT_LOCALES.map((locale) =>
       prisma.postTranslation.upsert({
         where: {
           postId_locale: {

@@ -1,30 +1,35 @@
 "use client";
 
-import type { Locale } from "@/lib/i18n";
+import {
+  ADMIN_CONTENT_LOCALE_LABELS,
+  ADMIN_CONTENT_LOCALES,
+  type AdminContentLocale,
+} from "@/lib/admin-locales";
 
 type ProjectLanguageTabsProps = {
-  activeTab: Locale;
-  onTabChange: (locale: Locale) => void;
+  activeTab: AdminContentLocale;
+  onTabChange: (locale: AdminContentLocale) => void;
 };
 
 export function ProjectLanguageTabs({ activeTab, onTabChange }: ProjectLanguageTabsProps) {
-  const tabs: { locale: Locale; label: string }[] = [
-    { locale: "hy", label: "Armenian" },
-    { locale: "en", label: "English" },
-  ];
-
   return (
-    <div className="admin-tabs">
-      {tabs.map((tab) => (
-        <button
-          key={tab.locale}
-          type="button"
-          className={`admin-tab ${activeTab === tab.locale ? "admin-tab-active" : ""}`}
-          onClick={() => onTabChange(tab.locale)}
-        >
-          {tab.label}
-        </button>
-      ))}
+    <div className="admin-lang-toggle" role="tablist" aria-label="Content language">
+      {ADMIN_CONTENT_LOCALES.map((locale) => {
+        const isActive = activeTab === locale;
+
+        return (
+          <button
+            key={locale}
+            type="button"
+            role="tab"
+            aria-selected={isActive}
+            className={`admin-lang-toggle-btn ${isActive ? "admin-lang-toggle-btn-active" : ""}`}
+            onClick={() => onTabChange(locale)}
+          >
+            {ADMIN_CONTENT_LOCALE_LABELS[locale]}
+          </button>
+        );
+      })}
     </div>
   );
 }

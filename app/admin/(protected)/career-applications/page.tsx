@@ -2,7 +2,7 @@ import {
   deleteApplicationAction,
   markApplicationReadAction,
 } from "@/app/admin/career-applications/actions";
-import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { AdminLocalizedHeader } from "@/components/admin/AdminLocalizedHeader";
 import { Badge } from "@/components/shared/Badge";
 import { requireAdmin } from "@/lib/auth";
 import { getCareerApplications, getCareerTranslation } from "@/lib/careers";
@@ -15,10 +15,7 @@ export default async function CareerApplicationsPage() {
 
   return (
     <>
-      <AdminPageHeader
-        title="Career applications"
-        subtitle="Applications submitted from public career listings."
-      />
+      <AdminLocalizedHeader titleKey="applicationsTitle" subtitleKey="applicationsSubtitle" />
 
       <div className="admin-card overflow-x-auto">
         {applications.length === 0 ? (

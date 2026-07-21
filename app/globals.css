@@ -5111,7 +5111,7 @@ a {
   color: var(--admin-text);
 }
 
-.admin-form-field input,
+.admin-form-field input:not([type="checkbox"]):not([type="radio"]):not([type="color"]),
 .admin-form-field textarea,
 .admin-form-field select {
   width: 100%;

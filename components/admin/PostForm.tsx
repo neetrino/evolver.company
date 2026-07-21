@@ -1,11 +1,12 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import type { PostActionState } from "@/app/admin/posts/actions";
 import { createPost, updatePost } from "@/app/admin/posts/actions";
 import { CoverImageUploader } from "@/components/admin/CoverImageUploader";
 import { ProjectLanguageTabs } from "@/components/admin/ProjectLanguageTabs";
-import type { Locale } from "@/lib/i18n";
+import type { AdminContentLocale } from "@/lib/admin-locales";
+import { ADMIN_CONTENT_LOCALE_LABELS } from "@/lib/admin-locales";
 import type { PostFormData } from "@/lib/post-types";
 import { slugify } from "@/lib/project-types";
 
@@ -13,20 +14,38 @@ type PostFormProps = {
   mode: "create" | "edit";
   postId?: string;
   initialData?: PostFormData;
+  embedded?: boolean;
+  hideLanguageToggle?: boolean;
+  activeLocale?: AdminContentLocale;
+  onLocaleChange?: (locale: AdminContentLocale) => void;
+  onSuccess?: () => void;
 };
+
+const EMPTY_TRANSLATION = { title: "", description: "" };
 
 const EMPTY_FORM: PostFormData = {
   slug: "",
   isPublished: true,
   coverImage: null,
   translations: {
-    en: { title: "", description: "" },
-    hy: { title: "", description: "" },
+    en: EMPTY_TRANSLATION,
+    ru: EMPTY_TRANSLATION,
+    hy: EMPTY_TRANSLATION,
   },
 };
 
-export function PostForm({ mode, postId, initialData }: PostFormProps) {
-  const [activeTab, setActiveTab] = useState<Locale>("hy");
+export function PostForm({
+  mode,
+  postId,
+  initialData,
+  embedded = false,
+  hideLanguageToggle = false,
+  activeLocale,
+  onLocaleChange,
+  onSuccess,
+}: PostFormProps) {
+  const [internalTab, setInternalTab] = useState<AdminContentLocale>("hy");
+  const activeTab = activeLocale ?? internalTab;
   const [formData, setFormData] = useState<PostFormData>(initialData ?? EMPTY_FORM);
   const [slugTouched, setSlugTouched] = useState(Boolean(initialData?.slug));
 
@@ -38,8 +57,21 @@ export function PostForm({ mode, postId, initialData }: PostFormProps) {
     {},
   );
 
+  useEffect(() => {
+    if (state.success) {
+      onSuccess?.();
+    }
+  }, [state.success, onSuccess]);
+
+  function handleTabChange(locale: AdminContentLocale): void {
+    onLocaleChange?.(locale);
+    if (activeLocale === undefined) {
+      setInternalTab(locale);
+    }
+  }
+
   function updateTranslation(
-    locale: Locale,
+    locale: AdminContentLocale,
     field: keyof PostFormData["translations"]["en"],
     value: string,
   ): void {
@@ -64,9 +96,9 @@ export function PostForm({ mode, postId, initialData }: PostFormProps) {
   }
 
   return (
-    <form action={formAction} className="admin-card">
+    <form action={formAction} className={embedded ? "admin-sheet-form" : "admin-card"}>
       {state.error ? <p className="form-error">{state.error}</p> : null}
-      {state.success ? <p className="form-success">{state.success}</p> : null}
+      {state.success && !embedded ? <p className="form-success">{state.success}</p> : null}
       {state.fieldErrors?.slug ? <p className="form-error">{state.fieldErrors.slug}</p> : null}
 
       <div className="admin-form-field">
@@ -90,68 +122,48 @@ export function PostForm({ mode, postId, initialData }: PostFormProps) {
         uploadContext="blog"
       />
 
-      <div className="admin-form-field">
-        <label className="flex items-center gap-2">
-          <input
-            type="checkbox"
-            checked={formData.isPublished}
-            onChange={(event) =>
-              setFormData((current) => ({ ...current, isPublished: event.target.checked }))
-            }
-          />
-          Published
-        </label>
-      </div>
+      <label className="admin-checkbox">
+        <input
+          type="checkbox"
+          checked={formData.isPublished}
+          onChange={(event) =>
+            setFormData((current) => ({ ...current, isPublished: event.target.checked }))
+          }
+        />
+        Published
+      </label>
 
-      <ProjectLanguageTabs activeTab={activeTab} onTabChange={setActiveTab} />
+      {hideLanguageToggle ? null : (
+        <ProjectLanguageTabs activeTab={activeTab} onTabChange={handleTabChange} />
+      )}
 
-      <div className={activeTab === "hy" ? "block" : "hidden"}>
-        <div className="admin-form-field">
-          <label htmlFor="hy_title">Title (HY)</label>
-          <input
-            id="hy_title"
-            name="hy_title"
-            value={formData.translations.hy.title}
-            onChange={(event) => updateTranslation("hy", "title", event.target.value)}
-            required
-          />
+      {(["hy", "en", "ru"] as const).map((locale) => (
+        <div key={locale} className={activeTab === locale ? "block" : "hidden"}>
+          <div className="admin-form-field">
+            <label htmlFor={`${locale}_title`}>Title ({ADMIN_CONTENT_LOCALE_LABELS[locale]})</label>
+            <input
+              id={`${locale}_title`}
+              name={`${locale}_title`}
+              value={formData.translations[locale].title}
+              onChange={(event) => updateTranslation(locale, "title", event.target.value)}
+              required
+            />
+          </div>
+          <div className="admin-form-field">
+            <label htmlFor={`${locale}_description`}>
+              Description ({ADMIN_CONTENT_LOCALE_LABELS[locale]})
+            </label>
+            <textarea
+              id={`${locale}_description`}
+              name={`${locale}_description`}
+              value={formData.translations[locale].description}
+              onChange={(event) => updateTranslation(locale, "description", event.target.value)}
+              required
+              rows={8}
+            />
+          </div>
         </div>
-        <div className="admin-form-field">
-          <label htmlFor="hy_description">Description (HY)</label>
-          <textarea
-            id="hy_description"
-            name="hy_description"
-            value={formData.translations.hy.description}
-            onChange={(event) => updateTranslation("hy", "description", event.target.value)}
-            required
-            rows={8}
-          />
-        </div>
-      </div>
-
-      <div className={activeTab === "en" ? "block" : "hidden"}>
-        <div className="admin-form-field">
-          <label htmlFor="en_title">Title (EN)</label>
-          <input
-            id="en_title"
-            name="en_title"
-            value={formData.translations.en.title}
-            onChange={(event) => updateTranslation("en", "title", event.target.value)}
-            required
-          />
-        </div>
-        <div className="admin-form-field">
-          <label htmlFor="en_description">Description (EN)</label>
-          <textarea
-            id="en_description"
-            name="en_description"
-            value={formData.translations.en.description}
-            onChange={(event) => updateTranslation("en", "description", event.target.value)}
-            required
-            rows={8}
-          />
-        </div>
-      </div>
+      ))}
 
       <input type="hidden" name="coverImage" value={formData.coverImage?.url ?? ""} />
       <input type="hidden" name="coverImageKey" value={formData.coverImage?.key ?? ""} />

@@ -3,9 +3,9 @@
 import { revalidatePath, revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import { ADMIN_CONTENT_LOCALES } from "@/lib/admin-locales";
 import { requireAdmin } from "@/lib/auth";
 import { prisma } from "@/lib/db";
-import { LOCALES } from "@/lib/i18n";
 import { isCareerSlugTaken, slugify } from "@/lib/careers";
 import { deleteFileFromR2 } from "@/lib/storage";
 
@@ -34,6 +34,7 @@ const careerJobSchema = z.object({
   coverImageKey: z.string().nullable(),
   translations: z.object({
     en: translationSchema,
+    ru: translationSchema,
     hy: translationSchema,
   }),
 });
@@ -56,6 +57,10 @@ function parseCareerForm(formData: FormData) {
       en: {
         title: formData.get("en_title"),
         description: formData.get("en_description"),
+      },
+      ru: {
+        title: formData.get("ru_title"),
+        description: formData.get("ru_description"),
       },
       hy: {
         title: formData.get("hy_title"),
@@ -119,7 +124,7 @@ export async function createCareerJob(
       coverImageKey: data.coverImageKey,
       isPublished: data.isPublished,
       translations: {
-        create: LOCALES.map((locale) => ({
+        create: ADMIN_CONTENT_LOCALES.map((locale) => ({
           locale,
           title: data.translations[locale].title,
           description: data.translations[locale].description,
@@ -129,7 +134,9 @@ export async function createCareerJob(
   });
 
   revalidatePublicCareerCache([normalizedSlug]);
-  redirect("/admin/careers");
+  revalidatePath("/admin/careers");
+
+  return { success: "Job created successfully." };
 }
 
 export async function updateCareerJob(
@@ -177,7 +184,7 @@ export async function updateCareerJob(
   });
 
   await Promise.all(
-    LOCALES.map((locale) =>
+    ADMIN_CONTENT_LOCALES.map((locale) =>
       prisma.careerJobTranslation.upsert({
         where: {
           jobId_locale: {

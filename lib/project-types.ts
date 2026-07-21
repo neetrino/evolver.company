@@ -1,3 +1,4 @@
+import type { AdminContentLocale } from "@/lib/admin-locales";
 import type { Locale } from "@/lib/i18n";
 
 export type ProjectFormTranslation = {
@@ -22,7 +23,7 @@ export type ProjectFormData = {
   accentColor: string;
   isPublished: boolean;
   coverImage: CoverImageData | null;
-  translations: Record<Locale, ProjectFormTranslation>;
+  translations: Record<AdminContentLocale, ProjectFormTranslation>;
   galleryImages: GalleryImageItem[];
 };
 
