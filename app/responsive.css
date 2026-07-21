@@ -361,6 +361,10 @@ html {
   .container {
     padding-inline: clamp(32px, 3vw, 48px);
   }
+
+  .public-header .container {
+    padding-inline: clamp(12px, 2vw, 28px);
+  }
 }
 
 /* Notched devices — safe area padding */

@@ -8,7 +8,16 @@ export function isLocale(value: string): value is Locale {
   return LOCALES.includes(value as Locale);
 }
 
-type NavKey = "home" | "services" | "projects" | "aboutUs" | "contactUs";
+type NavKey =
+  | "home"
+  | "services"
+  | "projects"
+  | "partnership"
+  | "blog"
+  | "career"
+  | "customers"
+  | "aboutUs"
+  | "contactUs";
 
 type StaticPageKey = "home" | "services" | "aboutUs" | "contactUs";
 
@@ -27,6 +36,10 @@ const NAV_PATHS: Record<NavKey, string> = {
   home: "",
   services: "/services",
   projects: "/projects",
+  partnership: "/partnership",
+  blog: "/blog",
+  career: "/career",
+  customers: "/customers",
   aboutUs: "/about-us",
   contactUs: "/contact-us",
 };
@@ -36,6 +49,10 @@ const NAV_LABELS: Record<Locale, Record<NavKey, string>> = {
     home: "Home",
     services: "Services",
     projects: "Projects",
+    partnership: "Partnership",
+    blog: "Blog",
+    career: "Career",
+    customers: "Customers",
     aboutUs: "About Us",
     contactUs: "Contact Us",
   },
@@ -43,6 +60,10 @@ const NAV_LABELS: Record<Locale, Record<NavKey, string>> = {
     home: "Գլխավոր",
     services: "Ծառայություններ",
     projects: "Նախագծեր",
+    partnership: "Գործընկերություն",
+    blog: "Բլոգ",
+    career: "Կարիերա",
+    customers: "Հաճախորդներ",
     aboutUs: "Մեր մասին",
     contactUs: "Կապ",
   },
