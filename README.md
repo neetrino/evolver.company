@@ -99,8 +99,10 @@ Upload path format:
   - `/[locale]/contact-us`
   - `/[locale]/career`
   - `/[locale]/career/[slug]`
+  - `/[locale]/customers`
   - `/[locale]/blog`
   - `/[locale]/blog/[slug]`
+  - `/[locale]/partnership`
 
 The header language switcher keeps the current page when switching locale.
 
