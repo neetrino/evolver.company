@@ -11,7 +11,7 @@ const DASHBOARD_LINKS = [
     bodyKey: "dashboardProjectsBody",
   },
   {
-    href: "/admin/posts",
+    href: "/admin/blog",
     titleKey: "postsTitle",
     bodyKey: "dashboardPostsBody",
   },

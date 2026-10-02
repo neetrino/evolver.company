@@ -2,8 +2,9 @@ import "dotenv/config";
 
 import { PrismaPg } from "@prisma/adapter-pg";
 import { Pool } from "pg";
-import { PrismaClient } from "@/prisma/generated/prisma/client";
+import { encodeTranslatableText } from "@/lib/blog/translatable";
 import { normalizeDatabaseUrl } from "@/lib/database-url";
+import { PrismaClient } from "@/prisma/generated/prisma/client";
 import { staticAssetUrl } from "@/lib/static-assets";
 
 const SAMPLE_POSTS = [
@@ -69,45 +70,31 @@ async function main(): Promise<void> {
 
   try {
     for (const post of SAMPLE_POSTS) {
-      await prisma.post.upsert({
+      const title = encodeTranslatableText({
+        en: post.translations.en.title,
+        hy: post.translations.hy.title,
+      });
+      const body = encodeTranslatableText({
+        en: post.translations.en.description,
+        hy: post.translations.hy.description,
+      });
+
+      await prisma.blogPost.upsert({
         where: { slug: post.slug },
         create: {
           slug: post.slug,
-          coverImage: post.coverImage,
+          title,
+          content: body,
+          shortDescription: body,
+          image: post.coverImage,
           isPublished: true,
-          translations: {
-            create: [
-              {
-                locale: "en",
-                title: post.translations.en.title,
-                description: post.translations.en.description,
-              },
-              {
-                locale: "hy",
-                title: post.translations.hy.title,
-                description: post.translations.hy.description,
-              },
-            ],
-          },
         },
         update: {
-          coverImage: post.coverImage,
+          title,
+          content: body,
+          shortDescription: body,
+          image: post.coverImage,
           isPublished: true,
-          translations: {
-            deleteMany: {},
-            create: [
-              {
-                locale: "en",
-                title: post.translations.en.title,
-                description: post.translations.en.description,
-              },
-              {
-                locale: "hy",
-                title: post.translations.hy.title,
-                description: post.translations.hy.description,
-              },
-            ],
-          },
         },
       });
 

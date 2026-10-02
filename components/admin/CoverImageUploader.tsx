@@ -11,6 +11,7 @@ type CoverImageUploaderProps = {
   onChange: (value: CoverImageData | null) => void;
   projectId?: string;
   uploadContext?: UploadContext;
+  label?: string;
 };
 
 export function CoverImageUploader({
@@ -18,6 +19,7 @@ export function CoverImageUploader({
   onChange,
   projectId,
   uploadContext = "project",
+  label = "Cover image",
 }: CoverImageUploaderProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState<string | null>(null);
@@ -71,7 +73,7 @@ export function CoverImageUploader({
 
   return (
     <div className="admin-form-field">
-      <label>Cover image</label>
+      <label>{label}</label>
       <div
         className={`upload-dropzone ${isDragActive ? "upload-dropzone-active" : ""}`}
         onClick={() => inputRef.current?.click()}
