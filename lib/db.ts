@@ -27,7 +27,7 @@ function createPrismaClient(): PrismaClient {
 
 function hasRequiredDelegates(client: PrismaClient): boolean {
   return (
-    typeof client.post?.findMany === "function" &&
+    typeof client.blogPost?.findMany === "function" &&
     typeof client.careerJob?.findMany === "function"
   );
 }

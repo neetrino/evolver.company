@@ -77,7 +77,7 @@ function AdminShellInner({
       labelKey: "groupContent",
       links: [
         { href: "/admin/projects", labelKey: "navProjects" },
-        { href: "/admin/posts", labelKey: "navPosts" },
+        { href: "/admin/blog", labelKey: "navPosts" },
         { href: "/admin/careers", labelKey: "navCareers" },
         { href: "/admin/home-hero", labelKey: "navHomeHero" },
       ],

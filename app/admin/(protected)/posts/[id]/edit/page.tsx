@@ -1,10 +1,10 @@
 import { redirect } from "next/navigation";
 
-type EditPostPageProps = {
+type LegacyEditPostPageProps = {
   params: Promise<{ id: string }>;
 };
 
-export default async function EditPostPage({ params }: EditPostPageProps) {
-  await params;
-  redirect("/admin/posts");
+export default async function LegacyEditPostPage({ params }: LegacyEditPostPageProps) {
+  const { id } = await params;
+  redirect(`/admin/blog/${id}`);
 }

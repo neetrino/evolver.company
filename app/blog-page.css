@@ -1306,3 +1306,128 @@
     transform: none;
   }
 }
+
+.blog-hero-accent {
+  margin: 0;
+  color: #b026ff;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+}
+
+.blog-hero-actions {
+  margin-top: 1.25rem;
+}
+
+.blog-section-divider {
+  height: 1px;
+  margin: 0 auto;
+  max-width: 72rem;
+  background: linear-gradient(90deg, transparent, rgba(176, 38, 255, 0.7), transparent);
+}
+
+.blog-category-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.blog-category-tab {
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  padding: 0.4rem 0.85rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+.blog-category-tab.is-active {
+  background: rgba(176, 38, 255, 0.2);
+}
+
+.blog-card-eyebrow {
+  margin: 0 0 0.35rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.blog-blocks {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.blog-block-heading,
+.blog-html-heading {
+  margin: 0;
+  font-size: clamp(1.4rem, 2vw, 1.8rem);
+}
+
+.blog-rich-text p,
+.blog-photo-caption {
+  line-height: 1.7;
+}
+
+.blog-photo-image,
+.blog-gallery-image,
+.blog-lightbox-image {
+  width: 100%;
+  height: auto;
+}
+
+.blog-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.blog-gallery-button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.blog-video {
+  position: relative;
+  aspect-ratio: 16 / 9;
+}
+
+.blog-video iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.blog-link {
+  color: inherit;
+  text-underline-offset: 0.2em;
+}
+
+.blog-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+}
+
+.blog-lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgba(0, 0, 0, 0.78);
+}
+
+.blog-lightbox-figure {
+  position: relative;
+  z-index: 1;
+  max-width: 960px;
+}
+
+.blog-home-stories {
+  padding: clamp(48px, 8vw, 96px) 0;
+}

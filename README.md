@@ -62,6 +62,12 @@ Protected routes:
 - `/admin/careers/new`
 - `/admin/careers/[id]/edit`
 - `/admin/career-applications`
+- `/admin/blog`
+- `/admin/blog/new`
+- `/admin/blog/[id]`
+- `/admin/blog/categories`
+- `/admin/blog/categories/new`
+- `/admin/blog/categories/[id]`
 
 ## Home Hero carousel
 

@@ -1,8 +1,17 @@
+import { Button } from "@/components/shared/Button";
 import { Container } from "@/components/shared/Container";
-import type { BlogPageContent } from "@/lib/blog-content";
+import { BLOG_POSTS_ANCHOR_ID } from "@/lib/blog/constants";
+
+type BlogHeroContent = {
+  kicker: string;
+  title: string;
+  subtitle: string;
+  accent?: string;
+  browse?: string;
+};
 
 type BlogHeroProps = {
-  hero: BlogPageContent["hero"];
+  hero: BlogHeroContent;
 };
 
 export function BlogHero({ hero }: BlogHeroProps) {
@@ -26,7 +35,13 @@ export function BlogHero({ hero }: BlogHeroProps) {
             <span className="blog-hero-title-glow" aria-hidden="true" />
             <h1 className="blog-hero-title">{hero.title}</h1>
           </div>
+          {hero.accent ? <p className="blog-hero-accent">{hero.accent}</p> : null}
           <p className="blog-hero-subtitle">{hero.subtitle}</p>
+          {hero.browse ? (
+            <div className="blog-hero-actions">
+              <Button href={`#${BLOG_POSTS_ANCHOR_ID}`}>{hero.browse}</Button>
+            </div>
+          ) : null}
         </div>
       </Container>
     </section>

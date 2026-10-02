@@ -3,6 +3,8 @@ import "@/app/home-sections.css";
 import { HeroCarousel } from "@/components/public/HeroCarousel";
 import { ViewportLazy } from "@/components/shared/ViewportLazy";
 import { getHomeContent } from "@/lib/content";
+import { HomeBlogStories } from "@/components/public/blog/HomeBlogStories";
+import { getHomeBlogStories } from "@/lib/blog/queries";
 import {
   getCachedFeaturedProjects,
   getCachedHomeHeroSlides,
@@ -59,9 +61,10 @@ export default async function HomePage({ params }: HomePageProps) {
   const { locale: localeParam } = await params;
   const locale = localeParam as Locale;
   const content = getHomeContent(locale);
-  const [heroSlides, featuredProjects] = await Promise.all([
+  const [heroSlides, featuredProjects, blogStories] = await Promise.all([
     getCachedHomeHeroSlides(),
     getCachedFeaturedProjects(),
+    getHomeBlogStories(locale),
   ]);
 
   return (
@@ -87,6 +90,10 @@ export default async function HomePage({ params }: HomePageProps) {
           emptyMessage={locale === "en" ? "Projects coming soon." : "Նախագծերը շուտով։"}
           viewAllLabel={content.viewAllProjects}
         />
+      </ViewportLazy>
+
+      <ViewportLazy minHeight="560px">
+        <HomeBlogStories locale={locale} posts={blogStories} />
       </ViewportLazy>
 
       <ViewportLazy minHeight="560px">
