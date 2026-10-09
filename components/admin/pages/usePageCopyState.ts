@@ -9,7 +9,7 @@ import type { AdminUiCopy } from "@/lib/admin-ui-i18n";
 import type { AdminContentLocale } from "@/lib/admin-locales";
 import type { PageCopyDraft, PageCopyLocale } from "@/lib/page-copy/constants";
 import { draftFromFields } from "@/lib/page-copy/fields";
-import type { PageCopyEditorModel } from "@/lib/page-copy/model-types";
+import type { PageCopyEditorModel, PageCopyMediaItem } from "@/lib/page-copy/model-types";
 
 export type PageCopyState = {
   model: PageCopyEditorModel;
@@ -23,6 +23,8 @@ export type PageCopyState = {
   setEditedOnly: (value: boolean) => void;
   draft: PageCopyDraft;
   setDraft: (draft: PageCopyDraft) => void;
+  media: PageCopyMediaItem[];
+  setMedia: (media: PageCopyMediaItem[]) => void;
   status: PageCopyActionState;
   setStatus: (status: PageCopyActionState) => void;
   isSaving: boolean;
@@ -41,6 +43,7 @@ export function usePageCopyState(model: PageCopyEditorModel): PageCopyState {
   const [query, setQuery] = useState("");
   const [editedOnly, setEditedOnly] = useState(false);
   const [draft, setDraft] = useState(() => draftFromFields(model.fields, (field, locale) => field.values[locale]));
+  const [media, setMedia] = useState(model.media);
   const [status, setStatus] = useState<PageCopyActionState>({});
   const [isSaving, setIsSaving] = useState(false);
   const [isResetting, setIsResetting] = useState(false);
@@ -57,6 +60,8 @@ export function usePageCopyState(model: PageCopyEditorModel): PageCopyState {
     setEditedOnly,
     draft,
     setDraft,
+    media,
+    setMedia,
     status,
     setStatus,
     isSaving,

@@ -9,6 +9,8 @@ import {
   type PageCopyLocale,
 } from "@/lib/page-copy/constants";
 import { fieldGroup, fieldLabel, isMultilineField, type PageCopyField } from "@/lib/page-copy/fields";
+import { mediaForPage } from "@/lib/page-copy/media";
+import { readPageMedia } from "@/lib/page-copy/media-store";
 import type { PageCopyEditorModel, PageCopyIndexItem } from "@/lib/page-copy/model-types";
 import { hasPageCopyOverrides, readAllPageCopy, readPageCopy } from "@/lib/page-copy/store";
 import { applyCopyOverrides, collectCopyPaths, readStringPath } from "@/lib/page-copy/tree";
@@ -76,6 +78,7 @@ export async function getPageCopyEditorModel(pageId: string): Promise<PageCopyEd
 
   const definition = getPageCopyDefinition(pageId);
   const stored = await readPageCopy(pageId);
+  const builtinMedia = mediaForPage(pageId, definition.load("en"));
 
   return {
     id: pageId,
@@ -83,5 +86,6 @@ export async function getPageCopyEditorModel(pageId: string): Promise<PageCopyEd
     title: definition.title,
     description: definition.description,
     fields: buildFields(pageId, stored),
+    media: (await readPageMedia(pageId)) ?? builtinMedia,
   };
 }

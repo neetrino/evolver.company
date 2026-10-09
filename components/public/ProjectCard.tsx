@@ -66,8 +66,11 @@ export function ProjectCard({ project, locale, index = 0 }: ProjectCardProps) {
   const viewLabel = chrome?.ui.viewProject ?? UI_LABELS[locale].viewProject;
   const { token: accentToken, accentColor } = resolveProjectAccent(project);
   const accentStyle = buildHomeAccentStyle(accentColor);
-  const logo = getProjectLogo(project.catalogSlug ?? project.slug);
-  const illustrationSrc = resolveHomeProjectImage(project.slug, project.coverImage);
+  const slug = project.catalogSlug ?? project.slug;
+  const logo = getProjectLogo(slug);
+  const fallbackImage = resolveHomeProjectImage(slug, project.coverImage);
+  const storedImage = chrome?.projectMedia?.find((item) => item.id === `${slug}-illustration`);
+  const illustrationSrc = chrome?.projectMedia ? (storedImage?.src ?? null) : fallbackImage;
   const cardIndex = String(index + 1).padStart(2, "0");
 
   if (!translation.title) {

@@ -6,7 +6,7 @@ import type { HomeContent } from "@/lib/content";
 import type { AboutSectionContent } from "@/lib/about-section";
 import { type TrustedBySectionContent } from "@/lib/clients-section";
 import { type HomeVideoSectionCopy } from "@/lib/home-videos";
-import { resolveClientLogos, resolvePageCopy } from "@/lib/page-copy/resolve";
+import { resolveClientLogos, resolveHomeVideos, resolvePageCopy } from "@/lib/page-copy/resolve";
 import { type ProductShowcaseContent } from "@/lib/product-showcase";
 import { HomeBlogStories } from "@/components/public/blog/HomeBlogStories";
 import { getHomeBlogStories } from "@/lib/blog/queries";
@@ -65,13 +65,14 @@ type HomePageProps = {
 export default async function HomePage({ params }: HomePageProps) {
   const { locale: localeParam } = await params;
   const locale = localeParam as Locale;
-  const [content, showcase, aboutSection, trusted, videoCopy, logos, heroSlides, featuredProjects, blogStories] =
+  const [content, showcase, aboutSection, trusted, videoCopy, videos, logos, heroSlides, featuredProjects, blogStories] =
     await Promise.all([
     resolvePageCopy<HomeContent & { emptyProjects: string }>("home", locale),
     resolvePageCopy<ProductShowcaseContent>("what-we-do", locale),
     resolvePageCopy<AboutSectionContent>("home-about", locale),
     resolvePageCopy<TrustedBySectionContent>("trusted-by", locale),
     resolvePageCopy<HomeVideoSectionCopy>("home-videos", locale),
+    resolveHomeVideos(),
     resolveClientLogos(locale),
     getCachedHomeHeroSlides(),
     getCachedFeaturedProjects(),
@@ -87,7 +88,7 @@ export default async function HomePage({ params }: HomePageProps) {
       </ViewportLazy>
 
       <ViewportLazy minHeight="640px">
-        <VideoShowcaseSection locale={locale} copy={videoCopy} />
+        <VideoShowcaseSection locale={locale} copy={videoCopy} videos={videos} />
       </ViewportLazy>
 
       <ViewportLazy minHeight="720px">

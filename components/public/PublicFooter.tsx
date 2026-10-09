@@ -8,17 +8,19 @@ import { FooterScrollTop } from "@/components/public/footer/FooterScrollTop";
 import { PublicFooterReveal } from "@/components/public/PublicFooterReveal";
 import type { ContactContent, FooterContent } from "@/lib/content";
 import { getNavItems, type Locale } from "@/lib/i18n";
-import { resolvePageCopy } from "@/lib/page-copy/resolve";
+import { BRAND_LOGO } from "@/lib/brand";
+import { resolveMediaSrc, resolvePageCopy } from "@/lib/page-copy/resolve";
 
 type PublicFooterProps = {
   locale: Locale;
 };
 
 export async function PublicFooter({ locale }: PublicFooterProps) {
-  const [content, navLabels, contact] = await Promise.all([
+  const [content, navLabels, contact, logoSrc] = await Promise.all([
     resolvePageCopy<FooterContent>("footer", locale),
     resolvePageCopy<Record<string, string>>("navigation", locale),
     resolvePageCopy<ContactContent>("contact", locale),
+    resolveMediaSrc("footer", "brand-logo", BRAND_LOGO.src),
   ]);
   const navItems = getNavItems(locale).map((item) => ({
     ...item,
@@ -38,7 +40,7 @@ export async function PublicFooter({ locale }: PublicFooterProps) {
 
         <Container className="public-footer-inner">
           <div className="public-footer-grid">
-            <FooterBrandBlock locale={locale} content={content} />
+            <FooterBrandBlock locale={locale} content={content} logoSrc={logoSrc} />
             <FooterAddressBlock content={content} />
             <FooterInquiriesBlock content={content} email={contact.info.email} />
             <FooterNavBlock locale={locale} content={content} navItems={navItems} />

@@ -3,7 +3,9 @@ import { PublicChromeProvider, type PublicUiLabels } from "@/components/public/P
 import { PublicFooter } from "@/components/public/PublicFooter";
 import { PublicHeader } from "@/components/public/PublicHeader";
 import { getNavItems, isLocale, type Locale } from "@/lib/i18n";
-import { resolvePageCopy } from "@/lib/page-copy/resolve";
+import { BRAND_LOGO } from "@/lib/brand";
+import { resolveMediaSrc, resolvePageCopy } from "@/lib/page-copy/resolve";
+import { readPageMedia } from "@/lib/page-copy/media-store";
 
 type PublicLayoutProps = {
   children: React.ReactNode;
@@ -22,9 +24,11 @@ export default async function LocaleLayout({ children, params }: PublicLayoutPro
   }
 
   const locale = localeParam as Locale;
-  const [navLabels, ui] = await Promise.all([
+  const [navLabels, ui, brandLogoSrc, projectMedia] = await Promise.all([
     resolvePageCopy<Record<string, string>>("navigation", locale),
     resolvePageCopy<PublicUiLabels>("interface", locale),
+    resolveMediaSrc("footer", "brand-logo", BRAND_LOGO.src),
+    readPageMedia("projects"),
   ]);
   const navItems = getNavItems(locale).map((item) => ({
     ...item,
@@ -32,7 +36,7 @@ export default async function LocaleLayout({ children, params }: PublicLayoutPro
   }));
 
   return (
-    <PublicChromeProvider value={{ navItems, ui }}>
+    <PublicChromeProvider value={{ navItems, ui, brandLogoSrc, projectMedia }}>
       <div className="public-theme public-layout">
         <PublicHeader locale={locale} />
         <main>{children}</main>

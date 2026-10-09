@@ -55,6 +55,7 @@ export function PublicHeader({ locale }: PublicHeaderProps) {
   const pathname = usePathname();
   const chrome = usePublicChrome();
   const navItems = chrome?.navItems ?? getNavItems(locale);
+  const logoSrc = chrome ? chrome.brandLogoSrc : BRAND_LOGO.src;
   const [mobileMenuState, setMobileMenuState] = useState<MobileMenuState>({
     isOpen: false,
     openedAtPathname: pathname,
@@ -112,14 +113,18 @@ export function PublicHeader({ locale }: PublicHeaderProps) {
       <Container className="public-header-wrap">
         <div className="public-header-shell">
           <Link href={`/${locale}`} prefetch className="public-brand">
-            <Image
-              src={BRAND_LOGO.src}
-              alt={BRAND_LOGO.alt}
-              width={BRAND_LOGO.width}
-              height={BRAND_LOGO.height}
-              className="public-brand-logo"
-              priority
-            />
+            {logoSrc ? (
+              <Image
+                src={logoSrc}
+                alt={BRAND_LOGO.alt}
+                width={BRAND_LOGO.width}
+                height={BRAND_LOGO.height}
+                className="public-brand-logo"
+                priority
+              />
+            ) : (
+              <span className="public-brand-logo">{BRAND_LOGO.alt}</span>
+            )}
           </Link>
 
           <nav className="public-nav" aria-label="Main navigation">

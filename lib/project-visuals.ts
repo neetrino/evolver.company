@@ -48,6 +48,11 @@ const DEFAULT_VISUAL: ProjectVisualMeta = {
   accent: "purple",
 };
 
+/** Static art for every known project slug. */
+export function listProjectVisuals(): Array<{ slug: string; visual: ProjectVisualMeta }> {
+  return Object.entries(PROJECT_VISUALS).map(([slug, visual]) => ({ slug, visual }));
+}
+
 /** Illustration and accent theme for a project slug. */
 export function getProjectVisual(slug: string): ProjectVisualMeta {
   return PROJECT_VISUALS[slug] ?? DEFAULT_VISUAL;

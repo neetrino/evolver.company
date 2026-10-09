@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext } from "react";
+import type { PageCopyMediaItem } from "@/lib/page-copy/model-types";
 import type { NavItem } from "@/lib/i18n";
 
 export type PublicUiLabels = {
@@ -15,6 +16,8 @@ export type PublicUiLabels = {
 type PublicChromeValue = {
   navItems: NavItem[];
   ui: PublicUiLabels;
+  brandLogoSrc: string | null;
+  projectMedia: PageCopyMediaItem[] | null;
 };
 
 const PublicChromeContext = createContext<PublicChromeValue | null>(null);

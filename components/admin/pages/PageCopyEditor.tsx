@@ -3,10 +3,12 @@
 import { useEffect } from "react";
 import { resetPageCopyAction, savePageCopyAction } from "@/app/admin/pages/actions";
 import { PageCopyGroups } from "@/components/admin/pages/PageCopyGroups";
+import { PageCopyMedia } from "@/components/admin/pages/PageCopyMedia";
 import { usePageCopyState, type PageCopyState } from "@/components/admin/pages/usePageCopyState";
 import { ProjectLanguageTabs } from "@/components/admin/ProjectLanguageTabs";
 import { draftFromFields } from "@/lib/page-copy/fields";
 import { isDraftDirty, localesWithEdits } from "@/lib/page-copy/groups";
+import type { PageCopyMediaItem } from "@/lib/page-copy/model-types";
 import type { PageCopyEditorModel } from "@/lib/page-copy/model-types";
 
 type PageCopyEditorProps = {
@@ -17,12 +19,16 @@ function builtinDraft(fields: PageCopyEditorModel["fields"]) {
   return draftFromFields(fields, (field, locale) => field.defaults[locale]);
 }
 
+function isMediaDirty(current: PageCopyMediaItem[], saved: PageCopyMediaItem[]): boolean {
+  return JSON.stringify(current) !== JSON.stringify(saved);
+}
+
 function hasUnsavedEdits(state: PageCopyState): boolean {
   if (state.status.success) {
     return false;
   }
 
-  return isDraftDirty(state.model.fields, state.draft);
+  return isDraftDirty(state.model.fields, state.draft) || isMediaDirty(state.media, state.model.media);
 }
 
 function leaveToPreviousPage(state: PageCopyState): void {
@@ -105,7 +111,7 @@ function PageCopyToolbar({ state }: { state: PageCopyState }) {
 async function saveDraft(state: PageCopyState): Promise<void> {
   state.setIsSaving(true);
   state.setStatus({});
-  const result = await savePageCopyAction(state.model.id, state.draft);
+  const result = await savePageCopyAction(state.model.id, state.draft, state.media);
   state.setStatus(result);
   state.setIsSaving(false);
   if (result.success) {
@@ -123,6 +129,9 @@ async function resetDraft(state: PageCopyState): Promise<void> {
   const result = await resetPageCopyAction(state.model.id);
   if (result.success) {
     state.setDraft(builtinDraft(state.model.fields));
+    if (result.media) {
+      state.setMedia(result.media);
+    }
     state.refresh();
   }
   state.setStatus(result);
@@ -193,6 +202,26 @@ export function PageCopyEditor({ model }: PageCopyEditorProps) {
       {state.status.error ? <p className="form-error">{state.status.error}</p> : null}
       {state.status.success === "saved" ? <p className="form-success">{state.ui.pagesSaved}</p> : null}
       {state.status.success === "reset" ? <p className="form-success">{state.ui.pagesResetDone}</p> : null}
+      <PageCopyMedia
+        pageId={state.model.id}
+        items={state.media}
+        title={state.ui.pagesMedia}
+        addImageLabel={state.ui.pagesAddImage}
+        addVideoLabel={state.ui.pagesAddVideo}
+        replaceLabel={state.ui.pagesReplaceMedia}
+        deleteLabel={state.ui.pagesDeleteMedia}
+        deleteConfirm={state.ui.pagesDeleteMediaConfirm}
+        uploadingLabel={state.ui.pagesUploading}
+        hint={state.ui.pagesMediaHint}
+        nameLabel={state.ui.pagesMediaName}
+        dropLabel={state.ui.pagesMediaDrop}
+        videoLabel={state.ui.pagesMediaVideo}
+        imageLabel={state.ui.pagesMediaImage}
+        onChange={(items) => {
+          state.setMedia(items);
+          state.setStatus({});
+        }}
+      />
       <PageCopyGroups state={state} onChange={(path, value) => updateField(state, path, value)} />
       <PageCopySaveBar state={state} />
     </div>

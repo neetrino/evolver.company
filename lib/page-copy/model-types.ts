@@ -10,10 +10,20 @@ export type PageCopyIndexItem = {
   description: PageCopyText;
 };
 
+export type PageCopyMediaKind = "image" | "video";
+
+export type PageCopyMediaItem = {
+  id: string;
+  label: string;
+  src: string;
+  kind: PageCopyMediaKind;
+};
+
 export type PageCopyEditorModel = {
   id: PageCopyId;
   publicPath: string;
   title: PageCopyText;
   description: PageCopyText;
   fields: PageCopyField[];
+  media: PageCopyMediaItem[];
 };

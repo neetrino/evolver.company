@@ -92,6 +92,18 @@ export type AdminUiCopy = {
   pagesCustom: string;
   pagesFields: string;
   pagesView: string;
+  pagesMedia: string;
+  pagesAddImage: string;
+  pagesAddVideo: string;
+  pagesReplaceMedia: string;
+  pagesDeleteMedia: string;
+  pagesDeleteMediaConfirm: string;
+  pagesUploading: string;
+  pagesMediaHint: string;
+  pagesMediaName: string;
+  pagesMediaDrop: string;
+  pagesMediaVideo: string;
+  pagesMediaImage: string;
 };
 
 const ADMIN_UI_EN: AdminUiCopy = {
@@ -175,7 +187,7 @@ const ADMIN_UI_EN: AdminUiCopy = {
   pagesSaving: "Saving...",
   pagesReset: "Reset to defaults",
   pagesResetting: "Resetting...",
-  pagesResetConfirm: "Reset this page to the built-in copy? Custom text will be removed.",
+  pagesResetConfirm: "Reset this page to the built-in copy and media? Custom text, images, and videos will be removed.",
   pagesSaved: "Saved. The public site is updated.",
   pagesResetDone: "Reset to the built-in copy.",
   pagesBack: "Back",
@@ -185,6 +197,18 @@ const ADMIN_UI_EN: AdminUiCopy = {
   pagesCustom: "Custom",
   pagesFields: "fields",
   pagesView: "View page",
+  pagesMedia: "Images and videos",
+  pagesAddImage: "Add image",
+  pagesAddVideo: "Add video",
+  pagesReplaceMedia: "Replace",
+  pagesDeleteMedia: "Delete",
+  pagesDeleteMediaConfirm: "Delete this file from the page?",
+  pagesUploading: "Uploading...",
+  pagesMediaHint: "These files appear on the public page after you save.",
+  pagesMediaName: "Name",
+  pagesMediaDrop: "Drop an image or video here, or choose a file.",
+  pagesMediaVideo: "Video",
+  pagesMediaImage: "Image",
 };
 
 const ADMIN_UI_RU: AdminUiCopy = {
@@ -268,7 +292,7 @@ const ADMIN_UI_RU: AdminUiCopy = {
   pagesSaving: "Сохранение...",
   pagesReset: "Сбросить",
   pagesResetting: "Сброс...",
-  pagesResetConfirm: "Вернуть встроенный текст этой страницы? Свои правки будут удалены.",
+  pagesResetConfirm: "Вернуть встроенные текст и файлы этой страницы? Свои правки будут удалены.",
   pagesSaved: "Сохранено. Сайт обновлён.",
   pagesResetDone: "Возвращён встроенный текст.",
   pagesBack: "Назад",
@@ -278,6 +302,18 @@ const ADMIN_UI_RU: AdminUiCopy = {
   pagesCustom: "Своё",
   pagesFields: "полей",
   pagesView: "Открыть страницу",
+  pagesMedia: "Изображения и видео",
+  pagesAddImage: "Добавить изображение",
+  pagesAddVideo: "Добавить видео",
+  pagesReplaceMedia: "Заменить",
+  pagesDeleteMedia: "Удалить",
+  pagesDeleteMediaConfirm: "Удалить этот файл со страницы?",
+  pagesUploading: "Загрузка...",
+  pagesMediaHint: "Файлы появятся на сайте после сохранения.",
+  pagesMediaName: "Название",
+  pagesMediaDrop: "Перетащите изображение или видео сюда или выберите файл.",
+  pagesMediaVideo: "Видео",
+  pagesMediaImage: "Изображение",
 };
 
 const ADMIN_UI_HY: AdminUiCopy = {
@@ -361,7 +397,7 @@ const ADMIN_UI_HY: AdminUiCopy = {
   pagesSaving: "Պահվում է...",
   pagesReset: "Վերականգնել",
   pagesResetting: "Վերականգնվում է...",
-  pagesResetConfirm: "Վերադարձնե՞լ այս էջի ներկառուցված տեքստը։ Սեփական փոփոխությունները կջնջվեն։",
+  pagesResetConfirm: "Վերադարձնե՞լ այս էջի ներկառուցված տեքստն ու ֆայլերը։ Սեփական փոփոխությունները կջնջվեն։",
   pagesSaved: "Պահված է։ Կայքը թարմացվել է։",
   pagesResetDone: "Վերադարձվել է ներկառուցված տեքստը։",
   pagesBack: "Հետ",
@@ -371,6 +407,18 @@ const ADMIN_UI_HY: AdminUiCopy = {
   pagesCustom: "Սեփական",
   pagesFields: "դաշտ",
   pagesView: "Բացել էջը",
+  pagesMedia: "Նկարներ և տեսանյութեր",
+  pagesAddImage: "Ավելացնել նկար",
+  pagesAddVideo: "Ավելացնել տեսանյութ",
+  pagesReplaceMedia: "Փոխարինել",
+  pagesDeleteMedia: "Ջնջել",
+  pagesDeleteMediaConfirm: "Ջնջե՞լ այս ֆայլը էջից։",
+  pagesUploading: "Վերբեռնվում է...",
+  pagesMediaHint: "Ֆայլերը կայքում կերևան պահելուց հետո։",
+  pagesMediaName: "Անուն",
+  pagesMediaDrop: "Գցեք նկարը կամ տեսանյութն այստեղ, կամ ընտրեք ֆայլ։",
+  pagesMediaVideo: "Տեսանյութ",
+  pagesMediaImage: "Նկար",
 };
 
 const ADMIN_UI: Record<AdminContentLocale, AdminUiCopy> = {

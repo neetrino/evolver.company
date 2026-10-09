@@ -7,7 +7,8 @@ import type { AboutUsProjectsContent } from "@/lib/about-us-projects";
 import type { AboutUsTeamContent } from "@/lib/about-us-team";
 import type { TrustedBySectionContent } from "@/lib/clients-section";
 import type { AboutContent } from "@/lib/content";
-import { resolveClientLogos, resolvePageCopy } from "@/lib/page-copy/resolve";
+import { ABOUT_US_HERO_IMAGE } from "@/lib/about-us-hero";
+import { resolveClientLogos, resolveMediaSrc, resolvePageCopy } from "@/lib/page-copy/resolve";
 import type { Locale } from "@/lib/i18n";
 
 const AboutUsCapabilities = dynamic(() =>
@@ -41,12 +42,13 @@ type AboutUsPageProps = {
 export default async function AboutUsPage({ params }: AboutUsPageProps) {
   const { locale: localeParam } = await params;
   const locale = localeParam as Locale;
-  const [content, projectsContent, teamContent, trusted, logos] = await Promise.all([
+  const [content, projectsContent, teamContent, trusted, logos, heroSrc] = await Promise.all([
     resolvePageCopy<AboutContent>("about", locale),
     resolvePageCopy<AboutUsProjectsContent>("about-projects", locale),
     resolvePageCopy<AboutUsTeamContent>("about-team", locale),
     resolvePageCopy<TrustedBySectionContent>("trusted-by", locale),
     resolveClientLogos(locale),
+    resolveMediaSrc("about", "about-hero", ABOUT_US_HERO_IMAGE.src),
   ]);
 
   return (
@@ -58,7 +60,7 @@ export default async function AboutUsPage({ params }: AboutUsPageProps) {
         <span className="about-us-page-noise" />
       </div>
 
-      <AboutUsHero title={content.hero.title} />
+      <AboutUsHero title={content.hero.title} imageSrc={heroSrc} />
 
       <AboutUsSectionSeam index={0} />
 
