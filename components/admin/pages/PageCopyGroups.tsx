@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 import { PageCopyFieldRow } from "@/components/admin/pages/PageCopyFieldRow";
 import type { PageCopyState } from "@/components/admin/pages/usePageCopyState";
-import { groupPageCopyFields } from "@/lib/page-copy/groups";
+import { groupPageCopyFields, isFieldEdited } from "@/lib/page-copy/groups";
 
 type PageCopyGroupsProps = {
   state: PageCopyState;
@@ -18,8 +18,7 @@ export function PageCopyGroups({ state, onChange }: PageCopyGroupsProps) {
         query,
         draft,
         editedOnly,
-        isEdited: (field) =>
-          draft.en[field.path] !== field.defaults.en || draft.hy[field.path] !== field.defaults.hy,
+        isEdited: (field) => isFieldEdited(field, draft),
       }),
     [draft, editedOnly, model.fields, query],
   );

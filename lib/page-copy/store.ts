@@ -11,13 +11,14 @@ import {
   type PageCopyId,
   type PageCopyLocale,
   type StoredPageCopy,
+  emptyPageCopy,
   isPageCopyId,
   pageCopySettingKey,
   PAGE_COPY_KEY_PREFIX,
 } from "@/lib/page-copy/constants";
 
 function emptyStored(): StoredPageCopy {
-  return { en: {}, hy: {} };
+  return emptyPageCopy();
 }
 
 function isStringRecord(value: unknown): value is Record<string, string> {

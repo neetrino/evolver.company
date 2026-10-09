@@ -1,7 +1,7 @@
 "use server";
 
 import { requireAdmin } from "@/lib/auth";
-import { isPageCopyId, type PageCopyDraft, type PageCopyId } from "@/lib/page-copy/constants";
+import { emptyPageCopy, isPageCopyId, type PageCopyDraft, type PageCopyId } from "@/lib/page-copy/constants";
 import { revalidatePageCopy, writePageCopy } from "@/lib/page-copy/store";
 import { diffPageCopy } from "@/lib/page-copy/validate";
 
@@ -13,6 +13,7 @@ export type PageCopyActionState = {
 function readDraft(value: PageCopyDraft | null): PageCopyDraft {
   return {
     en: value?.en ?? {},
+    ru: value?.ru ?? {},
     hy: value?.hy ?? {},
   };
 }
@@ -48,7 +49,7 @@ export async function resetPageCopyAction(pageId: string): Promise<PageCopyActio
     return { error: "Unknown page." };
   }
 
-  await writePageCopy(pageId, { en: {}, hy: {} });
+  await writePageCopy(pageId, emptyPageCopy());
   revalidatePageCopy(pageId);
   return { success: "reset" };
 }

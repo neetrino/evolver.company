@@ -1,4 +1,4 @@
-import type { PageCopyDraft, PageCopyLocale } from "@/lib/page-copy/constants";
+import { PAGE_COPY_LOCALES, type PageCopyDraft, type PageCopyLocale } from "@/lib/page-copy/constants";
 import type { PageCopyField } from "@/lib/page-copy/fields";
 
 export type PageCopyGroup = {
@@ -21,8 +21,7 @@ function matchesQuery(field: PageCopyField, needle: string, draft: PageCopyDraft
   const haystack = [
     field.label,
     field.path,
-    draft.en[field.path] ?? "",
-    draft.hy[field.path] ?? "",
+    ...PAGE_COPY_LOCALES.map((locale) => draft[locale][field.path] ?? ""),
   ]
     .join(" ")
     .toLowerCase();
@@ -58,5 +57,9 @@ export function localesWithEdits(
   fields: PageCopyField[],
   isEdited: (field: PageCopyField, locale: PageCopyLocale) => boolean,
 ): PageCopyLocale[] {
-  return (["en", "hy"] as const).filter((locale) => fields.some((field) => isEdited(field, locale)));
+  return PAGE_COPY_LOCALES.filter((locale) => fields.some((field) => isEdited(field, locale)));
+}
+
+export function isFieldEdited(field: PageCopyField, draft: PageCopyDraft): boolean {
+  return PAGE_COPY_LOCALES.some((locale) => (draft[locale][field.path] ?? "") !== field.defaults[locale]);
 }

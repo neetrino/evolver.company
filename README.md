@@ -82,7 +82,7 @@ Protected routes:
 ## Page copy
 
 - Admin URL: [http://localhost:3000/admin/pages](http://localhost:3000/admin/pages)
-- Static public copy (services, about, customers, contact, footer, navigation, and the other marketing sections) is edited per `en` / `hy`
+- Static public copy (services, about, customers, contact, footer, navigation, and the other marketing sections) is edited per `en`, `ru`, and `hy`
 - Overrides are stored in `SiteSetting` with keys `page-copy:<page>` and only the fields that differ from the built-in copy
 - Projects and careers use full `/new` and `/[id]/edit` pages
 

@@ -2,6 +2,8 @@ import { getPageCopyDefinition } from "@/lib/page-copy/catalog";
 import {
   PAGE_COPY_LOCALES,
   PAGE_COPY_MAX_LENGTH,
+  builtinSourceLocale,
+  emptyPageCopy,
   type PageCopyDraft,
   type PageCopyId,
   type StoredPageCopy,
@@ -10,7 +12,7 @@ import { collectCopyPaths, readStringPath } from "@/lib/page-copy/tree";
 
 function allowedPaths(pageId: PageCopyId): Set<string> {
   const definition = getPageCopyDefinition(pageId);
-  const paths = PAGE_COPY_LOCALES.flatMap((locale) => collectCopyPaths(definition.load(locale)));
+  const paths = (["en", "hy"] as const).flatMap((locale) => collectCopyPaths(definition.load(locale)));
   return new Set(paths);
 }
 
@@ -43,10 +45,11 @@ function diffLocale(
 export function diffPageCopy(pageId: PageCopyId, draft: PageCopyDraft): StoredPageCopy | string {
   const definition = getPageCopyDefinition(pageId);
   const allowed = allowedPaths(pageId);
-  const stored: StoredPageCopy = { en: {}, hy: {} };
+  const stored: StoredPageCopy = emptyPageCopy();
 
   for (const locale of PAGE_COPY_LOCALES) {
-    const diff = diffLocale(definition.load(locale), draft[locale] ?? {}, allowed);
+    const defaults = definition.load(builtinSourceLocale(locale));
+    const diff = diffLocale(defaults, draft[locale] ?? {}, allowed);
     if (typeof diff === "string") {
       return diff;
     }

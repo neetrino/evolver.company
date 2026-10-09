@@ -8,7 +8,7 @@ import { useAdminUi } from "@/components/admin/useAdminUi";
 import type { AdminUiCopy } from "@/lib/admin-ui-i18n";
 import type { AdminContentLocale } from "@/lib/admin-locales";
 import type { PageCopyDraft, PageCopyLocale } from "@/lib/page-copy/constants";
-import type { PageCopyField } from "@/lib/page-copy/fields";
+import { draftFromFields } from "@/lib/page-copy/fields";
 import type { PageCopyEditorModel } from "@/lib/page-copy/model-types";
 
 export type PageCopyState = {
@@ -32,21 +32,14 @@ export type PageCopyState = {
   refresh: () => void;
 };
 
-function draftFromFields(fields: PageCopyField[]): PageCopyDraft {
-  return {
-    en: Object.fromEntries(fields.map((field) => [field.path, field.values.en])),
-    hy: Object.fromEntries(fields.map((field) => [field.path, field.values.hy])),
-  };
-}
-
 export function usePageCopyState(model: PageCopyEditorModel): PageCopyState {
   const router = useRouter();
   const ui = useAdminUi();
   const { locale: adminLocale } = useAdminContentLocale();
-  const [activeLocale, setActiveLocale] = useState<PageCopyLocale>(adminLocale === "hy" ? "hy" : "en");
+  const [activeLocale, setActiveLocale] = useState<PageCopyLocale>(adminLocale);
   const [query, setQuery] = useState("");
   const [editedOnly, setEditedOnly] = useState(false);
-  const [draft, setDraft] = useState<PageCopyDraft>(() => draftFromFields(model.fields));
+  const [draft, setDraft] = useState(() => draftFromFields(model.fields, (field, locale) => field.values[locale]));
   const [status, setStatus] = useState<PageCopyActionState>({});
   const [isSaving, setIsSaving] = useState(false);
   const [isResetting, setIsResetting] = useState(false);

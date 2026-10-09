@@ -5,8 +5,7 @@ import { resetPageCopyAction, savePageCopyAction } from "@/app/admin/pages/actio
 import { PageCopyGroups } from "@/components/admin/pages/PageCopyGroups";
 import { usePageCopyState, type PageCopyState } from "@/components/admin/pages/usePageCopyState";
 import { ProjectLanguageTabs } from "@/components/admin/ProjectLanguageTabs";
-import type { PageCopyDraft } from "@/lib/page-copy/constants";
-import type { PageCopyField } from "@/lib/page-copy/fields";
+import { draftFromFields } from "@/lib/page-copy/fields";
 import { localesWithEdits } from "@/lib/page-copy/groups";
 import type { PageCopyEditorModel } from "@/lib/page-copy/model-types";
 
@@ -14,13 +13,8 @@ type PageCopyEditorProps = {
   model: PageCopyEditorModel;
 };
 
-const PUBLIC_LOCALES = ["en", "hy"] as const;
-
-function builtinDraft(fields: PageCopyField[]): PageCopyDraft {
-  return {
-    en: Object.fromEntries(fields.map((field) => [field.path, field.defaults.en])),
-    hy: Object.fromEntries(fields.map((field) => [field.path, field.defaults.hy])),
-  };
+function builtinDraft(fields: PageCopyEditorModel["fields"]) {
+  return draftFromFields(fields, (field, locale) => field.defaults[locale]);
 }
 
 function PageCopyHeading({ state }: { state: PageCopyState }) {
@@ -54,13 +48,8 @@ function PageCopyToolbar({ state }: { state: PageCopyState }) {
     <div className="page-copy-toolbar">
       <ProjectLanguageTabs
         activeTab={state.activeLocale}
-        locales={PUBLIC_LOCALES}
         completeLocales={completeLocales}
-        onTabChange={(locale) => {
-          if (locale === "en" || locale === "hy") {
-            state.setActiveLocale(locale);
-          }
-        }}
+        onTabChange={state.setActiveLocale}
       />
       <input
         className="page-copy-search"
