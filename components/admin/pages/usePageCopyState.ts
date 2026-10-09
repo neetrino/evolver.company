@@ -30,6 +30,7 @@ export type PageCopyState = {
   isResetting: boolean;
   setIsResetting: (value: boolean) => void;
   refresh: () => void;
+  goBack: () => void;
 };
 
 export function usePageCopyState(model: PageCopyEditorModel): PageCopyState {
@@ -63,5 +64,13 @@ export function usePageCopyState(model: PageCopyEditorModel): PageCopyState {
     isResetting,
     setIsResetting,
     refresh: () => router.refresh(),
+    goBack: () => {
+      if (window.history.length > 1) {
+        router.back();
+        return;
+      }
+
+      router.push("/admin/pages");
+    },
   };
 }

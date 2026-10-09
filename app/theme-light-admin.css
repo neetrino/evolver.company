@@ -1108,6 +1108,29 @@
   margin-bottom: 0.5rem;
 }
 
+.admin-theme .page-copy-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.85rem;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--admin-text-soft);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.admin-theme .page-copy-back:hover {
+  color: var(--admin-accent);
+}
+
+.admin-theme .page-copy-back-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
 .admin-theme .page-copy-heading,
 .admin-theme .page-copy-toolbar,
 .admin-theme .page-copy-card-top,

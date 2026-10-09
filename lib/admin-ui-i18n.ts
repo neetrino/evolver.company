@@ -86,6 +86,7 @@ export type AdminUiCopy = {
   pagesSaved: string;
   pagesResetDone: string;
   pagesBack: string;
+  pagesLeaveConfirm: string;
   pagesEmpty: string;
   pagesEdited: string;
   pagesCustom: string;
@@ -177,7 +178,8 @@ const ADMIN_UI_EN: AdminUiCopy = {
   pagesResetConfirm: "Reset this page to the built-in copy? Custom text will be removed.",
   pagesSaved: "Saved. The public site is updated.",
   pagesResetDone: "Reset to the built-in copy.",
-  pagesBack: "All pages",
+  pagesBack: "Back",
+  pagesLeaveConfirm: "You have unsaved changes. Leave this page?",
   pagesEmpty: "No fields match this search.",
   pagesEdited: "Edited",
   pagesCustom: "Custom",
@@ -269,7 +271,8 @@ const ADMIN_UI_RU: AdminUiCopy = {
   pagesResetConfirm: "Вернуть встроенный текст этой страницы? Свои правки будут удалены.",
   pagesSaved: "Сохранено. Сайт обновлён.",
   pagesResetDone: "Возвращён встроенный текст.",
-  pagesBack: "Все страницы",
+  pagesBack: "Назад",
+  pagesLeaveConfirm: "Есть несохранённые изменения. Выйти со страницы?",
   pagesEmpty: "Нет полей по этому запросу.",
   pagesEdited: "Изменено",
   pagesCustom: "Своё",
@@ -361,7 +364,8 @@ const ADMIN_UI_HY: AdminUiCopy = {
   pagesResetConfirm: "Վերադարձնե՞լ այս էջի ներկառուցված տեքստը։ Սեփական փոփոխությունները կջնջվեն։",
   pagesSaved: "Պահված է։ Կայքը թարմացվել է։",
   pagesResetDone: "Վերադարձվել է ներկառուցված տեքստը։",
-  pagesBack: "Բոլոր էջերը",
+  pagesBack: "Հետ",
+  pagesLeaveConfirm: "Կան չպահված փոփոխություններ։ Դուրս գա՞լ էջից։",
   pagesEmpty: "Այս որոնմանը դաշտ չկա։",
   pagesEdited: "Փոփոխված",
   pagesCustom: "Սեփական",

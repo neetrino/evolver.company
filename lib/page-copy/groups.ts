@@ -63,3 +63,9 @@ export function localesWithEdits(
 export function isFieldEdited(field: PageCopyField, draft: PageCopyDraft): boolean {
   return PAGE_COPY_LOCALES.some((locale) => (draft[locale][field.path] ?? "") !== field.defaults[locale]);
 }
+
+export function isDraftDirty(fields: PageCopyField[], draft: PageCopyDraft): boolean {
+  return fields.some((field) =>
+    PAGE_COPY_LOCALES.some((locale) => (draft[locale][field.path] ?? "") !== field.values[locale]),
+  );
+}

@@ -1,12 +1,12 @@
 "use client";
 
-import Link from "next/link";
+import { useEffect } from "react";
 import { resetPageCopyAction, savePageCopyAction } from "@/app/admin/pages/actions";
 import { PageCopyGroups } from "@/components/admin/pages/PageCopyGroups";
 import { usePageCopyState, type PageCopyState } from "@/components/admin/pages/usePageCopyState";
 import { ProjectLanguageTabs } from "@/components/admin/ProjectLanguageTabs";
 import { draftFromFields } from "@/lib/page-copy/fields";
-import { localesWithEdits } from "@/lib/page-copy/groups";
+import { isDraftDirty, localesWithEdits } from "@/lib/page-copy/groups";
 import type { PageCopyEditorModel } from "@/lib/page-copy/model-types";
 
 type PageCopyEditorProps = {
@@ -17,14 +17,46 @@ function builtinDraft(fields: PageCopyEditorModel["fields"]) {
   return draftFromFields(fields, (field, locale) => field.defaults[locale]);
 }
 
+function hasUnsavedEdits(state: PageCopyState): boolean {
+  if (state.status.success) {
+    return false;
+  }
+
+  return isDraftDirty(state.model.fields, state.draft);
+}
+
+function leaveToPreviousPage(state: PageCopyState): void {
+  if (hasUnsavedEdits(state) && !window.confirm(state.ui.pagesLeaveConfirm)) {
+    return;
+  }
+
+  state.goBack();
+}
+
+function PageCopyBackLink({ state }: { state: PageCopyState }) {
+  return (
+    <button type="button" className="page-copy-back" onClick={() => leaveToPreviousPage(state)}>
+      <svg viewBox="0 0 24 24" aria-hidden="true" className="page-copy-back-icon">
+        <path
+          d="M15 6L9 12L15 18"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+      {state.ui.pagesBack}
+    </button>
+  );
+}
+
 function PageCopyHeading({ state }: { state: PageCopyState }) {
   const viewHref = `/en${state.model.publicPath === "/" ? "" : state.model.publicPath}`;
 
   return (
     <>
-      <Link href="/admin/pages" className="admin-back-link">
-        {state.ui.pagesBack}
-      </Link>
+      <PageCopyBackLink state={state} />
       <header className="page-copy-heading">
         <div>
           <h1 className="admin-page-title">{state.model.title[state.adminLocale]}</h1>
@@ -133,8 +165,26 @@ function updateField(state: PageCopyState, path: string, value: string): void {
   state.setStatus({});
 }
 
+function useLeaveWarning(state: PageCopyState): void {
+  const dirty = hasUnsavedEdits(state);
+
+  useEffect(() => {
+    if (!dirty) {
+      return;
+    }
+
+    function warn(event: BeforeUnloadEvent): void {
+      event.preventDefault();
+    }
+
+    window.addEventListener("beforeunload", warn);
+    return () => window.removeEventListener("beforeunload", warn);
+  }, [dirty]);
+}
+
 export function PageCopyEditor({ model }: PageCopyEditorProps) {
   const state = usePageCopyState(model);
+  useLeaveWarning(state);
 
   return (
     <div className="page-copy-editor">
