@@ -1,20 +1,16 @@
 import { FooterBlock } from "@/components/public/footer/FooterBlock";
 import { FooterBlockIcons } from "@/components/public/footer/FooterBlockIcons";
 import type { FooterContent } from "@/lib/content";
-import { getContactContent } from "@/lib/content";
 import {
   FOOTER_ENTER_BASE_DELAY_S,
   FOOTER_ENTER_STEP_DELAY_S,
 } from "@/lib/footer-motion";
-import type { Locale } from "@/lib/i18n";
-
 type FooterInquiriesBlockProps = {
-  locale: Locale;
   content: FooterContent;
+  email: string;
 };
 
-export function FooterInquiriesBlock({ locale, content }: FooterInquiriesBlockProps) {
-  const contact = getContactContent(locale);
+export function FooterInquiriesBlock({ content, email }: FooterInquiriesBlockProps) {
   const inquiriesDelay = FOOTER_ENTER_BASE_DELAY_S + FOOTER_ENTER_STEP_DELAY_S * 2;
   const phoneDelay = FOOTER_ENTER_BASE_DELAY_S + FOOTER_ENTER_STEP_DELAY_S * 3;
 
@@ -26,8 +22,8 @@ export function FooterInquiriesBlock({ locale, content }: FooterInquiriesBlockPr
         delay={inquiriesDelay}
       >
         <p className="footer-block-text">{content.workInquiriesText}</p>
-        <a href={`mailto:${contact.info.email}`} className="footer-link-accent">
-          {contact.info.email}
+        <a href={`mailto:${email}`} className="footer-link-accent">
+          {email}
         </a>
       </FooterBlock>
 

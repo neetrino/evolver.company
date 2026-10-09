@@ -7,7 +7,9 @@ import { Container } from "@/components/shared/Container";
 import {
   buildMarqueeLogoSequence,
   getClientLogoMarqueeRows,
+  getClientLogos,
   getTrustedBySectionContent,
+  type TrustedBySectionContent,
   resolveMarqueeGroupRepeats,
   TRUSTED_BY_DESKTOP_MARQUEE_ROWS,
   TRUSTED_BY_MARQUEE_DURATION_S,
@@ -26,6 +28,8 @@ const TRUSTED_BY_VIEW_THRESHOLD = 0.12;
 
 type TrustedBySectionProps = {
   locale: Locale;
+  content?: TrustedBySectionContent;
+  logos?: ClientLogo[];
 };
 
 type TrustedByMarqueeDirection = "left" | "right";
@@ -51,14 +55,12 @@ function resolveMarqueeRowCount(viewportWidth: number): number {
     : TRUSTED_BY_DESKTOP_MARQUEE_ROWS;
 }
 
-function useTrustedByMarqueeRows(): ClientLogo[][] {
-  const [marqueeRows, setMarqueeRows] = useState(() =>
-    getClientLogoMarqueeRows(TRUSTED_BY_DESKTOP_MARQUEE_ROWS),
-  );
+function useTrustedByMarqueeRows(logos: ClientLogo[]): ClientLogo[][] {
+  const [rowCount, setRowCount] = useState(TRUSTED_BY_DESKTOP_MARQUEE_ROWS);
 
   useEffect(() => {
     function syncMarqueeRows(): void {
-      setMarqueeRows(getClientLogoMarqueeRows(resolveMarqueeRowCount(window.innerWidth)));
+      setRowCount(resolveMarqueeRowCount(window.innerWidth));
     }
 
     syncMarqueeRows();
@@ -69,7 +71,7 @@ function useTrustedByMarqueeRows(): ClientLogo[][] {
     };
   }, []);
 
-  return marqueeRows;
+  return getClientLogoMarqueeRows(rowCount, logos);
 }
 
 function useMarqueeGroupRepeats(clientCount: number): number {
@@ -138,13 +140,13 @@ function TrustedByMarqueeRowWithRepeats({
   );
 }
 
-export function TrustedBySection({ locale }: TrustedBySectionProps) {
+export function TrustedBySection({ locale, content: contentProp, logos }: TrustedBySectionProps) {
   const { isVisible, sectionRef } = useSectionReveal({
     threshold: TRUSTED_BY_VIEW_THRESHOLD,
     rootMargin: "0px 0px -4% 0px",
   });
-  const content = getTrustedBySectionContent(locale);
-  const marqueeRows = useTrustedByMarqueeRows();
+  const content = contentProp ?? getTrustedBySectionContent(locale);
+  const marqueeRows = useTrustedByMarqueeRows(logos ?? getClientLogos());
 
   return (
     <section

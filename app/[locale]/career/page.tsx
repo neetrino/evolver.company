@@ -2,7 +2,8 @@ import "@/app/blog-page.css";
 import "@/app/career-page.css";
 import { CareerHero } from "@/components/public/career/CareerHero";
 import { CareerJobGrid } from "@/components/public/career/CareerJobGrid";
-import { getCareerPageContent } from "@/lib/career-content";
+import type { CareerPageContent } from "@/lib/career-content";
+import { resolvePageCopy } from "@/lib/page-copy/resolve";
 import { getPublishedCareerJobs } from "@/lib/careers";
 import type { Locale } from "@/lib/i18n";
 
@@ -15,7 +16,7 @@ type CareerPageProps = {
 export default async function CareerPage({ params }: CareerPageProps) {
   const { locale: localeParam } = await params;
   const locale = localeParam as Locale;
-  const content = getCareerPageContent(locale);
+  const content = await resolvePageCopy<CareerPageContent>("career", locale);
   const jobs = await getPublishedCareerJobs();
 
   return (

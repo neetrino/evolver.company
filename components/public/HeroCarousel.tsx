@@ -11,7 +11,7 @@ import {
 } from "react";
 import { HeroFeatureIcon } from "@/components/public/HeroFeatureIcon";
 import { Container } from "@/components/shared/Container";
-import { getHomeContent } from "@/lib/content";
+import { getHomeContent, type HomeContent } from "@/lib/content";
 import { getHomeHeroSlideImageSrc, getHomeHeroSlideLines } from "@/lib/home-hero-utils";
 import type { HomeHeroSlide } from "@/lib/home-hero-types";
 import { localePath, type Locale } from "@/lib/i18n";
@@ -29,6 +29,7 @@ const PARALLAX_MAX_Y_PX = 10;
 type HeroCarouselProps = {
   slides: HomeHeroSlide[];
   locale: Locale;
+  hero?: HomeContent["hero"];
 };
 
 function heroDelayStyle(delaySeconds: number): CSSProperties {
@@ -128,14 +129,14 @@ function HeroCtaArrow() {
   );
 }
 
-export function HeroCarousel({ slides, locale }: HeroCarouselProps) {
+export function HeroCarousel({ slides, locale, hero }: HeroCarouselProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isReady, setIsReady] = useState(false);
   const touchStartRef = useRef<{ x: number; y: number } | null>(null);
   const sectionRef = useRef<HTMLElement | null>(null);
   const parallaxRef = useRef<HTMLDivElement | null>(null);
   const hasMultipleSlides = slides.length > 1;
-  const heroContent = getHomeContent(locale).hero;
+  const heroContent = hero ?? getHomeContent(locale).hero;
 
   useEffect(() => {
     const frame = window.requestAnimationFrame(() => {

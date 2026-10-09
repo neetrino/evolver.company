@@ -2,7 +2,12 @@ import dynamic from "next/dynamic";
 import "@/app/home-sections.css";
 import { HeroCarousel } from "@/components/public/HeroCarousel";
 import { ViewportLazy } from "@/components/shared/ViewportLazy";
-import { getHomeContent } from "@/lib/content";
+import type { HomeContent } from "@/lib/content";
+import type { AboutSectionContent } from "@/lib/about-section";
+import { type TrustedBySectionContent } from "@/lib/clients-section";
+import { type HomeVideoSectionCopy } from "@/lib/home-videos";
+import { resolveClientLogos, resolveHomeVideos, resolvePageCopy } from "@/lib/page-copy/resolve";
+import { type ProductShowcaseContent } from "@/lib/product-showcase";
 import { HomeBlogStories } from "@/components/public/blog/HomeBlogStories";
 import { getHomeBlogStories } from "@/lib/blog/queries";
 import {
@@ -60,8 +65,15 @@ type HomePageProps = {
 export default async function HomePage({ params }: HomePageProps) {
   const { locale: localeParam } = await params;
   const locale = localeParam as Locale;
-  const content = getHomeContent(locale);
-  const [heroSlides, featuredProjects, blogStories] = await Promise.all([
+  const [content, showcase, aboutSection, trusted, videoCopy, videos, logos, heroSlides, featuredProjects, blogStories] =
+    await Promise.all([
+    resolvePageCopy<HomeContent & { emptyProjects: string }>("home", locale),
+    resolvePageCopy<ProductShowcaseContent>("what-we-do", locale),
+    resolvePageCopy<AboutSectionContent>("home-about", locale),
+    resolvePageCopy<TrustedBySectionContent>("trusted-by", locale),
+    resolvePageCopy<HomeVideoSectionCopy>("home-videos", locale),
+    resolveHomeVideos(),
+    resolveClientLogos(locale),
     getCachedHomeHeroSlides(),
     getCachedFeaturedProjects(),
     getHomeBlogStories(locale),
@@ -69,14 +81,14 @@ export default async function HomePage({ params }: HomePageProps) {
 
   return (
     <div className="home-page">
-      <HeroCarousel slides={heroSlides} locale={locale} />
+      <HeroCarousel slides={heroSlides} locale={locale} hero={content.hero} />
 
       <ViewportLazy minHeight="520px">
-        <WhatWeDoSection locale={locale} />
+        <WhatWeDoSection locale={locale} content={showcase} />
       </ViewportLazy>
 
       <ViewportLazy minHeight="640px">
-        <VideoShowcaseSection locale={locale} />
+        <VideoShowcaseSection locale={locale} copy={videoCopy} videos={videos} />
       </ViewportLazy>
 
       <ViewportLazy minHeight="720px">
@@ -87,7 +99,7 @@ export default async function HomePage({ params }: HomePageProps) {
           titleLines={content.featuredTitleLines}
           subtitle={content.featuredSubtitle}
           projects={featuredProjects}
-          emptyMessage={locale === "en" ? "Projects coming soon." : "Նախագծերը շուտով։"}
+          emptyMessage={content.emptyProjects}
           viewAllLabel={content.viewAllProjects}
         />
       </ViewportLazy>
@@ -97,11 +109,11 @@ export default async function HomePage({ params }: HomePageProps) {
       </ViewportLazy>
 
       <ViewportLazy minHeight="560px">
-        <AboutSection locale={locale} />
+        <AboutSection locale={locale} content={aboutSection} />
       </ViewportLazy>
 
       <ViewportLazy minHeight="480px">
-        <TrustedBySection locale={locale} />
+        <TrustedBySection locale={locale} content={trusted} logos={logos} />
       </ViewportLazy>
     </div>
   );

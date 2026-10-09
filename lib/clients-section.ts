@@ -83,8 +83,10 @@ export function getClientLogos(): ClientLogo[] {
   return withAccent(CLIENT_LOGOS);
 }
 
-export function getClientLogoMarqueeRows(rowCount: number): ClientLogo[][] {
-  const logos = getClientLogos();
+export function getClientLogoMarqueeRows(
+  rowCount: number,
+  logos: ClientLogo[] = getClientLogos(),
+): ClientLogo[][] {
   const logosPerMarqueeRow = Math.ceil(logos.length / rowCount);
   const rows: ClientLogo[][] = [];
 

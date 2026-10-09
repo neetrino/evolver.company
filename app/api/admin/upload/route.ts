@@ -15,6 +15,10 @@ function parseUploadContext(value: FormDataEntryValue | null): UploadContext {
     return "career";
   }
 
+  if (value === "pageMedia") {
+    return "pageMedia";
+  }
+
   return "project";
 }
 

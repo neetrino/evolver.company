@@ -26,7 +26,7 @@ type StaticContent = {
   body: string;
 };
 
-type NavItem = {
+export type NavItem = {
   key: NavKey;
   href: string;
   label: string;

@@ -12,7 +12,11 @@ export const ALLOWED_IMAGE_MIME_TYPES = [
   "image/avif",
 ] as const;
 
+export const ALLOWED_VIDEO_MIME_TYPES = ["video/mp4", "video/webm"] as const;
+
 export const MAX_IMAGE_SIZE_BYTES = 10 * 1024 * 1024;
+
+export const MAX_VIDEO_SIZE_BYTES = 50 * 1024 * 1024;
 
 export type UploadedFile = {
   url: string;
@@ -65,6 +69,8 @@ function getExtension(filename: string, mimeType: string): string {
     "image/png": ".png",
     "image/webp": ".webp",
     "image/avif": ".avif",
+    "video/mp4": ".mp4",
+    "video/webm": ".webm",
   };
 
   return mimeMap[mimeType] ?? ".bin";
@@ -78,6 +84,25 @@ export function validateImageFile(file: File): void {
   if (file.size > MAX_IMAGE_SIZE_BYTES) {
     throw new Error("File exceeds maximum size of 10MB.");
   }
+}
+
+function validateVideoFile(file: File): void {
+  if (!ALLOWED_VIDEO_MIME_TYPES.includes(file.type as (typeof ALLOWED_VIDEO_MIME_TYPES)[number])) {
+    throw new Error("Unsupported video. Allowed: MP4, WebM.");
+  }
+
+  if (file.size > MAX_VIDEO_SIZE_BYTES) {
+    throw new Error("Video exceeds maximum size of 50MB.");
+  }
+}
+
+function validateUploadFile(file: File, context: UploadContext): void {
+  if (context === "pageMedia" && file.type.startsWith("video/")) {
+    validateVideoFile(file);
+    return;
+  }
+
+  validateImageFile(file);
 }
 
 function buildHomeHeroObjectKey(filename: string, mimeType: string): string {
@@ -103,6 +128,11 @@ function buildCareerObjectKey(folder: string, filename: string, mimeType: string
   return `career/${folder}/${Date.now()}-${randomUUID()}${extension}`;
 }
 
+function buildPageMediaObjectKey(folder: string, filename: string, mimeType: string): string {
+  const extension = getExtension(filename, mimeType);
+  return `page-media/${folder}/${Date.now()}-${randomUUID()}${extension}`;
+}
+
 function buildObjectKey(
   context: UploadContext,
   folder: string,
@@ -121,6 +151,10 @@ function buildObjectKey(
     return buildCareerObjectKey(folder, filename, mimeType);
   }
 
+  if (context === "pageMedia") {
+    return buildPageMediaObjectKey(folder, filename, mimeType);
+  }
+
   return buildProjectObjectKey(folder, filename, mimeType);
 }
 
@@ -134,7 +168,7 @@ export async function uploadFileToR2(
   folder: string = "temp",
   context: UploadContext = "project",
 ): Promise<UploadedFile> {
-  validateImageFile(file);
+  validateUploadFile(file, context);
 
   const config = getR2Config();
   const client = createS3Client(config);

@@ -9,6 +9,7 @@ import {
 type ProjectLanguageTabsProps = {
   activeTab: AdminContentLocale;
   onTabChange: (locale: AdminContentLocale) => void;
+  locales?: readonly AdminContentLocale[];
   completeLocales?: readonly AdminContentLocale[];
   errorLocales?: readonly AdminContentLocale[];
 };
@@ -16,12 +17,13 @@ type ProjectLanguageTabsProps = {
 export function ProjectLanguageTabs({
   activeTab,
   onTabChange,
+  locales = ADMIN_CONTENT_LOCALES,
   completeLocales = [],
   errorLocales = [],
 }: ProjectLanguageTabsProps) {
   return (
     <div className="admin-lang-toggle" role="tablist" aria-label="Content language">
-      {ADMIN_CONTENT_LOCALES.map((locale) => {
+      {locales.map((locale) => {
         const isActive = activeTab === locale;
         const isComplete = completeLocales.includes(locale);
         const hasError = errorLocales.includes(locale);

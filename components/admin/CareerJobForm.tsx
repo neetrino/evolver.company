@@ -5,6 +5,10 @@ import type { CareerActionState } from "@/app/admin/careers/actions";
 import { createCareerJob, updateCareerJob } from "@/app/admin/careers/actions";
 import { CoverImageUploader } from "@/components/admin/CoverImageUploader";
 import { ProjectLanguageTabs } from "@/components/admin/ProjectLanguageTabs";
+import {
+  TranslationFieldError,
+  translationErrorLocales,
+} from "@/components/admin/TranslationFieldError";
 import type { AdminContentLocale } from "@/lib/admin-locales";
 import { ADMIN_CONTENT_LOCALE_LABELS } from "@/lib/admin-locales";
 import type { CareerFormData } from "@/lib/career-types";
@@ -102,6 +106,9 @@ export function CareerJobForm({
       {state.error ? <p className="form-error">{state.error}</p> : null}
       {state.success && !embedded ? <p className="form-success">{state.success}</p> : null}
       {state.fieldErrors?.slug ? <p className="form-error">{state.fieldErrors.slug}</p> : null}
+      {translationErrorLocales(state.fieldErrors).length > 0 ? (
+        <p className="form-error">Check the highlighted language tabs.</p>
+      ) : null}
 
       <div className="admin-form-field">
         <label htmlFor="slug">Slug</label>
@@ -130,6 +137,7 @@ export function CareerJobForm({
             placeholder="e.g. 400,000 – 600,000 AMD"
             required
           />
+          {state.fieldErrors?.salary ? <p className="form-error">{state.fieldErrors.salary}</p> : null}
         </div>
 
         <div className="admin-form-field">
@@ -144,6 +152,9 @@ export function CareerJobForm({
             placeholder="e.g. Full-time · 09:00–18:00"
             required
           />
+          {state.fieldErrors?.workHours ? (
+            <p className="form-error">{state.fieldErrors.workHours}</p>
+          ) : null}
         </div>
       </div>
 
@@ -166,7 +177,11 @@ export function CareerJobForm({
       </label>
 
       {hideLanguageToggle ? null : (
-        <ProjectLanguageTabs activeTab={activeTab} onTabChange={handleTabChange} />
+        <ProjectLanguageTabs
+          activeTab={activeTab}
+          onTabChange={handleTabChange}
+          errorLocales={translationErrorLocales(state.fieldErrors)}
+        />
       )}
 
       {(["hy", "en", "ru"] as const).map((locale) => (
@@ -180,6 +195,7 @@ export function CareerJobForm({
               onChange={(event) => updateTranslation(locale, "title", event.target.value)}
               required
             />
+            <TranslationFieldError fieldErrors={state.fieldErrors} locale={locale} field="title" />
           </div>
           <div className="admin-form-field">
             <label htmlFor={`${locale}_description`}>
@@ -192,6 +208,11 @@ export function CareerJobForm({
               onChange={(event) => updateTranslation(locale, "description", event.target.value)}
               required
               rows={8}
+            />
+            <TranslationFieldError
+              fieldErrors={state.fieldErrors}
+              locale={locale}
+              field="description"
             />
           </div>
         </div>

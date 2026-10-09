@@ -3,7 +3,8 @@ import { BlogCategoryTabs } from "@/components/public/blog/BlogCategoryTabs";
 import { BlogHero } from "@/components/public/blog/BlogHero";
 import { BlogPostGrid } from "@/components/public/blog/BlogPostGrid";
 import { Container } from "@/components/shared/Container";
-import { getBlogPageContent } from "@/lib/blog-content";
+import type { BlogPageContent } from "@/lib/blog-content";
+import { resolvePageCopy } from "@/lib/page-copy/resolve";
 import { getPublicBlogCategories, getPublishedBlogPosts } from "@/lib/blog/queries";
 import type { Locale } from "@/lib/i18n";
 import { isLocale } from "@/lib/i18n";
@@ -27,7 +28,7 @@ export default async function BlogPage({ params, searchParams }: BlogPageProps) 
   const { locale: localeParam } = await params;
   const locale: Locale = isLocale(localeParam) ? localeParam : "en";
   const query = await searchParams;
-  const content = getBlogPageContent(locale);
+  const content = await resolvePageCopy<BlogPageContent>("blog", locale);
   const [posts, categories] = await Promise.all([
     getPublishedBlogPosts(locale),
     getPublicBlogCategories(locale),

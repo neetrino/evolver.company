@@ -115,7 +115,7 @@ export async function createCareerJob(
     return { fieldErrors: { slug: "Slug already exists" } };
   }
 
-  await prisma.careerJob.create({
+  const job = await prisma.careerJob.create({
     data: {
       slug: normalizedSlug,
       salary: data.salary,
@@ -135,8 +135,7 @@ export async function createCareerJob(
 
   revalidatePublicCareerCache([normalizedSlug]);
   revalidatePath("/admin/careers");
-
-  return { success: "Job created successfully." };
+  redirect(`/admin/careers/${job.id}/edit`);
 }
 
 export async function updateCareerJob(

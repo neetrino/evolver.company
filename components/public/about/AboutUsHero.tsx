@@ -1,24 +1,26 @@
 import Image from "next/image";
 import { Container } from "@/components/shared/Container";
-import { ABOUT_US_HERO_IMAGE } from "@/lib/about-us-hero";
 
 type AboutUsHeroProps = {
   title: string;
+  imageSrc: string | null;
 };
 
-export function AboutUsHero({ title }: AboutUsHeroProps) {
+export function AboutUsHero({ title, imageSrc }: AboutUsHeroProps) {
   return (
     <section className="about-us-hero" aria-label={title}>
       <div className="about-us-hero-visual" aria-hidden="true">
         <div className="about-us-hero-media">
-          <Image
-            src={ABOUT_US_HERO_IMAGE.src}
-            alt=""
-            fill
-            priority
-            className="about-us-hero-image"
-            sizes="100vw"
-          />
+          {imageSrc ? (
+            <Image
+              src={imageSrc}
+              alt=""
+              fill
+              priority
+              className="about-us-hero-image"
+              sizes="100vw"
+            />
+          ) : null}
         </div>
 
         <div className="about-us-hero-overlay about-us-hero-overlay-top" />

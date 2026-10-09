@@ -2,7 +2,8 @@ import dynamic from "next/dynamic";
 import "@/app/contact-page.css";
 import { AboutUsSectionSeam } from "@/components/public/about/AboutUsSectionSeam";
 import { ContactUsHero } from "@/components/public/contact/ContactUsHero";
-import { getContactContent } from "@/lib/content";
+import type { ContactContent } from "@/lib/content";
+import { resolvePageCopy } from "@/lib/page-copy/resolve";
 import type { Locale } from "@/lib/i18n";
 
 const ContactUsMain = dynamic(() =>
@@ -30,7 +31,7 @@ type ContactUsPageProps = {
 export default async function ContactUsPage({ params }: ContactUsPageProps) {
   const { locale: localeParam } = await params;
   const locale = localeParam as Locale;
-  const content = getContactContent(locale);
+  const content = await resolvePageCopy<ContactContent>("contact", locale);
 
   return (
     <div className="contact-page">

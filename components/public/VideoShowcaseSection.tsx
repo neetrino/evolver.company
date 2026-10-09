@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState, type CSSProperties } from "re
 import { Container } from "@/components/shared/Container";
 import { VideoShowcasePairStage } from "@/components/public/VideoShowcasePairStage";
 import { VideoShowcaseSlide } from "@/components/public/VideoShowcaseSlide";
-import { getHomeVideoCopy, getHomeVideos } from "@/lib/home-videos";
+import { getHomeVideoCopy, getHomeVideos, type HomeVideoItem, type HomeVideoSectionCopy } from "@/lib/home-videos";
 import { useSectionReveal } from "@/lib/hooks/use-section-reveal";
 import type { Locale } from "@/lib/i18n";
 import {
@@ -24,6 +24,8 @@ const SCROLL_ANIMATION_MAX_MS = 650;
 
 type VideoShowcaseSectionProps = {
   locale: Locale;
+  copy?: HomeVideoSectionCopy;
+  videos?: HomeVideoItem[];
 };
 
 function videoDelayStyle(delaySeconds: number): CSSProperties {
@@ -49,10 +51,10 @@ function waitForScrollEnd(track: HTMLDivElement): Promise<void> {
   });
 }
 
-export function VideoShowcaseSection({ locale }: VideoShowcaseSectionProps) {
-  const videos = getHomeVideos();
+export function VideoShowcaseSection({ locale, copy: copyProp, videos: videosProp }: VideoShowcaseSectionProps) {
+  const videos = videosProp ?? getHomeVideos();
   const videoCount = videos.length;
-  const copy = getHomeVideoCopy(locale);
+  const copy = copyProp ?? getHomeVideoCopy(locale);
   const isPairMode = videoCount === 2;
   const loopedVideos =
     videoCount > 1

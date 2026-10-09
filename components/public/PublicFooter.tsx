@@ -6,15 +6,26 @@ import { FooterInquiriesBlock } from "@/components/public/footer/FooterInquiries
 import { FooterNavBlock } from "@/components/public/footer/FooterNavBlock";
 import { FooterScrollTop } from "@/components/public/footer/FooterScrollTop";
 import { PublicFooterReveal } from "@/components/public/PublicFooterReveal";
-import { getFooterContent } from "@/lib/content";
-import type { Locale } from "@/lib/i18n";
+import type { ContactContent, FooterContent } from "@/lib/content";
+import { getNavItems, type Locale } from "@/lib/i18n";
+import { BRAND_LOGO } from "@/lib/brand";
+import { resolveMediaSrc, resolvePageCopy } from "@/lib/page-copy/resolve";
 
 type PublicFooterProps = {
   locale: Locale;
 };
 
-export function PublicFooter({ locale }: PublicFooterProps) {
-  const content = getFooterContent(locale);
+export async function PublicFooter({ locale }: PublicFooterProps) {
+  const [content, navLabels, contact, logoSrc] = await Promise.all([
+    resolvePageCopy<FooterContent>("footer", locale),
+    resolvePageCopy<Record<string, string>>("navigation", locale),
+    resolvePageCopy<ContactContent>("contact", locale),
+    resolveMediaSrc("footer", "brand-logo", BRAND_LOGO.src),
+  ]);
+  const navItems = getNavItems(locale).map((item) => ({
+    ...item,
+    label: navLabels[item.key] ?? item.label,
+  }));
 
   return (
     <PublicFooterReveal>
@@ -29,10 +40,10 @@ export function PublicFooter({ locale }: PublicFooterProps) {
 
         <Container className="public-footer-inner">
           <div className="public-footer-grid">
-            <FooterBrandBlock locale={locale} content={content} />
+            <FooterBrandBlock locale={locale} content={content} logoSrc={logoSrc} />
             <FooterAddressBlock content={content} />
-            <FooterInquiriesBlock locale={locale} content={content} />
-            <FooterNavBlock locale={locale} content={content} />
+            <FooterInquiriesBlock content={content} email={contact.info.email} />
+            <FooterNavBlock locale={locale} content={content} navItems={navItems} />
             <FooterScrollTop label={content.scrollToTop} />
           </div>
 

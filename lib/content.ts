@@ -20,7 +20,7 @@ export type HeroFeature = {
   label: string;
 };
 
-type HomeContent = {
+export type HomeContent = {
   hero: {
     eyebrow: string;
     headline: HeroHeadlineLine[];

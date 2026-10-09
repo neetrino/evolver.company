@@ -10,19 +10,22 @@ import { localePath } from "@/lib/i18n";
 type FooterBrandBlockProps = {
   locale: Locale;
   content: FooterContent;
+  logoSrc: string | null;
 };
 
-export function FooterBrandBlock({ locale, content }: FooterBrandBlockProps) {
+export function FooterBrandBlock({ locale, content, logoSrc }: FooterBrandBlockProps) {
   return (
     <div className="footer-brand footer-animate" style={footerDelayStyle(FOOTER_ENTER_BASE_DELAY_S)}>
       <Link href={localePath(locale)} className="footer-brand-logo-link">
-        <Image
-          src={BRAND_LOGO.src}
-          alt={BRAND_LOGO.alt}
-          width={BRAND_LOGO.width}
-          height={BRAND_LOGO.height}
-          className="footer-brand-logo"
-        />
+        {logoSrc ? (
+          <Image
+            src={logoSrc}
+            alt={BRAND_LOGO.alt}
+            width={BRAND_LOGO.width}
+            height={BRAND_LOGO.height}
+            className="footer-brand-logo"
+          />
+        ) : null}
       </Link>
       <p className="footer-brand-description">{content.brandDescription}</p>
       <ul className="footer-social-list" aria-label="Social media">
