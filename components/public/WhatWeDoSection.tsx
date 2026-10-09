@@ -4,7 +4,7 @@ import { type CSSProperties } from "react";
 import { Container } from "@/components/shared/Container";
 import { ProductShowcaseCard } from "@/components/public/ProductShowcaseCard";
 import { useSectionReveal } from "@/lib/hooks/use-section-reveal";
-import { getProductShowcaseContent } from "@/lib/product-showcase";
+import { getProductShowcaseContent, type ProductShowcaseContent } from "@/lib/product-showcase";
 import type { Locale } from "@/lib/i18n";
 
 const WHAT_WE_DO_ENTER_BASE_DELAY_S = 0.1;
@@ -13,18 +13,19 @@ const WHAT_WE_DO_VIEW_THRESHOLD = 0.16;
 
 type WhatWeDoSectionProps = {
   locale: Locale;
+  content?: ProductShowcaseContent;
 };
 
 function whatWeDoDelayStyle(delaySeconds: number): CSSProperties {
   return { "--what-we-do-delay": `${delaySeconds}s` } as CSSProperties;
 }
 
-export function WhatWeDoSection({ locale }: WhatWeDoSectionProps) {
+export function WhatWeDoSection({ locale, content: contentProp }: WhatWeDoSectionProps) {
   const { isVisible, sectionRef } = useSectionReveal({
     threshold: WHAT_WE_DO_VIEW_THRESHOLD,
     rootMargin: "0px 0px -6% 0px",
   });
-  const content = getProductShowcaseContent(locale);
+  const content = contentProp ?? getProductShowcaseContent(locale);
 
   return (
     <section

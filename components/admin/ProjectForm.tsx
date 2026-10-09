@@ -6,6 +6,10 @@ import { createProject, updateProject } from "@/app/admin/projects/actions";
 import { CoverImageUploader } from "@/components/admin/CoverImageUploader";
 import { GalleryImageUploader } from "@/components/admin/GalleryImageUploader";
 import { ProjectLanguageTabs } from "@/components/admin/ProjectLanguageTabs";
+import {
+  TranslationFieldError,
+  translationErrorLocales,
+} from "@/components/admin/TranslationFieldError";
 import type { AdminContentLocale } from "@/lib/admin-locales";
 import { ADMIN_CONTENT_LOCALE_LABELS } from "@/lib/admin-locales";
 import type { ProjectFormData } from "@/lib/project-types";
@@ -110,6 +114,9 @@ export function ProjectForm({
       {state.error ? <p className="form-error">{state.error}</p> : null}
       {state.success && !embedded ? <p className="form-success">{state.success}</p> : null}
       {state.fieldErrors?.slug ? <p className="form-error">{state.fieldErrors.slug}</p> : null}
+      {translationErrorLocales(state.fieldErrors).length > 0 ? (
+        <p className="form-error">Check the highlighted language tabs.</p>
+      ) : null}
       {state.fieldErrors?.accentColor ? (
         <p className="form-error">{state.fieldErrors.accentColor}</p>
       ) : null}
@@ -198,7 +205,11 @@ export function ProjectForm({
       </label>
 
       {hideLanguageToggle ? null : (
-        <ProjectLanguageTabs activeTab={activeTab} onTabChange={handleTabChange} />
+        <ProjectLanguageTabs
+          activeTab={activeTab}
+          onTabChange={handleTabChange}
+          errorLocales={translationErrorLocales(state.fieldErrors)}
+        />
       )}
 
       {(["hy", "en", "ru"] as const).map((locale) => (
@@ -212,6 +223,7 @@ export function ProjectForm({
               onChange={(event) => updateTranslation(locale, "title", event.target.value)}
               required
             />
+            <TranslationFieldError fieldErrors={state.fieldErrors} locale={locale} field="title" />
           </div>
           <div className="admin-form-field">
             <label htmlFor={`${locale}_shortDescription`}>
@@ -226,6 +238,11 @@ export function ProjectForm({
               }
               required
             />
+            <TranslationFieldError
+              fieldErrors={state.fieldErrors}
+              locale={locale}
+              field="shortDescription"
+            />
           </div>
           <div className="admin-form-field">
             <label htmlFor={`${locale}_longDescription`}>
@@ -239,6 +256,11 @@ export function ProjectForm({
                 updateTranslation(locale, "longDescription", event.target.value)
               }
               required
+            />
+            <TranslationFieldError
+              fieldErrors={state.fieldErrors}
+              locale={locale}
+              field="longDescription"
             />
           </div>
         </div>

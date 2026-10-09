@@ -10,6 +10,7 @@ export type AdminUiCopy = {
   navPosts: string;
   navCareers: string;
   navHomeHero: string;
+  navPages: string;
   navContactMessages: string;
   navCareerApplications: string;
   menu: string;
@@ -22,6 +23,7 @@ export type AdminUiCopy = {
   dashboardCareersBody: string;
   dashboardApplicationsBody: string;
   dashboardHomeHeroBody: string;
+  dashboardPagesBody: string;
   dashboardContactBody: string;
   projectsTitle: string;
   projectsSubtitle: string;
@@ -72,6 +74,23 @@ export type AdminUiCopy = {
   actionUnpublish: string;
   actionDelete: string;
   noTranslation: string;
+  pagesTitle: string;
+  pagesSubtitle: string;
+  pagesSearch: string;
+  pagesEditedOnly: string;
+  pagesSave: string;
+  pagesSaving: string;
+  pagesReset: string;
+  pagesResetting: string;
+  pagesResetConfirm: string;
+  pagesSaved: string;
+  pagesResetDone: string;
+  pagesBack: string;
+  pagesEmpty: string;
+  pagesEdited: string;
+  pagesCustom: string;
+  pagesFields: string;
+  pagesView: string;
 };
 
 const ADMIN_UI_EN: AdminUiCopy = {
@@ -83,6 +102,7 @@ const ADMIN_UI_EN: AdminUiCopy = {
   navPosts: "Blog posts",
   navCareers: "Careers",
   navHomeHero: "Home Hero",
+  navPages: "Pages",
   navContactMessages: "Contact Messages",
   navCareerApplications: "Career applications",
   menu: "Menu",
@@ -95,6 +115,7 @@ const ADMIN_UI_EN: AdminUiCopy = {
   dashboardCareersBody: "Manage job listings, salary, hours, and cover images.",
   dashboardApplicationsBody: "Review applications from the public career page.",
   dashboardHomeHeroBody: "Edit homepage carousel slides and copy.",
+  dashboardPagesBody: "Services, about, customers, and the rest of the public copy.",
   dashboardContactBody: "Review messages submitted from the public site.",
   projectsTitle: "Projects",
   projectsSubtitle: "Manage published and draft projects.",
@@ -145,6 +166,23 @@ const ADMIN_UI_EN: AdminUiCopy = {
   actionUnpublish: "Unpublish",
   actionDelete: "Delete",
   noTranslation: "No translation",
+  pagesTitle: "Pages",
+  pagesSubtitle: "Edit public copy. Built-in text stays until you change a field.",
+  pagesSearch: "Search fields",
+  pagesEditedOnly: "Edited only",
+  pagesSave: "Save changes",
+  pagesSaving: "Saving...",
+  pagesReset: "Reset to defaults",
+  pagesResetting: "Resetting...",
+  pagesResetConfirm: "Reset this page to the built-in copy? Custom text will be removed.",
+  pagesSaved: "Saved. The public site is updated.",
+  pagesResetDone: "Reset to the built-in copy.",
+  pagesBack: "All pages",
+  pagesEmpty: "No fields match this search.",
+  pagesEdited: "Edited",
+  pagesCustom: "Custom",
+  pagesFields: "fields",
+  pagesView: "View page",
 };
 
 const ADMIN_UI_RU: AdminUiCopy = {
@@ -156,6 +194,7 @@ const ADMIN_UI_RU: AdminUiCopy = {
   navPosts: "Блог",
   navCareers: "Карьера",
   navHomeHero: "Главный баннер",
+  navPages: "Страницы",
   navContactMessages: "Сообщения",
   navCareerApplications: "Отклики",
   menu: "Меню",
@@ -168,6 +207,7 @@ const ADMIN_UI_RU: AdminUiCopy = {
   dashboardCareersBody: "Вакансии, зарплата, график и обложки.",
   dashboardApplicationsBody: "Отклики с публичной страницы карьеры.",
   dashboardHomeHeroBody: "Слайды и тексты главной карусели.",
+  dashboardPagesBody: "Услуги, о нас, клиенты и остальные публичные тексты.",
   dashboardContactBody: "Сообщения с публичной формы контактов.",
   projectsTitle: "Проекты",
   projectsSubtitle: "Управление опубликованными и черновыми проектами.",
@@ -218,6 +258,23 @@ const ADMIN_UI_RU: AdminUiCopy = {
   actionUnpublish: "Снять",
   actionDelete: "Удалить",
   noTranslation: "Нет перевода",
+  pagesTitle: "Страницы",
+  pagesSubtitle: "Публичные тексты. Встроенный текст остаётся, пока вы не измените поле.",
+  pagesSearch: "Поиск полей",
+  pagesEditedOnly: "Только изменённые",
+  pagesSave: "Сохранить",
+  pagesSaving: "Сохранение...",
+  pagesReset: "Сбросить",
+  pagesResetting: "Сброс...",
+  pagesResetConfirm: "Вернуть встроенный текст этой страницы? Свои правки будут удалены.",
+  pagesSaved: "Сохранено. Сайт обновлён.",
+  pagesResetDone: "Возвращён встроенный текст.",
+  pagesBack: "Все страницы",
+  pagesEmpty: "Нет полей по этому запросу.",
+  pagesEdited: "Изменено",
+  pagesCustom: "Своё",
+  pagesFields: "полей",
+  pagesView: "Открыть страницу",
 };
 
 const ADMIN_UI_HY: AdminUiCopy = {
@@ -229,6 +286,7 @@ const ADMIN_UI_HY: AdminUiCopy = {
   navPosts: "Բլոգ",
   navCareers: "Կարիերա",
   navHomeHero: "Գլխավոր բաններ",
+  navPages: "Էջեր",
   navContactMessages: "Հաղորդագրություններ",
   navCareerApplications: "Դիմումներ",
   menu: "Մենյու",
@@ -241,6 +299,7 @@ const ADMIN_UI_HY: AdminUiCopy = {
   dashboardCareersBody: "Աշխատատեղեր, աշխատավարձ, ժամեր և կազմեր։",
   dashboardApplicationsBody: "Դիմումներ հանրային կարիերայի էջից։",
   dashboardHomeHeroBody: "Գլխավոր էջի կարուսելի սլայդներ և տեքստեր։",
+  dashboardPagesBody: "Ծառայություններ, մեր մասին, հաճախորդներ և մնացած հանրային տեքստերը։",
   dashboardContactBody: "Հաղորդագրություններ կոնտակտային ձևից։",
   projectsTitle: "Նախագծեր",
   projectsSubtitle: "Կառավարիր հրապարակված և սևագիր նախագծերը։",
@@ -291,6 +350,23 @@ const ADMIN_UI_HY: AdminUiCopy = {
   actionUnpublish: "Հանել",
   actionDelete: "Ջնջել",
   noTranslation: "Թարգմանություն չկա",
+  pagesTitle: "Էջեր",
+  pagesSubtitle: "Խմբագրիր հանրային տեքստերը։ Ներկառուցվածը մնում է, մինչև դաշտը փոխես։",
+  pagesSearch: "Փնտրել դաշտեր",
+  pagesEditedOnly: "Միայն փոփոխվածները",
+  pagesSave: "Պահել",
+  pagesSaving: "Պահվում է...",
+  pagesReset: "Վերականգնել",
+  pagesResetting: "Վերականգնվում է...",
+  pagesResetConfirm: "Վերադարձնե՞լ այս էջի ներկառուցված տեքստը։ Սեփական փոփոխությունները կջնջվեն։",
+  pagesSaved: "Պահված է։ Կայքը թարմացվել է։",
+  pagesResetDone: "Վերադարձվել է ներկառուցված տեքստը։",
+  pagesBack: "Բոլոր էջերը",
+  pagesEmpty: "Այս որոնմանը դաշտ չկա։",
+  pagesEdited: "Փոփոխված",
+  pagesCustom: "Սեփական",
+  pagesFields: "դաշտ",
+  pagesView: "Բացել էջը",
 };
 
 const ADMIN_UI: Record<AdminContentLocale, AdminUiCopy> = {

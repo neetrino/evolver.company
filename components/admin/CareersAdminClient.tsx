@@ -1,16 +1,11 @@
 "use client";
 
-import { useCallback, useState } from "react";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { deleteCareerJob, toggleCareerJobPublished } from "@/app/admin/careers/actions";
 import { useAdminContentLocale } from "@/components/admin/AdminContentLocaleProvider";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
-import { AdminSheet } from "@/components/admin/AdminSheet";
-import { CareerJobForm } from "@/components/admin/CareerJobForm";
-import { ProjectLanguageTabs } from "@/components/admin/ProjectLanguageTabs";
 import { useAdminUi } from "@/components/admin/useAdminUi";
 import { Badge } from "@/components/shared/Badge";
-import type { AdminContentLocale } from "@/lib/admin-locales";
 import { getAdminRowTitle } from "@/lib/admin-table";
 import { getAdminTitleColumnLabel } from "@/lib/admin-ui-i18n";
 import type { CareerFormData } from "@/lib/career-types";
@@ -28,32 +23,9 @@ type CareersAdminClientProps = {
   jobs: CareerAdminRow[];
 };
 
-type SheetState =
-  | { mode: "closed" }
-  | { mode: "create" }
-  | { mode: "edit"; jobId: string; formData: CareerFormData };
-
 export function CareersAdminClient({ jobs }: CareersAdminClientProps) {
-  const router = useRouter();
   const ui = useAdminUi();
   const { locale: listLocale } = useAdminContentLocale();
-  const [sheet, setSheet] = useState<SheetState>({ mode: "closed" });
-  const [activeLocale, setActiveLocale] = useState<AdminContentLocale>("hy");
-
-  const closeSheet = useCallback(() => {
-    setSheet({ mode: "closed" });
-    router.refresh();
-  }, [router]);
-
-  function openCreate(): void {
-    setActiveLocale(listLocale);
-    setSheet({ mode: "create" });
-  }
-
-  function openEdit(jobId: string, formData: CareerFormData): void {
-    setActiveLocale(listLocale);
-    setSheet({ mode: "edit", jobId, formData });
-  }
 
   return (
     <>
@@ -61,9 +33,9 @@ export function CareersAdminClient({ jobs }: CareersAdminClientProps) {
         title={ui.careersTitle}
         subtitle={ui.careersSubtitle}
         actions={
-          <button type="button" className="btn btn-admin-primary" onClick={openCreate}>
+          <Link href="/admin/careers/new" className="btn btn-admin-primary">
             {ui.newJob}
-          </button>
+          </Link>
         }
       />
 
@@ -93,13 +65,9 @@ export function CareersAdminClient({ jobs }: CareersAdminClientProps) {
                 </td>
                 <td>
                   <div className="admin-table-actions">
-                    <button
-                      type="button"
-                      className="btn btn-admin-secondary"
-                      onClick={() => openEdit(job.id, job.formData)}
-                    >
+                    <Link href={`/admin/careers/${job.id}/edit`} className="btn btn-admin-secondary">
                       {ui.actionEdit}
-                    </button>
+                    </Link>
                     <form action={toggleCareerJobPublished.bind(null, job.id)}>
                       <button type="submit" className="btn btn-admin-secondary">
                         {job.isPublished ? ui.actionUnpublish : ui.actionPublish}
@@ -118,42 +86,6 @@ export function CareersAdminClient({ jobs }: CareersAdminClientProps) {
         </table>
         {jobs.length === 0 ? <p className="admin-table-empty">{ui.emptyJobs}</p> : null}
       </div>
-
-      <AdminSheet
-        open={sheet.mode !== "closed"}
-        title={sheet.mode === "edit" ? ui.sheetEditJob : ui.sheetNewJob}
-        subtitle={sheet.mode === "edit" ? ui.sheetEditJobSubtitle : ui.sheetNewJobSubtitle}
-        toolbar={
-          <ProjectLanguageTabs activeTab={activeLocale} onTabChange={setActiveLocale} />
-        }
-        onClose={() => setSheet({ mode: "closed" })}
-        size="lg"
-      >
-        {sheet.mode === "create" ? (
-          <CareerJobForm
-            key="create"
-            mode="create"
-            embedded
-            hideLanguageToggle
-            activeLocale={activeLocale}
-            onLocaleChange={setActiveLocale}
-            onSuccess={closeSheet}
-          />
-        ) : null}
-        {sheet.mode === "edit" ? (
-          <CareerJobForm
-            key={sheet.jobId}
-            mode="edit"
-            jobId={sheet.jobId}
-            initialData={sheet.formData}
-            embedded
-            hideLanguageToggle
-            activeLocale={activeLocale}
-            onLocaleChange={setActiveLocale}
-            onSuccess={closeSheet}
-          />
-        ) : null}
-      </AdminSheet>
     </>
   );
 }

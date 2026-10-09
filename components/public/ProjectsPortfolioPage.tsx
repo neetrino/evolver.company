@@ -15,6 +15,8 @@ type ProjectsPortfolioPageProps = {
   content: ProjectsPageContent;
   projects: ProjectWithDetails[];
   emptyMessage: string;
+  viewLabel?: string;
+  contactEmail?: string;
 };
 
 function portfolioDelayStyle(delaySeconds: number): CSSProperties {
@@ -41,8 +43,10 @@ export function ProjectsPortfolioPage({
   content,
   projects,
   emptyMessage,
+  viewLabel: viewLabelProp,
+  contactEmail,
 }: ProjectsPortfolioPageProps) {
-  const viewLabel = UI_LABELS[locale].viewProject;
+  const viewLabel = viewLabelProp ?? UI_LABELS[locale].viewProject;
   const hasProjects = projects.length > 0;
 
   return (
@@ -103,6 +107,7 @@ export function ProjectsPortfolioPage({
         <ProjectsPortfolioCta
           locale={locale}
           content={content}
+          contactEmail={contactEmail}
           delayStyle={portfolioDelayStyle(PORTFOLIO_ENTER_BASE_DELAY_S + 0.32)}
         />
       </div>

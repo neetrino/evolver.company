@@ -3,7 +3,8 @@ import "@/app/blog-page.css";
 import "@/app/contact-page.css";
 import "@/app/career-page.css";
 import { CareerJobDetail } from "@/components/public/career/CareerJobDetail";
-import { getCareerPageContent } from "@/lib/career-content";
+import type { CareerPageContent } from "@/lib/career-content";
+import { resolvePageCopy } from "@/lib/page-copy/resolve";
 import { getCareerTranslation, getPublishedCareerJobBySlug } from "@/lib/careers";
 import type { Locale } from "@/lib/i18n";
 
@@ -28,7 +29,7 @@ export default async function CareerJobPage({ params }: CareerJobPageProps) {
     notFound();
   }
 
-  const content = getCareerPageContent(locale);
+  const content = await resolvePageCopy<CareerPageContent>("career", locale);
 
   return (
     <div className="blog-page">

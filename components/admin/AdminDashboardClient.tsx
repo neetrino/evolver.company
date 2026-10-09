@@ -31,6 +31,11 @@ const DASHBOARD_LINKS = [
     bodyKey: "dashboardHomeHeroBody",
   },
   {
+    href: "/admin/pages",
+    titleKey: "pagesTitle",
+    bodyKey: "dashboardPagesBody",
+  },
+  {
     href: "/admin/contact-messages",
     titleKey: "contactTitle",
     bodyKey: "dashboardContactBody",

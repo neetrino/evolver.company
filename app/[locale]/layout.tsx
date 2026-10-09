@@ -1,7 +1,9 @@
 import { notFound } from "next/navigation";
+import { PublicChromeProvider, type PublicUiLabels } from "@/components/public/PublicChromeProvider";
 import { PublicFooter } from "@/components/public/PublicFooter";
 import { PublicHeader } from "@/components/public/PublicHeader";
-import { isLocale, type Locale } from "@/lib/i18n";
+import { getNavItems, isLocale, type Locale } from "@/lib/i18n";
+import { resolvePageCopy } from "@/lib/page-copy/resolve";
 
 type PublicLayoutProps = {
   children: React.ReactNode;
@@ -20,12 +22,22 @@ export default async function LocaleLayout({ children, params }: PublicLayoutPro
   }
 
   const locale = localeParam as Locale;
+  const [navLabels, ui] = await Promise.all([
+    resolvePageCopy<Record<string, string>>("navigation", locale),
+    resolvePageCopy<PublicUiLabels>("interface", locale),
+  ]);
+  const navItems = getNavItems(locale).map((item) => ({
+    ...item,
+    label: navLabels[item.key] ?? item.label,
+  }));
 
   return (
-    <div className="public-theme public-layout">
-      <PublicHeader locale={locale} />
-      <main>{children}</main>
-      <PublicFooter locale={locale} />
-    </div>
+    <PublicChromeProvider value={{ navItems, ui }}>
+      <div className="public-theme public-layout">
+        <PublicHeader locale={locale} />
+        <main>{children}</main>
+        <PublicFooter locale={locale} />
+      </div>
+    </PublicChromeProvider>
   );
 }

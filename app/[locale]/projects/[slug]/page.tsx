@@ -1,7 +1,9 @@
 import Image from "next/image";
 import { notFound, redirect } from "next/navigation";
 import { Container } from "@/components/shared/Container";
-import { UI_LABELS, type Locale } from "@/lib/i18n";
+import type { Locale } from "@/lib/i18n";
+import type { PublicUiLabels } from "@/components/public/PublicChromeProvider";
+import { resolvePageCopy } from "@/lib/page-copy/resolve";
 import {
   buildProjectDetailImages,
   getProjectPlaceholderLetter,
@@ -36,6 +38,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
     notFound();
   }
 
+  const ui = await resolvePageCopy<PublicUiLabels>("interface", locale);
   const detailImages = buildProjectDetailImages(project);
   const placeholderLetter = getProjectPlaceholderLetter(translation.title, project.slug);
 
@@ -49,7 +52,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
       <Container className="project-detail-container">
         <div className="project-detail-layout">
           <header className="project-detail-info">
-            <p className="project-detail-eyebrow">{UI_LABELS[locale].projectsHeading}</p>
+            <p className="project-detail-eyebrow">{ui.projectsHeading}</p>
             <span className="project-detail-eyebrow-line" aria-hidden="true" />
             <h1 className="project-detail-title">{translation.title}</h1>
             <p className="project-detail-description">{translation.longDescription}</p>
@@ -60,7 +63,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                 rel="noopener noreferrer"
                 className="project-detail-external btn btn-primary"
               >
-                {UI_LABELS[locale].openProject}
+                {ui.openProject}
               </a>
             ) : null}
           </header>

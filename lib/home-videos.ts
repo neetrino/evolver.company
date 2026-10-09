@@ -40,11 +40,13 @@ export function getHomeVideos(): HomeVideoItem[] {
   return HOME_VIDEOS;
 }
 
-export function getHomeVideoCopy(locale: Locale): {
+export type HomeVideoSectionCopy = {
   eyebrow: string;
   titleLines: Array<{ text: string; gradient?: boolean }>;
   subtitle: string;
-} {
+};
+
+export function getHomeVideoCopy(locale: Locale): HomeVideoSectionCopy {
   if (locale === "hy") {
     return {
       eyebrow: "Շարժման մեջ",

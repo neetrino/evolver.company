@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Container } from "@/components/shared/Container";
 import { LanguageSwitcher } from "@/components/public/LanguageSwitcher";
+import { usePublicChrome } from "@/components/public/PublicChromeProvider";
 import { BRAND_LOGO } from "@/lib/brand";
 import type { Locale } from "@/lib/i18n";
 import { getNavItems } from "@/lib/i18n";
@@ -52,7 +53,8 @@ type MobileMenuState = {
 
 export function PublicHeader({ locale }: PublicHeaderProps) {
   const pathname = usePathname();
-  const navItems = getNavItems(locale);
+  const chrome = usePublicChrome();
+  const navItems = chrome?.navItems ?? getNavItems(locale);
   const [mobileMenuState, setMobileMenuState] = useState<MobileMenuState>({
     isOpen: false,
     openedAtPathname: pathname,

@@ -3,16 +3,16 @@ import { FooterBlock } from "@/components/public/footer/FooterBlock";
 import { FooterBlockIcons } from "@/components/public/footer/FooterBlockIcons";
 import type { FooterContent } from "@/lib/content";
 import { FOOTER_ENTER_BASE_DELAY_S, FOOTER_ENTER_STEP_DELAY_S } from "@/lib/footer-motion";
-import type { Locale } from "@/lib/i18n";
-import { getNavItems } from "@/lib/i18n";
+import { getNavItems, type Locale, type NavItem } from "@/lib/i18n";
 
 type FooterNavBlockProps = {
   locale: Locale;
   content: FooterContent;
+  navItems?: NavItem[];
 };
 
-export function FooterNavBlock({ locale, content }: FooterNavBlockProps) {
-  const navItems = getNavItems(locale);
+export function FooterNavBlock({ locale, content, navItems: navItemsProp }: FooterNavBlockProps) {
+  const navItems = navItemsProp ?? getNavItems(locale);
 
   return (
     <FooterBlock

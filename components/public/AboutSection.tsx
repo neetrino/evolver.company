@@ -7,6 +7,7 @@ import { Container } from "@/components/shared/Container";
 import {
   getAboutSectionContent,
   type AboutRichPart,
+  type AboutSectionContent,
 } from "@/lib/about-section";
 import { useSectionReveal } from "@/lib/hooks/use-section-reveal";
 import type { Locale } from "@/lib/i18n";
@@ -19,6 +20,7 @@ const ABOUT_COMPANY_TEXT_STEP_DELAY_S = 0.12;
 
 type AboutSectionProps = {
   locale: Locale;
+  content?: AboutSectionContent;
 };
 
 function aboutDelayStyle(delaySeconds: number): CSSProperties {
@@ -107,11 +109,11 @@ function AboutPlusIcon({ expanded }: { expanded: boolean }) {
   );
 }
 
-export function AboutSection({ locale }: AboutSectionProps) {
+export function AboutSection({ locale, content: contentProp }: AboutSectionProps) {
   const { isVisible, sectionRef } = useSectionReveal({ threshold: ABOUT_VIEW_THRESHOLD });
   const [isTechnologyOpen, setIsTechnologyOpen] = useState(false);
   const technologyPanelId = useId();
-  const content = getAboutSectionContent(locale);
+  const content = contentProp ?? getAboutSectionContent(locale);
 
   return (
     <section

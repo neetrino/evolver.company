@@ -18,6 +18,7 @@ const PARTNERSHIP_GRID_STAGGER_CAP = 12;
 
 type PartnershipPartnersProps = {
   content: PartnershipContent["partners"];
+  partners?: ClientLogo[];
 };
 
 type PartnerCellProps = {
@@ -64,8 +65,8 @@ function PartnerCell({ client, index }: PartnerCellProps) {
   );
 }
 
-export function PartnershipPartners({ content }: PartnershipPartnersProps) {
-  const partners = getClientLogos();
+export function PartnershipPartners({ content, partners: partnersProp }: PartnershipPartnersProps) {
+  const partners = partnersProp ?? getClientLogos();
   const { isVisible, sectionRef } = useSectionReveal({
     threshold: PARTNERSHIP_VIEW_THRESHOLD,
     rootMargin: PARTNERSHIP_REVEAL_ROOT_MARGIN,

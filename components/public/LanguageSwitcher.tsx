@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { usePublicChrome } from "@/components/public/PublicChromeProvider";
 import type { Locale } from "@/lib/i18n";
 import { LOCALES, switchLocalePath, UI_LABELS } from "@/lib/i18n";
 
@@ -11,6 +12,8 @@ type LanguageSwitcherProps = {
 
 export function LanguageSwitcher({ locale }: LanguageSwitcherProps) {
   const pathname = usePathname();
+  const chrome = usePublicChrome();
+  const labels = chrome?.ui ?? UI_LABELS[locale];
 
   return (
     <div className="lang-switch" role="group" aria-label="Language switcher">
@@ -27,7 +30,7 @@ export function LanguageSwitcher({ locale }: LanguageSwitcherProps) {
             className={`lang-switch-link ${isActive ? "lang-switch-link-active" : ""}`}
             aria-current={isActive ? "true" : undefined}
             title={
-              targetLocale === "en" ? UI_LABELS[locale].languageEn : UI_LABELS[locale].languageHy
+              targetLocale === "en" ? labels.languageEn : labels.languageHy
             }
           >
             {label}

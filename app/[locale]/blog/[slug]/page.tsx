@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import "@/app/blog-page.css";
 import { BlogPostArticle } from "@/components/public/blog/BlogPostArticle";
-import { getBlogPageContent } from "@/lib/blog-content";
+import type { BlogPageContent } from "@/lib/blog-content";
+import { resolvePageCopy } from "@/lib/page-copy/resolve";
 import { formatBlogDate } from "@/lib/blog/dates";
 import { toMetaDescription } from "@/lib/blog/html";
 import { getPublishedBlogPost } from "@/lib/blog/queries";
@@ -56,7 +57,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       <BlogPostArticle
         locale={locale}
         post={post}
-        content={getBlogPageContent(locale)}
+        content={await resolvePageCopy<BlogPageContent>("blog", locale)}
         dateLabel={formatBlogDate(post.publishedAt, locale)}
       />
     </div>

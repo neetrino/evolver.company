@@ -13,7 +13,7 @@ const SERVICES_PARTICLE_KEYS = ["one", "two", "three", "four", "five", "six", "s
 
 type ServicesSectionProps = {
   locale: Locale;
-  content: ServicesShowcaseContent;
+  content: ServicesShowcaseContent & { projectsLinkLabel?: string };
 };
 
 function servicesDelayStyle(delaySeconds: number): CSSProperties {
@@ -104,7 +104,7 @@ export function ServicesSection({ locale, content }: ServicesSectionProps) {
           href={`/${locale}/projects`}
           className="services-page-search services-page-animate"
           style={servicesDelayStyle(0.16)}
-          aria-label={locale === "en" ? "Browse projects" : "Դիտել նախագծերը"}
+          aria-label={content.projectsLinkLabel ?? (locale === "en" ? "Browse projects" : "Դիտել նախագծերը")}
         >
           <svg viewBox="0 0 24 24" aria-hidden="true" className="services-page-search-icon">
             <circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" strokeWidth="1.75" />

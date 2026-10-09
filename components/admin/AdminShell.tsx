@@ -80,6 +80,7 @@ function AdminShellInner({
         { href: "/admin/blog", labelKey: "navPosts" },
         { href: "/admin/careers", labelKey: "navCareers" },
         { href: "/admin/home-hero", labelKey: "navHomeHero" },
+        { href: "/admin/pages", labelKey: "navPages" },
       ],
     },
     {

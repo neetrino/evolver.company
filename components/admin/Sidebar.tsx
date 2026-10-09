@@ -14,6 +14,7 @@ export type SidebarNavKey =
   | "navPosts"
   | "navCareers"
   | "navHomeHero"
+  | "navPages"
   | "navContactMessages"
   | "navCareerApplications";
 

@@ -3,8 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { type CSSProperties } from "react";
-import { localePath, type Locale } from "@/lib/i18n";
-import { UI_LABELS } from "@/lib/i18n";
+import { usePublicChrome } from "@/components/public/PublicChromeProvider";
+import { localePath, UI_LABELS, type Locale } from "@/lib/i18n";
 import {
   getProjectLogo,
   resolveHomeProjectImage,
@@ -62,7 +62,8 @@ function CardArrowIcon() {
 
 export function ProjectCard({ project, locale, index = 0 }: ProjectCardProps) {
   const translation = getProjectTranslation(project, locale);
-  const viewLabel = UI_LABELS[locale].viewProject;
+  const chrome = usePublicChrome();
+  const viewLabel = chrome?.ui.viewProject ?? UI_LABELS[locale].viewProject;
   const { token: accentToken, accentColor } = resolveProjectAccent(project);
   const accentStyle = buildHomeAccentStyle(accentColor);
   const logo = getProjectLogo(project.catalogSlug ?? project.slug);

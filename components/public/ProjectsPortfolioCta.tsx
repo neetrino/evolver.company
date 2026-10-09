@@ -7,12 +7,18 @@ import type { Locale } from "@/lib/i18n";
 type ProjectsPortfolioCtaProps = {
   locale: Locale;
   content: Pick<ProjectsPageContent, "ctaEyebrow" | "ctaTitle" | "ctaBody" | "ctaLabel">;
+  contactEmail?: string;
   delayStyle?: CSSProperties;
 };
 
-export function ProjectsPortfolioCta({ locale, content, delayStyle }: ProjectsPortfolioCtaProps) {
-  const contactEmail = getContactContent(locale).info.email;
-  const mailtoHref = `mailto:${contactEmail}?subject=${encodeURIComponent(content.ctaTitle)}`;
+export function ProjectsPortfolioCta({
+  locale,
+  content,
+  contactEmail,
+  delayStyle,
+}: ProjectsPortfolioCtaProps) {
+  const email = contactEmail ?? getContactContent(locale).info.email;
+  const mailtoHref = `mailto:${email}?subject=${encodeURIComponent(content.ctaTitle)}`;
 
   return (
     <CustomerCtaBanner

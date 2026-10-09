@@ -246,7 +246,7 @@ export async function createProject(
     return { fieldErrors: { slug: "Slug already exists" } };
   }
 
-  await prisma.project.create({
+  const project = await prisma.project.create({
     data: {
       slug: normalizedSlug,
       catalogSlug: getCatalogSlugForCreate(normalizedSlug),
@@ -280,8 +280,7 @@ export async function createProject(
     }),
   );
   revalidatePath("/admin/projects");
-
-  return { success: "Project created successfully." };
+  redirect(`/admin/projects/${project.id}/edit`);
 }
 
 export async function updateProject(

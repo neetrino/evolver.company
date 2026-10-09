@@ -21,19 +21,21 @@ type CustomersGalleryProps = {
   locale: Locale;
   content: CustomersContent["gallery"];
   clients: ClientLogo[];
+  industries?: Record<string, string>;
 };
 
 type GalleryTileProps = {
   locale: Locale;
   client: ClientLogo;
   index: number;
+  industry?: string;
 };
 
-function GalleryTile({ locale, client, index }: GalleryTileProps) {
+function GalleryTile({ locale, client, index, industry: industryProp }: GalleryTileProps) {
   const delayIndex = Math.min(index, CUSTOMERS_GRID_STAGGER_CAP - 1);
   const delay =
     CUSTOMERS_ENTER_BASE_DELAY_S + (delayIndex + 1) * CUSTOMERS_ENTER_STEP_DELAY_S;
-  const industry = getCustomerIndustry(client.id, locale);
+  const industry = industryProp ?? getCustomerIndustry(client.id, locale);
 
   return (
     <li
@@ -65,7 +67,7 @@ function GalleryTile({ locale, client, index }: GalleryTileProps) {
   );
 }
 
-export function CustomersGallery({ locale, content, clients }: CustomersGalleryProps) {
+export function CustomersGallery({ locale, content, clients, industries }: CustomersGalleryProps) {
   const { isVisible, sectionRef } = useSectionReveal({
     threshold: CUSTOMERS_VIEW_THRESHOLD,
     rootMargin: CUSTOMERS_REVEAL_ROOT_MARGIN,
@@ -91,7 +93,13 @@ export function CustomersGallery({ locale, content, clients }: CustomersGalleryP
 
         <ul className="customers-gallery-grid">
           {clients.map((client, index) => (
-            <GalleryTile key={client.id} locale={locale} client={client} index={index} />
+            <GalleryTile
+              key={client.id}
+              locale={locale}
+              client={client}
+              index={index}
+              industry={industries?.[client.id]}
+            />
           ))}
         </ul>
       </Container>

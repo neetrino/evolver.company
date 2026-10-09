@@ -2,11 +2,8 @@ import dynamic from "next/dynamic";
 import "@/app/customers-page.css";
 import { AboutUsSectionSeam } from "@/components/public/about/AboutUsSectionSeam";
 import { CustomersHero } from "@/components/public/customers/CustomersHero";
-import {
-  getAllCustomers,
-  getCustomersContent,
-  getFeaturedCustomers,
-} from "@/lib/customers";
+import { getFeaturedCustomers, type CustomersContent } from "@/lib/customers";
+import { resolveClientLogos, resolvePageCopy } from "@/lib/page-copy/resolve";
 import type { Locale } from "@/lib/i18n";
 
 const CustomersSpotlight = dynamic(() =>
@@ -34,9 +31,15 @@ type CustomersPageProps = {
 export default async function CustomersPage({ params }: CustomersPageProps) {
   const { locale: localeParam } = await params;
   const locale = localeParam as Locale;
-  const content = getCustomersContent(locale);
-  const featured = getFeaturedCustomers(locale);
-  const clients = getAllCustomers();
+  const [source, logos] = await Promise.all([
+    resolvePageCopy<CustomersContent & { industries: Record<string, string> }>("customers", locale),
+    resolveClientLogos(locale),
+  ]);
+  const { industries, ...content } = source;
+  const featured = getFeaturedCustomers(locale).map((item) => ({
+    client: logos.find((logo) => logo.id === item.client.id) ?? item.client,
+    industry: industries[item.client.id] ?? item.industry,
+  }));
 
   return (
     <div className="customers-page">
@@ -55,7 +58,7 @@ export default async function CustomersPage({ params }: CustomersPageProps) {
 
       <AboutUsSectionSeam index={1} />
 
-      <CustomersGallery locale={locale} content={content.gallery} clients={clients} />
+      <CustomersGallery locale={locale} content={content.gallery} clients={logos} industries={industries} />
 
       <AboutUsSectionSeam index={2} />
 

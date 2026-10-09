@@ -2,7 +2,8 @@ import "@/app/blog-page.css";
 import { BlogCard } from "@/components/public/blog/BlogCard";
 import { Container } from "@/components/shared/Container";
 import { SectionHeader } from "@/components/public/SectionHeader";
-import { getBlogPageContent } from "@/lib/blog-content";
+import type { BlogPageContent } from "@/lib/blog-content";
+import { resolvePageCopy } from "@/lib/page-copy/resolve";
 import { formatBlogDate } from "@/lib/blog/dates";
 import { HOME_EXCERPT_LIMIT } from "@/lib/blog/constants";
 import { truncateExcerpt } from "@/lib/blog/html";
@@ -16,12 +17,12 @@ type HomeBlogStoriesProps = {
   posts: BlogListItem[];
 };
 
-export function HomeBlogStories({ locale, posts }: HomeBlogStoriesProps) {
+export async function HomeBlogStories({ locale, posts }: HomeBlogStoriesProps) {
   if (posts.length === 0) {
     return null;
   }
 
-  const content = getBlogPageContent(locale);
+  const content = await resolvePageCopy<BlogPageContent>("blog", locale);
 
   return (
     <section className="blog-home-stories" aria-label={content.homeTitle}>

@@ -3,9 +3,11 @@ import "@/app/about-us-page.css";
 import { AboutUsHero } from "@/components/public/about/AboutUsHero";
 import { AboutUsPageChrome } from "@/components/public/about/AboutUsPageChrome";
 import { AboutUsSectionSeam } from "@/components/public/about/AboutUsSectionSeam";
-import { getAboutUsProjectsContent } from "@/lib/about-us-projects";
-import { getAboutUsTeamContent } from "@/lib/about-us-team";
-import { getAboutContent } from "@/lib/content";
+import type { AboutUsProjectsContent } from "@/lib/about-us-projects";
+import type { AboutUsTeamContent } from "@/lib/about-us-team";
+import type { TrustedBySectionContent } from "@/lib/clients-section";
+import type { AboutContent } from "@/lib/content";
+import { resolveClientLogos, resolvePageCopy } from "@/lib/page-copy/resolve";
 import type { Locale } from "@/lib/i18n";
 
 const AboutUsCapabilities = dynamic(() =>
@@ -39,9 +41,13 @@ type AboutUsPageProps = {
 export default async function AboutUsPage({ params }: AboutUsPageProps) {
   const { locale: localeParam } = await params;
   const locale = localeParam as Locale;
-  const content = getAboutContent(locale);
-  const projectsContent = getAboutUsProjectsContent(locale);
-  const teamContent = getAboutUsTeamContent(locale);
+  const [content, projectsContent, teamContent, trusted, logos] = await Promise.all([
+    resolvePageCopy<AboutContent>("about", locale),
+    resolvePageCopy<AboutUsProjectsContent>("about-projects", locale),
+    resolvePageCopy<AboutUsTeamContent>("about-team", locale),
+    resolvePageCopy<TrustedBySectionContent>("trusted-by", locale),
+    resolveClientLogos(locale),
+  ]);
 
   return (
     <div className="about-us-page">
@@ -72,7 +78,7 @@ export default async function AboutUsPage({ params }: AboutUsPageProps) {
 
       <AboutUsSectionSeam index={3} />
 
-      <TrustedBySection locale={locale} />
+      <TrustedBySection locale={locale} content={trusted} logos={logos} />
 
       <AboutUsPageChrome locale={locale} searchLabel={content.searchLabel} />
     </div>
